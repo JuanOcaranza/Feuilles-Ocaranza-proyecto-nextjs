@@ -24,6 +24,5 @@ export default function Products({
                 <Pagination totalPages={4} />
             </div>
         </div>
-
     );
 }
