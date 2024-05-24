@@ -1,4 +1,5 @@
 import { getFilteredBoxes } from "@/lib/data";
+import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
 import BoxCard from "@/components/box-card";
 
@@ -13,9 +14,16 @@ export default async function BoxesGrid({
 
     return (
         <div className="mt-6 flow-root">
-            <div className="rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {boxes?.map((box) => <BoxCard key={box.id} box={box} />)}
-            </div>
+            {(boxes.length === 0) ?
+                <div className="flex flex-col justify-center items-center">
+                    <FaceFrownIcon className="w-16 h-16 text-gray-500" />
+                    <p>We're sorry we don't have boxes for <b>&quot;{query}&quot;</b></p>
+                </div>
+                :
+                <div className="rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {boxes?.map((box) => <BoxCard key={box.id} box={box} />)}
+                </div>
+            }
         </div>
     );
 }

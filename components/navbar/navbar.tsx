@@ -1,10 +1,11 @@
 import NavLinks from "@/components/navbar/nav-links"
 import HomeLink from "@/components/navbar/home-link"
 import Search from "@/components/search"
+import Cart from "@/components/cart"
 
 export default function NavBar() {
     return (
-        <div className="navbar bg-orange-600 gap-x-4">
+        <div className="navbar bg-orange-600 sm:gap-x-4 sm:px-4">
             <HomeLink />
             <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -29,7 +30,7 @@ export default function NavBar() {
                 <li><a>Item 3</a></li>
             </ul>
             <Search placeholder="Search..."/>
-            <a className="btn">Button</a>
+            <Cart />
         </div>
     )
 }
