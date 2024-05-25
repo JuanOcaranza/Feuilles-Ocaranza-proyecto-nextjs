@@ -2,6 +2,7 @@ import NavLinks from "@/components/navbar/nav-links"
 import HomeLink from "@/components/navbar/home-link"
 import Search from "@/components/search"
 import Cart from "@/components/cart"
+import Categories from "@/components/navbar/categories"
 
 export default function NavBar() {
     return (
@@ -18,15 +19,7 @@ export default function NavBar() {
             <ul className="menu menu-horizontal px-1 hidden lg:flex">
                 <NavLinks />
                 <li><a>Item 1</a></li>
-                <li>
-                    <details>
-                        <summary>Categorías</summary>
-                        <ul className="p-2">
-                            <li><a>Caja Navideña</a></li>
-                            <li><a>Caja &quot;Arma Tu Casa&quot;</a></li>
-                        </ul>
-                    </details>
-                </li>
+                <Categories />
                 <li><a>Item 3</a></li>
             </ul>
             <Search placeholder="Search..."/>

@@ -5,6 +5,7 @@ export type Box = {
     image: string
     price: number
     products: Array<{ id: string, probability: number }>
+    categories: Array<string>
 }
 
 export type Product = {

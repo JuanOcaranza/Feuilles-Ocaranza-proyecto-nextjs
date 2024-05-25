@@ -6,11 +6,13 @@ import BoxCard from "@/components/box-card";
 export default async function BoxesGrid({
     query,
     currentPage,
+    category,
 }: {
     query: string;
     currentPage: number;
+    category: string;
 }) {
-    const boxes = await getFilteredBoxes(query, currentPage);
+    const boxes = await getFilteredBoxes(query, currentPage, category);
 
     return (
         <div className="mt-6 flow-root">
