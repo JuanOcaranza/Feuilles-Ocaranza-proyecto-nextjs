@@ -8,7 +8,7 @@ export default function BoxCard({ box } : { box: Box }) {
             href={`/products/${box.id}`}
         >
             <div className="card h-full card-normal bg-orange-200 m-2">
-                <figure><Image src={box.image} alt={box.name + ' image'} width={400} height={400} /></figure>
+                <figure><Image src={box.image} alt={box.name + ' image'} width={200} height={200} /></figure>
                 <div className="card-body">
                     <h2 className="card-title">{box.name}</h2>
                     <p>{box.description}</p>

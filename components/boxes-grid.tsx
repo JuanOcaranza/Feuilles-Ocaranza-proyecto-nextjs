@@ -19,7 +19,7 @@ export default async function BoxesGrid({
             {(boxes.length === 0) ?
                 <div className="flex flex-col justify-center items-center">
                     <FaceFrownIcon className="w-16 h-16 text-gray-500" />
-                    <p>We're sorry we don't have boxes for <b>&quot;{query}&quot;</b></p>
+                    <p>We&apos;re sorry we don&apos;t have boxes for <b>&quot;{query}&quot;</b></p>
                 </div>
                 :
                 <div className="rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

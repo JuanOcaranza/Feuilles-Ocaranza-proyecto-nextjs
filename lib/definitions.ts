@@ -4,7 +4,6 @@ export type Box = {
     description: string
     image: string
     price: number
-    products: Array<{ id: string, probability: number }>
     categories: Array<string>
 }
 
