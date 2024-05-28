@@ -1,5 +1,7 @@
+"use client";
 import Link from "next/link";
 import clsx from "clsx";
+import { useRef } from "react";
 
 const links = [
     { name: 'Surprise', href: '/products?category=0' },
@@ -16,20 +18,26 @@ const links = [
 ]
 
 export default function Categories({ className }: { className?: string }) {
+    const detailsRef = useRef<HTMLDetailsElement>(null);
+
+    const handleClick = () => {
+        if (detailsRef.current) {
+            detailsRef.current.open = false;
+        }
+    };
+
     return (
         <li>
-            <details>
-                <summary className="text-base ">Categorías</summary>
-                <ul className={clsx("p-2 z-50 ", className)}>
-                    { 
-                        links.map((link) => (
-                            <li key={link.name} className="text-base hover:bg-orange-500 rounded-md">
-                                <Link href={link.href}>
-                                    {link.name}
-                                </Link>
-                            </li>
-                        ))
-                    }
+            <details ref={detailsRef}>
+                <summary className="text-base">Categorías</summary>
+                <ul className={clsx("p-2 z-50", className)}>
+                    {links.map((link) => (
+                        <li key={link.name} className="text-base hover:bg-orange-500 rounded-md">
+                            <Link href={link.href} onClick={handleClick}>
+                                {link.name}
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
             </details>
         </li>
