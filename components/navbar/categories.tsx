@@ -18,7 +18,7 @@ export default function Categories() {
     return (
         <li>
             <details className="">
-                <summary>Categories</summary>
+                <summary className="text-base hover:bg-orange-500">Categorías</summary>
                 <ul className="p-2 z-50 bg-slate-800 text-white">
                     { 
                         links.map((link) => (
