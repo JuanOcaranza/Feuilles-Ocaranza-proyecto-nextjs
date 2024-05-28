@@ -1,4 +1,5 @@
 import Link from "next/link";
+import clsx from "clsx";
 
 const links = [
     { name: 'Surprise', href: '/products?category=0' },
@@ -14,18 +15,16 @@ const links = [
     { name: 'Music', href: '/products?category=10' },
 ]
 
-export default function Categories() {
+export default function Categories({ className }: { className?: string }) {
     return (
         <li>
-            <details className="">
-                <summary className="text-base hover:bg-orange-500">Categorías</summary>
-                <ul className="p-2 z-50 bg-slate-800 text-white">
+            <details>
+                <summary className="text-base ">Categorías</summary>
+                <ul className={clsx("p-2 z-50 ", className)}>
                     { 
                         links.map((link) => (
-                            <li key={link.name}>
-                                <Link
-                                    href={link.href}
-                                >
+                            <li key={link.name} className="text-base hover:bg-orange-500 rounded-md">
+                                <Link href={link.href}>
                                     {link.name}
                                 </Link>
                             </li>

@@ -18,7 +18,7 @@ export default function NavLinks() {
                     key={link.name}
                     href={link.href}
                     className={clsx(
-                        "text-base ml-2 mr-2 items-center justify-center rounded-md p-2 hover:bg-orange-500 transition-all",
+                        "text-base  items-center justify-center rounded-md p-2 ml-2 mr-2 hover:bg-orange-500 transition-all",
                         {"bg-orange-500 font-semibold" : pathname === link.href}
                     )}
                 >

@@ -6,7 +6,7 @@ import Categories from "@/components/navbar/categories"
 
 export default function NavBar() {
     return (
-        <div className="navbar bg-orange-600 sm:gap-x-4 sm:px-4">
+        <div className="navbar bg-orange-400 sm:gap-x-4 sm:px-4">
             <HomeLink />
             <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -19,7 +19,7 @@ export default function NavBar() {
             </div>
             <ul className="menu menu-horizontal hidden lg:flex ">
                 <NavLinks />
-                <Categories />
+                <Categories className="bg-orange-300"/>
             </ul>
             <div className="flex-grow">
                 <Search placeholder="Search..."/>
