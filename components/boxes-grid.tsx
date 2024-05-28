@@ -22,7 +22,7 @@ export default async function BoxesGrid({
                     <p>We&apos;re sorry we don&apos;t have boxes for <b>&quot;{query}&quot;</b></p>
                 </div>
                 :
-                <div className="rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="rounded-lg p-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
                     {boxes?.map((box) => <BoxCard key={box.id} box={box} />)}
                 </div>
             }

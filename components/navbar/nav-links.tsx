@@ -5,8 +5,8 @@ import clsx from "clsx";
 import Link from "next/link";
 
 const links = [
-    { name: 'Productos', href: '/products' },
-    { name: 'Ofertas', href: '/offerts' },
+    { name: 'Products', href: '/products' },
+    { name: 'Offerts', href: '/offerts' },
 ];
 
 export default function NavLinks() {

@@ -29,7 +29,7 @@ export default function Categories({ className }: { className?: string }) {
     return (
         <li>
             <details ref={detailsRef}>
-                <summary className="text-base">Categorías</summary>
+                <summary className="text-base">Categories</summary>
                 <ul className={clsx("p-2 z-50", className)}>
                     {links.map((link) => (
                         <li key={link.name} className="text-base hover:bg-orange-500 rounded-md">
