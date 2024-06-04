@@ -1,4 +1,4 @@
-import { Sheet, SheetTrigger, SheetContent } from "@/components/sheet";
+import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 
 export default function Cart(){

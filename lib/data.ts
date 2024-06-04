@@ -1,5 +1,6 @@
 import { Box } from '@/lib/definitions';
 import { Product } from '@/lib/definitions';
+import { randomInt } from 'crypto';
 
 type apiBox = {
     id: string,
@@ -37,3 +38,6 @@ export async function getProductsByBoxId(boxId: string) : Promise<Array<{product
         .then(data => Array.isArray(data) ? data.map((item : Product) => ({product: item, probability: Math.random()})) : []);
 }
 
+export async function getActiveDiscountByBoxId(boxId: string) : Promise<number> {
+    return randomInt(0, 100);
+}

@@ -1,64 +1,22 @@
 import { Product } from "@/lib/definitions";
-import { ScrollArea } from "@/components/scroll-area";
+import { Carousel, CarouselContent, CarouselPrevious, CarouselNext, CarouselItem } from "@/components/ui/carousel";
 import ProductHover from "@/components/product-hover";
 
 export default function BoxProducts({ products } : { products: Array<Product> }) {
     return (
-        <ScrollArea className="lg:w-[800px] lg:h-[800px] ">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {products.map(product => (
-                <>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                <div key={product.id} className="w-full">
-                    <ProductHover product={product} />
-                </div>
-                </>
-            ))}
-            </div>
-        </ScrollArea>
+        <div className="w-full">
+            <h1 className="text-3xl mb-4 hidden md:block">Possible rewards</h1>
+            <Carousel>
+                <CarouselContent>
+                {products.map(product => (
+                    <CarouselItem key={product.id} className="basis-1/3 md:basis-1/5">
+                        <ProductHover product={product} />
+                    </CarouselItem>
+                ))}
+                </CarouselContent>
+                <CarouselPrevious className="hidden md:block" />
+                <CarouselNext className="hidden md:block" />
+            </Carousel>
+        </div>
     )
 }

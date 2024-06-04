@@ -1,6 +1,6 @@
 import { Product } from "@/lib/definitions"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/hover-card"
-import { Card, CardDescription, CardTitle } from "@/components/card"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import Image from "next/image"
 
 export default function ProductHover({ product} : {product: Product}) {
