@@ -1,22 +1,20 @@
 import Link from "next/link";
 import { Box } from "@/lib/definitions";
-import Image from "next/image";
+import { getActiveDiscountByBoxId, getProductsByBoxId } from "@/lib/data";
+import { Card } from "@/components/ui/card";
+import BoxCardContent from "./box-card-content";
 
-export default function BoxCard({ box } : { box: Box }) {
+export default async function BoxCard({ box } : { box: Box }) {
+    const discount = await getActiveDiscountByBoxId(box.id);
+    const products = await getProductsByBoxId(box.id)
+
     return (
         <Link
             href={`/products/${box.id}`}
         >
-            <div className="card h-full card-normal bg-orange-200 m-2 shadow-md">
-                <figure><Image src={box.image} alt={box.name + ' image'} width={600} height={600} /></figure>
-                <div className="card-body">
-                    <h2 className="card-title">{box.name}</h2>
-                    <p>{box.description}</p>
-                    <div className="card-actions justify-end">
-                        <p className="text-xl font-bold">${box.price}</p>
-                    </div>
-                </div>
-            </div>
+            <Card className="group h-full border-0 shadow-md rounded">
+                <BoxCardContent box={box} products={products.map((item) => item.product)} discount={discount} />
+            </Card>
         </Link>
     )
 }

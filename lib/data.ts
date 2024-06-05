@@ -35,6 +35,7 @@ export async function getBoxById(id: string) : Promise<Box> {
 export async function getProductsByBoxId(boxId: string) : Promise<Array<{product: Product, probability: number}>> {
     return await fetch(`https://6633d985f7d50bbd9b4ae178.mockapi.io/api/boxes/${boxId}/products`)
         .then(res => res.json())
+        .then(data => Array.isArray(data) ? data.concat(data).concat(data).concat(data).concat(data) : []) // Simular muchos productos
         .then(data => Array.isArray(data) ? data.map((item : Product) => ({product: item, probability: Math.random()})) : []);
 }
 
