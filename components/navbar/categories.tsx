@@ -32,7 +32,7 @@ export default function Categories({ className }: { className?: string }) {
                 <summary className="text-base">Categories</summary>
                 <ul className={clsx("p-2 z-50", className)}>
                     {links.map((link) => (
-                        <li key={link.name} className="text-base hover:bg-orange-500 rounded-md">
+                        <li key={link.name} className="text-base hover:bg-gray-300 rounded-md">
                             <Link href={link.href} onClick={handleClick}>
                                 {link.name}
                             </Link>

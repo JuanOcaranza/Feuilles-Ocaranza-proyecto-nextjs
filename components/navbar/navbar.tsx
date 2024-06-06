@@ -23,7 +23,7 @@ export default function NavBar() {
             </div>
             <ul className="menu menu-horizontal hidden lg:flex flex-1 justify-center space-x-4">
                 <NavLinks />
-                <Categories className="bg-orange-300" />
+                <Categories className="bg-gray-100 " />
             </ul>
             <div className="flex space-x-4">
                 <Search placeholder="Search..." />
