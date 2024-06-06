@@ -13,7 +13,19 @@ const nextConfig = {
                 hostname: 'loremflickr.com',
                 port: '',
                 pathname: '/**',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.freepik.com',
+                port: '',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'www.shutterstock.com',
+                port: '',
+                pathname: '/**',
+            },
         ],
     }
 };

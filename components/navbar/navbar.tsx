@@ -6,7 +6,7 @@ import Categories from "@/components/navbar/categories";
 
 export default function NavBar() {
     return (
-        <div className="navbar bg-orange-400 sm:gap-x-4 sm:px-4 flex justify-between items-center">
+        <div className="navbar bg-gray-100 sm:gap-x-4 sm:px-4 flex justify-between items-center">
             <div className="flex items-center">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
