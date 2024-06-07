@@ -1,16 +1,18 @@
-import { Item } from "@/lib/definitions";
 import { Carousel, CarouselContent, CarouselPrevious, CarouselNext, CarouselItem } from "@/components/ui/carousel";
-import ProductHover from "@/components/product-hover";
+import BoxCard from "@/components/box-card";
+import { getFeaturedBoxes } from "@/lib/data";
 
-export default function HomeCarousel({ products }: { products: Array<Item> }) {
+export default async function HomeCarousel() {
+    const featuredBoxes = await getFeaturedBoxes();
+
     return (
         <div className="w-full">
             <h1 className="text-3xl mb-4 hidden md:block">Featured</h1>
             <Carousel>
                 <CarouselContent>
-                    {products.map(product => (
-                        <CarouselItem key={product.id} className="basis-1/3 md:basis-1/5">
-                            <ProductHover product={product} />
+                    {featuredBoxes.map(box => (
+                        <CarouselItem key={box.id} className="basis-1/3 md:basis-1/5">
+                            <BoxCard box={box} />
                         </CarouselItem>
                     ))}
                 </CarouselContent>

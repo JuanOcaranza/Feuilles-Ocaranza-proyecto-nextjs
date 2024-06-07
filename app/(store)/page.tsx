@@ -1,5 +1,6 @@
 import HomeCarousel from "@/components/home-carousel";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -12,14 +13,14 @@ export default function Home() {
               Welcome to Surprise Boxes!
             </h1>
           </div>
-          <button className="bg-white text-black font-semibold hover:bg-black hover:text-white py-2 px-4 text-lg rounded-lg border-2 border-black mt-4">
-            BUY NOW
-          </button>
+          <Link href="/products" className="bg-white text-black font-semibold hover:bg-black hover:text-white py-2 px-4 text-lg rounded-lg border-2 border-black mt-4">
+            SHOP NOW
+          </Link>
         </div>
       </div>
       <div className="py-10 bg-gray-100">
         <div className="container mx-auto">
-          <HomeCarousel products={[]} />
+          <HomeCarousel />
         </div>
       </div>
     </div>

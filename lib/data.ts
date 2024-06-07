@@ -91,3 +91,25 @@ export async function getActiveDiscountByBoxId(boxId: number): Promise<number> {
     
     return parseInt(response[0].value ?? "0")
 }
+
+export async function getFeaturedBoxes(): Promise<Array<Box>> {
+    const thirtyDaysAgo = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000));
+
+    const response = await db.query.boxes.findMany({
+        where: (boxes, { gte }) => gte(boxes.createdAt, thirtyDaysAgo),
+        with: {
+            boxItems: {
+                with: {
+                    item: true
+                }
+            },
+            boxCategories: {
+                with: {
+                    category: true
+                }
+            }
+        }
+    })
+
+    return response.map((box) => mapBox(box));
+}
