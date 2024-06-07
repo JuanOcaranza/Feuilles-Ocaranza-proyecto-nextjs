@@ -2,8 +2,9 @@ import Pagination from "@/components/pagination";
 import clsx from "clsx";
 import { lusitana } from "@/lib/fonts";
 import BoxesGrid from "@/components/boxes-grid";
+import { getFilteredBoxesTotalPages } from "@/lib/data";
 
-export default function Products({
+export default async function Products({
     searchParams,
 }: {
     searchParams?: {
@@ -15,15 +16,16 @@ export default function Products({
     const query = searchParams?.query || "";
     const page = Number(searchParams?.page) || 1;
     const category = searchParams?.category || "";
+    const totalPages = await getFilteredBoxesTotalPages(query, category);
 
     return (
-        <div>
+        <div className="m-6">
             <h1 className={clsx("text-3xl", lusitana.className)}>Products</h1>
 
             <BoxesGrid query={query} currentPage={page} category={category} />
 
             <div className="mt-5 flex w-full justify-center">
-                <Pagination totalPages={4} />
+                <Pagination totalPages={totalPages} />
             </div>
         </div>
     );
