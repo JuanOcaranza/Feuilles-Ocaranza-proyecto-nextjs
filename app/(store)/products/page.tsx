@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { lusitana } from "@/lib/fonts";
 import BoxesGrid from "@/components/boxes-grid";
 import { getFilteredBoxesTotalPages } from "@/lib/data";
+import { Suspense } from "react";
+import BoxesGridSkeleton from "@/components/skeletons/boxes-grid-skeleton";
 
 export default async function Products({
     searchParams,
@@ -22,7 +24,9 @@ export default async function Products({
         <div className="m-6">
             <h1 className={clsx("text-3xl", lusitana.className)}>Products</h1>
 
-            <BoxesGrid query={query} currentPage={page} category={category} />
+            <Suspense key={query + page + category} fallback={<BoxesGridSkeleton />}>
+                <BoxesGrid query={query} currentPage={page} category={category} />
+            </Suspense>
 
             <div className="mt-5 flex w-full justify-center">
                 <Pagination totalPages={totalPages} />

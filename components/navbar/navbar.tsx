@@ -1,8 +1,10 @@
 import NavLinks from "@/components/navbar/nav-links";
 import HomeLink from "@/components/navbar/home-link";
-import Search from "@/components/search";
+import Search from "@/components/navbar/search";
 import Cart from "@/components/cart";
 import Categories from "@/components/navbar/categories";
+import { Suspense } from "react";
+import SearchSkeleton from "@/components/skeletons/search-skeleton";
 
 export default function NavBar() {
     return (
@@ -26,7 +28,9 @@ export default function NavBar() {
                 <Categories className="bg-gray-100 " />
             </ul>
             <div className="flex space-x-4">
-                <Search placeholder="Search..." />
+                <Suspense key="search" fallback={<SearchSkeleton placeholder="Search..." />}>
+                    <Search placeholder="Search..." />
+                </Suspense>
                 <Cart />
             </div>
         </div>
