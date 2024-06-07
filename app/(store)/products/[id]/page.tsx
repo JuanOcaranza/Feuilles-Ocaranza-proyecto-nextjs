@@ -1,6 +1,6 @@
 import { getBoxById, getActiveDiscountByBoxId } from "@/lib/data";
 import { notFound } from "next/navigation";
-import Image from "next/image";
+import CldImage from "@/components/ui/CldImage";
 import BoxProducts from "@/components/box-products";
 import Price from "@/components/price";
 import BuyButton from "@/components/buy-button";
@@ -25,14 +25,14 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col items-center gap-8 md:hidden">
                 <h1 className="text-3xl">{box.name}</h1>
                 <Price basePrice={box.price} discount={discount} className="sm:w-2/3" />
-                <Image src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} />
+                <CldImage src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} />
                 <BoxProducts products={products} />
                 <p>{box.description}</p>
                 <BuyButton boxId={id} className="fixed bottom-0 w-full h-16" />
             </div>
             <div className="hidden md:flex flex-col lg:px-48">
                 <div className="flex">
-                    <Image src={box.imageUrl} alt={box.name + ' image'} width={2000} height={1600} className="mr-4 lg:mr-16 w-2/3" />
+                    <CldImage src={box.imageUrl} alt={box.name + ' image'} width={2000} height={1600} className="mr-4 lg:mr-16 w-2/3" />
                     <div className="flex flex-col gap-4 justify-between flex-grow">
                         <div>
                             <h1 className="text-3xl mb-4">{box.name}</h1>

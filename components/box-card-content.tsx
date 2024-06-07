@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image";
+import CldImage from "@/components/ui/CldImage";
 import Price from "@/components/price";
 import { CardContent, CardFooter, CardTitle, CardDescription } from "@/components/ui/card";
 import { Box } from "@/lib/definitions";
@@ -16,7 +16,7 @@ export default function BoxCardContent({ box, discount }: { box: Box, discount: 
 
     return (
         <>
-            <Image src={mainImage} alt={box.name + ' image'} width={500} height={400} className=""/>
+            <CldImage src={mainImage} alt={box.name + ' image'} width={500} height={400} className=""/>
             <div className=" h-24 py-4">
                 <div className="group-hover:hidden px-4">
                     <CardTitle className="py-2">
@@ -28,7 +28,7 @@ export default function BoxCardContent({ box, discount }: { box: Box, discount: 
                 </div>
                 <CardContent className="hidden group-hover:flex gap-2 px-2" onMouseLeave={() => setMainImage(box.imageUrl)}>
                     {visibleProducts.map(product => (
-                        <Image
+                        <CldImage
                             key={product.id}
                             src={product.imageUrl}
                             alt={product.name + ' image'}

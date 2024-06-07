@@ -1,12 +1,12 @@
 import HomeCarousel from "@/components/home-carousel";
-import Image from "next/image";
+import CldImage from "@/components/ui/CldImage";
 import Link from "next/link";
 
 export default function Home() {
   return (
     <div>
       <div className="relative w-full h-screen">
-        <Image src="/images/home-banner.png" alt="Main Banner" className="w-full h-full object-cover" height={2000} width={2000}/>
+        <CldImage src="slsx5xvcbib7rhouofab" alt="Main Banner" className="w-full h-full object-cover" height={2000} width={2000}/>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
           <div className="bg-black bg-opacity-75 p-4 mb-4 rounded">
             <h1 className="text-4xl lg:text-6xl font-bold text-white text-center">
