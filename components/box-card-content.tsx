@@ -23,7 +23,7 @@ export default function BoxCardContent({ box, discount }: { box: Box, discount: 
                         {box.name}
                     </CardTitle>
                     <CardDescription>
-                        {box.name}
+                        {box.categories.map(category => category.name).join(', ')}
                     </CardDescription>
                 </div>
                 <CardContent className="hidden group-hover:flex gap-2 px-2" onMouseLeave={() => setMainImage(box.imageUrl)}>

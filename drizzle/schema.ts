@@ -12,7 +12,8 @@ export const boxes = pgTable("boxes", {
 
 export const boxesRelations = relations(boxes, ({ many }) => ({
     boxItems: many(boxItems),
-    boxOffers: many(boxOffers)
+    boxOffers: many(boxOffers),
+    boxCategories: many(boxCategories)
 }));
 
 export const items = pgTable("items", {
@@ -80,4 +81,47 @@ export const boxOffersRelations = relations(boxOffers, ({ one }) => ({
         fields: [boxOffers.offerId],
         references: [offers.id],
     }),
+}))
+
+export const categories = pgTable("categories", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    gruopId: serial("group_id").references(() => groups.id)
+})
+
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
+    group: one(groups, {
+        fields: [categories.gruopId],
+        references: [groups.id],
+    }),
+    boxes: many(boxes),
+}))
+
+export const boxCategories = pgTable("box_categories", {
+    boxId: serial("box_id").references(() => boxes.id),
+    categoryId: serial("category_id").references(() => categories.id)
+}, (table) => {
+    return {
+        pk: primaryKey({ columns: [table.boxId, table.categoryId] }),
+    }
+})
+
+export const boxCategoriesRelations = relations(boxCategories, ({ one }) => ({
+    box: one(boxes, {
+        fields: [boxCategories.boxId],
+        references: [boxes.id],
+    }),
+    category: one(categories, {
+        fields: [boxCategories.categoryId],
+        references: [categories.id],
+    }),
+}))
+
+export const groups = pgTable("groups", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull()
+})
+
+export const groupsRelations = relations(groups, ({ many }) => ({
+    categories: many(categories),
 }))

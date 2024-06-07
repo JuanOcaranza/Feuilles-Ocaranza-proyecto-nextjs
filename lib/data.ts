@@ -9,6 +9,7 @@ export const BOXES_PER_PAGE = 12;
 export const mapBox: (box: BoxWithRelations) => Box = (box: BoxWithRelations) => ({
     ...box,
     items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })),
+    categories: box.boxCategories.map((boxCategory) => boxCategory.category),
 })
 
 export async function getBoxes(): Promise<Array<Box>> {
@@ -17,6 +18,11 @@ export async function getBoxes(): Promise<Array<Box>> {
             boxItems: {
                 with: {
                     item: true
+                }
+            },
+            boxCategories: {
+                with: {
+                    category: true
                 }
             }
         }
@@ -32,6 +38,11 @@ export async function getBoxById(id: number): Promise<Box | null> {
             boxItems: {
                 with: {
                     item: true
+                }
+            },
+            boxCategories: {
+                with: {
+                    category: true
                 }
             }
         }
@@ -53,11 +64,16 @@ export async function getFilteredBoxes(query: string, currentPage: number, categ
                 with: {
                     item: true
                 }
+            },
+            boxCategories: {
+                with: {
+                    category: true
+                }
             }
         }
     })
 
-    return boxes.map((box) => ({ ...box, items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })) }));
+    return boxes.map((box) => mapBox(box));
 }
 
 export async function getFilteredBoxesTotalPages(query: string, category: string): Promise<number> {
