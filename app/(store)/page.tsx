@@ -1,10 +1,11 @@
 import HomeCarousel from "@/components/home-carousel";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <div>
       <div className="relative w-full h-screen">
-        <img src="/images/home-banner.png" alt="Main Banner" className="w-full h-full object-cover" />
+        <Image src="/images/home-banner.png" alt="Main Banner" className="w-full h-full object-cover" height={500} width={500}/>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
           <div className="bg-black bg-opacity-75 p-4 mb-4 rounded">
             <h1 className="text-4xl lg:text-6xl font-bold text-white text-center">
