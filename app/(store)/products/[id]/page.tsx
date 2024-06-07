@@ -7,10 +7,10 @@ import BuyButton from "@/components/buy-button";
 import BuyQuantity from "@/components/buy-quantity";
 
 export default async function Page({ params }: { params: { id: string } }) {
-    const id = params.id;
+    const id = parseInt(params.id);
     const [box, discount] = await Promise.all([
         getBoxById(id),
-        getActiveDiscountByBoxId(id)
+        getActiveDiscountByBoxId(id),
     ])
 
     if (!box) {
@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
             <div className="hidden md:flex flex-col lg:px-48">
                 <div className="flex">
-                    <Image src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} className="mr-4 lg:mr-16 w-2/3" />
+                    <Image src={box.imageUrl} alt={box.name + ' image'} width={2000} height={1600} className="mr-4 lg:mr-16 w-2/3" />
                     <div className="flex flex-col gap-4 justify-between flex-grow">
                         <div>
                             <h1 className="text-3xl mb-4">{box.name}</h1>

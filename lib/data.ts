@@ -1,12 +1,17 @@
 import { Box } from '@/lib/definitions';
-import { randomInt } from 'crypto';
 import { db } from '@/drizzle/db';
-import { count, like } from 'drizzle-orm';
-import { boxes } from '@/drizzle/schema';
+import { count, like, sum, eq, sql } from 'drizzle-orm';
+import { boxes, boxOffers, offers} from '@/drizzle/schema';
+import { BoxWithRelations } from '@/lib/definitions';
 
 export const BOXES_PER_PAGE = 12;
 
-export async function getBoxes() : Promise<Array<Box>> {
+export const mapBox: (box: BoxWithRelations) => Box = (box: BoxWithRelations) => ({
+    ...box,
+    items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })),
+})
+
+export async function getBoxes(): Promise<Array<Box>> {
     const boxes = await db.query.boxes.findMany({
         with: {
             boxItems: {
@@ -17,12 +22,12 @@ export async function getBoxes() : Promise<Array<Box>> {
         }
     })
 
-    return boxes.map((box) => ({ ...box, items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })) }));
+    return boxes.map((box) => mapBox(box));
 }
 
-export async function getBoxById(id: string) : Promise<Box | null> {
+export async function getBoxById(id: number): Promise<Box | null> {
     const box = await db.query.boxes.findFirst({
-        where: (boxes, { eq }) => eq(boxes.id, parseInt(id)),
+        where: (boxes, { eq }) => eq(boxes.id, id),
         with: {
             boxItems: {
                 with: {
@@ -35,7 +40,7 @@ export async function getBoxById(id: string) : Promise<Box | null> {
     if (!box)
         return null
 
-    return { ...box, items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })) };
+    return mapBox(box);
 }
 
 export async function getFilteredBoxes(query: string, currentPage: number, category: string): Promise<Array<Box>> {
@@ -61,6 +66,12 @@ export async function getFilteredBoxesTotalPages(query: string, category: string
     return Math.ceil(response[0].value / BOXES_PER_PAGE);
 }
 
-export async function getActiveDiscountByBoxId(boxId: string | number): Promise<number> {
-    return randomInt(0, 100);
+export async function getActiveDiscountByBoxId(boxId: number): Promise<number> {
+    const response = await db
+        .select({ value: sum(boxOffers.discount) })
+        .from(boxOffers)
+        .leftJoin(offers, eq(boxOffers.offerId, offers.id))
+        .where(sql`${boxOffers.boxId} = ${boxId} AND NOW() BETWEEN ${offers.startsAt} AND ${offers.expiresAt}`)
+    
+    return parseInt(response[0].value ?? "0")
 }

@@ -4,7 +4,7 @@ import { useState } from "react";
 import Price from "@/components/price";
 import BuyButton from "@/components/buy-button";
 
-export default function BuyQuantity({ BoxId, basePrice, discount }: { BoxId: string, basePrice: number, discount: number }) {
+export default function BuyQuantity({ BoxId, basePrice, discount }: { BoxId: number, basePrice: number, discount: number }) {
     const [quantity, setQuantity] = useState(1);
 
     return (
