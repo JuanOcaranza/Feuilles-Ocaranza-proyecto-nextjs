@@ -94,7 +94,7 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
         fields: [categories.gruopId],
         references: [groups.id],
     }),
-    boxes: many(boxes),
+    boxCategories: many(boxCategories),
 }))
 
 export const boxCategories = pgTable("box_categories", {

@@ -1,12 +1,12 @@
 import { Box } from '@/lib/definitions';
 import { db } from '@/drizzle/db';
-import { count, like, sum, eq, sql } from 'drizzle-orm';
-import { boxes, boxOffers, offers} from '@/drizzle/schema';
+import { count, sum, eq, sql, ilike, and, inArray, or } from 'drizzle-orm';
+import { boxes, boxItems, boxOffers, offers, items, boxCategories} from '@/drizzle/schema';
 import { BoxWithRelations } from '@/lib/definitions';
 
 export const BOXES_PER_PAGE = 12;
 
-export const mapBox: (box: BoxWithRelations) => Box = (box: BoxWithRelations) => ({
+export const mapBox = (box: BoxWithRelations): Box => ({
     ...box,
     items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })),
     categories: box.boxCategories.map((boxCategory) => boxCategory.category),
@@ -55,10 +55,27 @@ export async function getBoxById(id: number): Promise<Box | null> {
 }
 
 export async function getFilteredBoxes(query: string, currentPage: number, category: string): Promise<Array<Box>> {
-    const boxes = await db.query.boxes.findMany({
+    const idsInCategory = await db
+        .select({ boxId: boxCategories.boxId })
+        .from(boxCategories)
+        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)))
+
+    const idsCotainingSearchedItem = await db
+        .select({ boxId: boxItems.boxId })
+        .from(boxItems)
+        .leftJoin(items, eq(boxItems.itemId, items.id))
+        .where(ilike(items.name, `%${query}%`))
+
+    const response = await db.query.boxes.findMany({
         offset: (currentPage - 1) * BOXES_PER_PAGE,
         limit: BOXES_PER_PAGE,
-        where: (boxes, { like }) => like(boxes.name, `%${query}%`),
+        where: and(
+            or(
+                ilike(boxes.name, `%${query}%`),
+                idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
+            ),
+            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId))
+        ),
         with: {
             boxItems: {
                 with: {
@@ -73,11 +90,31 @@ export async function getFilteredBoxes(query: string, currentPage: number, categ
         }
     })
 
-    return boxes.map((box) => mapBox(box));
+    return response.map((box) => mapBox(box));
 }
 
 export async function getFilteredBoxesTotalPages(query: string, category: string): Promise<number> {
-    const response = await db.select({ value: count(like(boxes.name, `%${query}%`)) }).from(boxes);
+    const idsInCategory = await db
+        .select({ boxId: boxCategories.boxId })
+        .from(boxCategories)
+        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)))
+
+    const idsCotainingSearchedItem = await db
+        .select({ boxId: boxItems.boxId })
+        .from(boxItems)
+        .leftJoin(items, eq(boxItems.itemId, items.id))
+        .where(ilike(items.name, `%${query}%`))
+
+    const response = await db
+        .select({ value: count(boxes.id) })
+        .from(boxes)
+        .where(and(
+            or(
+                ilike(boxes.name, `%${query}%`),
+                idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
+            ),
+            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId))
+        ))
 
     return Math.ceil(response[0].value / BOXES_PER_PAGE);
 }
