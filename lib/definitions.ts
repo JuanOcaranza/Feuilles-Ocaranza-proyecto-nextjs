@@ -22,3 +22,7 @@ export type BoxItem = typeof boxItems.$inferSelect;
 export type Category = typeof categories.$inferSelect;
 
 export type boxCategory = typeof boxCategories.$inferSelect
+
+export type Cart = {
+    boxes: Array<{ boxId: number, quantity: number }>
+}
