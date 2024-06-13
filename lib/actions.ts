@@ -1,6 +1,8 @@
 "use server"
 
 import { getCart, setCart } from "@/lib/cookies";
+import { signIn } from '@/auth';
+import AuthError from 'next-auth';
 
 export async function addToCart(boxId: number, quantity: number) {
     const cart = await getCart();
@@ -54,4 +56,23 @@ export async function Checkout() {
     const cart = await getCart();
     setCart({ boxes: [] });
     return cart;
+}
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+) {
+    try {
+        await signIn("credentials", formData);
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error) {
+                case 'CredentialsSignin':
+                    return 'Invalid credentials.';
+                default:
+                    return 'Something went wrong.';
+            }
+        }
+        throw error;
+    }
 }
