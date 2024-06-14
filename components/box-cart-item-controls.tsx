@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useTransition } from "react";
-import { IncrementQuantityInCart, DecrementQuantityInCart, removeFromCart } from "@/lib/actions";
+import { incrementQuantityInCart, decrementQuantityInCart, removeFromCart } from "@/lib/actions";
 import { Trash2 } from "lucide-react";
 import clsx from "clsx";
 
@@ -11,14 +11,14 @@ export default function BoxCartItemControls({ boxId, quantity }: { boxId: number
 
     const onIncrement = () => {
         startTransition(async () => {
-            const result = await IncrementQuantityInCart(boxId);
+            const result = await incrementQuantityInCart(boxId);
             setValue(result);
         });
     }
 
     const onDecrement = () => {
         startTransition(async () => {
-            const result = await DecrementQuantityInCart(boxId);
+            const result = await decrementQuantityInCart(boxId);
             setValue(result);
         });
     }

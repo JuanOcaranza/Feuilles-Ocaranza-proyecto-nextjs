@@ -1,7 +1,9 @@
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose} from "@/components/ui/sheet";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { getCart } from "@/lib/cookies";
 import BoxCartItem from "@/components/box-cart-item";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default async function Cart(){
     const cart = await getCart();
@@ -20,6 +22,19 @@ export default async function Cart(){
                     :
                     <p className="text-center text-gray-500">Cart is empty</p>
                 }
+                <SheetFooter>
+                <SheetClose asChild>
+                {cart.boxes.length > 0 ?
+                    <Link href="/checkout" className="bg-black hover:bg-green-900 text-white text-center font-bold py-2 w-full rounded-md mt-6">
+                        Checkout
+                    </Link>
+                    :
+                    <Button className="bg-black hover:bg-green-900 text-white text-center font-bold py-2 w-full rounded-md mt-6" disabled>
+                        Checkout
+                    </Button>
+                }
+                </SheetClose>
+                </SheetFooter>
             </SheetContent>
         </Sheet>
     );

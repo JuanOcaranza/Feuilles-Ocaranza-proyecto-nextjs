@@ -1,4 +1,7 @@
+"use server"
+
 import { Cart } from "@/lib/definitions";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 
 export async function getCart(): Promise<Cart> {
@@ -15,4 +18,5 @@ export async function getCart(): Promise<Cart> {
 export async function setCart(cart: Cart) {
     const cookieStore = cookies();
     cookieStore.set("cart", JSON.stringify(cart));
+    revalidatePath("/")
 }
