@@ -58,7 +58,7 @@ export async function decrementQuantityInCart(boxId: number) : Promise<number> {
 export async function checkout() : Promise<string | undefined> {
     const cart = await getCart();
 
-    const boxes : (Box & { quantity: number })[] = (
+    const boxes = (
         await Promise.all(cart.boxes.map(async (box) => {
             const boxData = await getBoxById(box.boxId);
             if (!boxData)
@@ -73,7 +73,7 @@ export async function checkout() : Promise<string | undefined> {
 
     const result = await preference.create({
         body: {
-            items: boxes.map((box) => ({ id: box.id.toString() , title: box.name, unit_price: box.price, quantity: box.quantity })),
+            items: boxes.map((box) => (box !== null ? { id: box.id.toString() , title: box.name, unit_price: box.price, quantity: box.quantity } : { id: '', title: '', unit_price: 0, quantity: 0 })),
             back_urls: {
                 success: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/success",
                 failure: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/failure",
