@@ -6,6 +6,7 @@ import type { User } from './lib/definitions';
 import { db } from '@/drizzle/db';
 import { users } from './drizzle/schema';
 import { eq} from 'drizzle-orm';
+import bcrypt from 'bcrypt';
 
 async function getUser(email: string): Promise<User | undefined> {
     try {
@@ -35,7 +36,8 @@ export const { auth, signIn, signOut } = NextAuth({
                     const user = await getUser(email);
                     if (!user) return null;
 
-                    if (password === user.password) return user;
+                    const passwordsMatch = await bcrypt.compare(password, user.password);
+                    if (passwordsMatch) return user;
                 }
                 
                 return null;
