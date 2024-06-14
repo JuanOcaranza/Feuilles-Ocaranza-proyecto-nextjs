@@ -5,6 +5,7 @@ import { MercadoPagoConfig, Preference } from "mercadopago";
 import { getBoxById } from "@/lib/data";
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
+import { Box } from "@/lib/definitions";
 
 export async function addToCart(boxId: number, quantity: number) {
     const cart = await getCart();
@@ -57,7 +58,7 @@ export async function decrementQuantityInCart(boxId: number) : Promise<number> {
 export async function checkout() : Promise<string | undefined> {
     const cart = await getCart();
 
-    const boxes = (
+    const boxes : (Box & { quantity: number })[] = (
         await Promise.all(cart.boxes.map(async (box) => {
             const boxData = await getBoxById(box.boxId);
             if (!boxData)
@@ -72,11 +73,11 @@ export async function checkout() : Promise<string | undefined> {
 
     const result = await preference.create({
         body: {
-            items: boxes.map((box) => ({ id: box.id?.toString() , title: box.name, unit_price: box.price, quantity: box.quantity })),
+            items: boxes.map((box) => ({ id: box.id.toString() , title: box.name, unit_price: box.price, quantity: box.quantity })),
             back_urls: {
-                success: "http://localhost:3000/checkout/success",
-                failure: "http://localhost:3000/checkout/failure",
-                pending: "http://localhost:3000/checkout/pending",
+                success: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/success",
+                failure: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/failure",
+                pending: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/pending",
             }
         }
     })
