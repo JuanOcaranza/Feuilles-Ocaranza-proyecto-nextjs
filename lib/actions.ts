@@ -4,7 +4,7 @@ import { getCart, setCart } from "@/lib/cookies";
 import { MercadoPagoConfig, Preference } from "mercadopago";
 import { getBoxById } from "@/lib/data";
 import { signIn } from '@/auth';
-import AuthError from 'next-auth';
+import { AuthError } from 'next-auth';
 
 export async function addToCart(boxId: number, quantity: number) {
     const cart = await getCart();
@@ -92,12 +92,7 @@ export async function authenticate(
         await signIn("credentials", formData);
     } catch (error) {
         if (error instanceof AuthError) {
-            switch (error) {
-                case 'CredentialsSignin':
-                    return 'Invalid credentials.';
-                default:
-                    return 'Something went wrong.';
-            }
+            return 'Invalid credentials.';
         }
         throw error;
     }

@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, real, serial, text, timestamp, integer, primaryKey } from "drizzle-orm/pg-core";
+import { pgTable, real, serial, text, timestamp, integer, primaryKey, uuid } from "drizzle-orm/pg-core";
 
 export const boxes = pgTable("boxes", {
     id: serial("id").primaryKey(),
@@ -127,7 +127,7 @@ export const groupsRelations = relations(groups, ({ many }) => ({
 }))
 
 export const users = pgTable("users", {
-    id: serial("id").primaryKey(),
+    id: uuid("id").primaryKey().defaultRandom(),
     username: text("username").notNull(),
     email: text("email").notNull(),
     password: text("password").notNull(),
