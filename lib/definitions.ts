@@ -26,3 +26,10 @@ export type boxCategory = typeof boxCategories.$inferSelect
 export type Cart = {
     boxes: Array<{ boxId: number, quantity: number }>
 }
+
+export type User = {
+    id: number;
+    username: string;
+    email: string;
+    password: string;
+};
