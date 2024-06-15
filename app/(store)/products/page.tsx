@@ -2,7 +2,7 @@ import Pagination from "@/components/pagination";
 import clsx from "clsx";
 import { lusitana } from "@/lib/fonts";
 import BoxesGrid from "@/components/boxes-grid";
-import { getFilteredBoxesTotalPages } from "@/lib/data";
+import { getFilteredBoxesTotalPages } from '@/lib/data/boxes';
 import { Suspense } from "react";
 import BoxesGridSkeleton from "@/components/skeletons/boxes-grid-skeleton";
 

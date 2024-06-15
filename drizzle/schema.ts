@@ -132,3 +132,56 @@ export const users = pgTable("users", {
     email: text("email").notNull(),
     password: text("password").notNull(),
 })
+
+export const sales = pgTable("sales", {
+    id: integer("id").primaryKey(),
+    created_at: timestamp("created_at").defaultNow().notNull(),
+})
+
+export const salesRelations = relations(sales, ({ many }) => ({
+    saleBoxes: many(saleBoxes),
+    saleItems: many(saleItems),
+}))
+
+export const saleBoxes = pgTable("sale_boxes", {
+    saleId: integer("sale_id").notNull().references(() => sales.id),
+    boxId: serial("box_id").references(() => boxes.id),
+    quantity: integer("quantity").notNull(),
+    price: real("price").notNull()
+}, (table) => {
+    return {
+        pk: primaryKey({ columns: [table.saleId, table.boxId] }),
+    }
+})
+
+export const saleBoxesRelations = relations(saleBoxes, ({ one }) => ({
+    sale: one(sales, {
+        fields: [saleBoxes.saleId],
+        references: [sales.id],
+    }),
+    box: one(boxes, {
+        fields: [saleBoxes.boxId],
+        references: [boxes.id],
+    }),
+}))
+
+export const saleItems = pgTable("sale_items", {
+    saleId: integer("sale_id").notNull().references(() => sales.id),
+    itemId: serial("item_id").references(() => items.id),
+    quantity: integer("quantity").notNull(),
+}, (table) => {
+    return {
+        pk: primaryKey({ columns: [table.saleId, table.itemId] }),
+    }
+})
+
+export const saleItemsRelations = relations(saleItems, ({ one }) => ({
+    sale: one(sales, {
+        fields: [saleItems.saleId],
+        references: [sales.id],
+    }),
+    item: one(items, {
+        fields: [saleItems.itemId],
+        references: [items.id],
+    }),
+}))

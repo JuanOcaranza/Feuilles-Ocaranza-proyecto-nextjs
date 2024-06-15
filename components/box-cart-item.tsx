@@ -1,4 +1,4 @@
-import { getBoxById } from "@/lib/data";
+import { getBoxById } from '@/lib/data/boxes';
 import CldImage from "@/components/ui/CldImage";
 import BoxCartItemControls from "@/components/box-cart-item-controls";
 

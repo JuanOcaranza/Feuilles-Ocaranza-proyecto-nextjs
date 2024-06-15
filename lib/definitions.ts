@@ -1,4 +1,4 @@
-import { boxes, boxItems, categories, items, boxCategories, users } from "@/drizzle/schema"
+import { boxes, boxItems, categories, items, boxCategories, users, sales, saleItems, saleBoxes } from "@/drizzle/schema"
 
 export type Box = typeof boxes.$inferSelect & {
     items: Array<{ item: Item, probability: number }>
@@ -28,3 +28,19 @@ export type Cart = {
 }
 
 export type User = typeof users.$inferSelect;
+
+export type Sale = typeof sales.$inferSelect & {
+    items: Array<{ item: Item, quantity: number }>
+}
+
+export type SaleItem = typeof saleItems.$inferSelect
+
+export type SaleBox = typeof saleBoxes.$inferSelect
+
+export type SaleWithRelations = typeof sales.$inferSelect & {
+    saleItems: Array<SaleItem & {
+        item: Item
+    }>
+}
+
+export type newSale = typeof sales.$inferInsert

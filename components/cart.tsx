@@ -1,6 +1,6 @@
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose} from "@/components/ui/sheet";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
-import { getCart } from "@/lib/cookies";
+import { getCart } from "@/lib/actions/cookies";
 import BoxCartItem from "@/components/box-cart-item";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

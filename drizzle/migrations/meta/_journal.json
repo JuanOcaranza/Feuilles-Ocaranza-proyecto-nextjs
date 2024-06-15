@@ -36,6 +36,13 @@
       "when": 1718387827388,
       "tag": "0004_orange_nuke",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1718478912306,
+      "tag": "0005_kind_bruce_banner",
+      "breakpoints": true
     }
   ]
 }

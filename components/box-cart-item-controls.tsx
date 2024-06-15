@@ -1,7 +1,9 @@
 "use client"
 
 import { useState, useTransition } from "react";
-import { incrementQuantityInCart, decrementQuantityInCart, removeFromCart } from "@/lib/actions";
+import { decrementQuantityInCart } from "@/lib/actions/cart";
+import { incrementQuantityInCart } from "@/lib/actions/cart";
+import { removeFromCart } from "@/lib/actions/cart";
 import { Trash2 } from "lucide-react";
 import clsx from "clsx";
 

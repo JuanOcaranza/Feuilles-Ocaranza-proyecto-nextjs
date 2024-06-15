@@ -2,7 +2,7 @@
 
 import { useFormState } from "react-dom";
 import LoginButton from "@/components/login/login-button";
-import { authenticate } from '@/lib/actions';
+import { authenticate } from '@/lib/actions/authentication';
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";

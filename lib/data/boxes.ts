@@ -1,16 +1,15 @@
-import { Box } from '@/lib/definitions';
 import { db } from '@/drizzle/db';
-import { count, sum, eq, sql, ilike, and, inArray, or } from 'drizzle-orm';
-import { boxes, boxItems, boxOffers, offers, items, boxCategories} from '@/drizzle/schema';
-import { BoxWithRelations } from '@/lib/definitions';
+import { BoxWithRelations, Box, SaleBox } from '@/lib/definitions';
+import { boxCategories, boxItems, items, boxes, boxOffers, offers } from '@/drizzle/schema';
+import { sql, eq, ilike, and, or, inArray, count, sum } from 'drizzle-orm';
 
-export const BOXES_PER_PAGE = 12;
+const BOXES_PER_PAGE = 12;
 
-export const mapBox = (box: BoxWithRelations): Box => ({
+const mapBox = (box: BoxWithRelations): Box => ({
     ...box,
     items: box.boxItems.map((boxItem) => ({ item: boxItem.item, probability: boxItem.probability })),
     categories: box.boxCategories.map((boxCategory) => boxCategory.category),
-})
+});
 
 export async function getBoxes(): Promise<Array<Box>> {
     const boxes = await db.query.boxes.findMany({
@@ -26,7 +25,7 @@ export async function getBoxes(): Promise<Array<Box>> {
                 }
             }
         }
-    })
+    });
 
     return boxes.map((box) => mapBox(box));
 }
@@ -46,10 +45,10 @@ export async function getBoxById(id: number): Promise<Box | null> {
                 }
             }
         }
-    })
+    });
 
     if (!box)
-        return null
+        return null;
 
     return mapBox(box);
 }
@@ -58,13 +57,13 @@ export async function getFilteredBoxes(query: string, currentPage: number, categ
     const idsInCategory = await db
         .select({ boxId: boxCategories.boxId })
         .from(boxCategories)
-        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)))
+        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)));
 
     const idsCotainingSearchedItem = await db
         .select({ boxId: boxItems.boxId })
         .from(boxItems)
         .leftJoin(items, eq(boxItems.itemId, items.id))
-        .where(ilike(items.name, `%${query}%`))
+        .where(ilike(items.name, `%${query}%`));
 
     const response = await db.query.boxes.findMany({
         offset: (currentPage - 1) * BOXES_PER_PAGE,
@@ -88,7 +87,7 @@ export async function getFilteredBoxes(query: string, currentPage: number, categ
                 }
             }
         }
-    })
+    });
 
     return response.map((box) => mapBox(box));
 }
@@ -97,13 +96,13 @@ export async function getFilteredBoxesTotalPages(query: string, category: string
     const idsInCategory = await db
         .select({ boxId: boxCategories.boxId })
         .from(boxCategories)
-        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)))
+        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)));
 
     const idsCotainingSearchedItem = await db
         .select({ boxId: boxItems.boxId })
         .from(boxItems)
         .leftJoin(items, eq(boxItems.itemId, items.id))
-        .where(ilike(items.name, `%${query}%`))
+        .where(ilike(items.name, `%${query}%`));
 
     const response = await db
         .select({ value: count(boxes.id) })
@@ -114,7 +113,7 @@ export async function getFilteredBoxesTotalPages(query: string, category: string
                 idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
             ),
             idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId))
-        ))
+        ));
 
     return Math.ceil(response[0].value / BOXES_PER_PAGE);
 }
@@ -124,9 +123,9 @@ export async function getActiveDiscountByBoxId(boxId: number): Promise<number> {
         .select({ value: sum(boxOffers.discount) })
         .from(boxOffers)
         .leftJoin(offers, eq(boxOffers.offerId, offers.id))
-        .where(sql`${boxOffers.boxId} = ${boxId} AND NOW() BETWEEN ${offers.startsAt} AND ${offers.expiresAt}`)
-    
-    return parseInt(response[0].value ?? "0")
+        .where(sql`${boxOffers.boxId} = ${boxId} AND NOW() BETWEEN ${offers.startsAt} AND ${offers.expiresAt}`);
+
+    return parseInt(response[0].value ?? "0");
 }
 
 export async function getFeaturedBoxes(): Promise<Array<Box>> {
@@ -146,7 +145,13 @@ export async function getFeaturedBoxes(): Promise<Array<Box>> {
                 }
             }
         }
-    })
+    });
 
     return response.map((box) => mapBox(box));
+}
+
+export async function getBoxesFromSaleBoxes(saleBoxes: Array<SaleBox>): Promise<Array<Box>> {
+    return await Promise.all(
+        saleBoxes.map((saleBox) => getBoxById(saleBox.boxId).then((box) => box === null ? [] : Array(saleBox.quantity).fill(box)))
+    ).then((boxes) => boxes.flat());
 }

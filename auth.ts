@@ -2,24 +2,7 @@ import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
 import { z } from 'zod';
-import type { User } from './lib/definitions';
-import { db } from '@/drizzle/db';
-import { users } from './drizzle/schema';
-import { eq} from 'drizzle-orm';
-
-async function getUser(email: string): Promise<User | undefined> {
-    try {
-        const user = await db
-            .select()
-            .from(users)
-            .where(eq(users.email, email));
-        
-        return user[0]
-    } catch (error) {
-        console.error('Failed to fetch user:', error);
-        throw new Error('Failed to fetch user.');
-    }
-}
+import { getUser } from '@/lib/data/users';
 
 export const { auth, signIn, signOut } = NextAuth({
     ...authConfig,

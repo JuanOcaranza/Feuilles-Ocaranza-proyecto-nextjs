@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Box } from "@/lib/definitions";
-import { getActiveDiscountByBoxId } from "@/lib/data";
+import { getActiveDiscountByBoxId } from '@/lib/data/boxes';
 import { Card } from "@/components/ui/card";
 import BoxCardContent from "@/components/box-card-content";
 

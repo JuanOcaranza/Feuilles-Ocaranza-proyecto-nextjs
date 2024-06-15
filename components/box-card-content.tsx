@@ -17,7 +17,7 @@ export default function BoxCardContent({ box, discount }: { box: Box, discount: 
     return (
         <>
             <CldImage src={mainImage} alt={box.name + ' image'} width={500} height={400}/>
-            <div className=" h-24 py-4">
+            <div className="h-24 py-4">
                 <div className="group-hover:hidden px-4">
                     <CardTitle className="py-2">
                         {box.name}

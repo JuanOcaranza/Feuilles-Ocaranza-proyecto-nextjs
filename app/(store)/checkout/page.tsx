@@ -1,5 +1,5 @@
 import Checkout from "@/components/checkout";
-import { checkout } from "@/lib/actions";
+import { checkout } from "@/lib/actions/checkout";
 
 export default async function CheckoutPage(){
     const preferendeId = await checkout();

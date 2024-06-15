@@ -1,6 +1,6 @@
 import { Carousel, CarouselContent, CarouselPrevious, CarouselNext, CarouselItem } from "@/components/ui/carousel";
 import BoxCard from "@/components/box-card";
-import { getFeaturedBoxes } from "@/lib/data";
+import { getFeaturedBoxes } from '@/lib/data/boxes';
 
 export default async function HomeCarousel() {
     const featuredBoxes = await getFeaturedBoxes();

@@ -1,8 +1,9 @@
 "use server"
 
-import { Cart } from "@/lib/definitions";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { Cart } from "../definitions";
+import { revalidatePath } from "next/cache";
+
 
 export async function getCart(): Promise<Cart> {
     const cookieStore = cookies();
@@ -10,13 +11,12 @@ export async function getCart(): Promise<Cart> {
     if (!cartCookie) {
         return {
             boxes: []
-        }
+        };
     }
     return JSON.parse(cartCookie.value);
-}
-
-export async function setCart(cart: Cart) {
+}export async function setCart(cart: Cart) {
     const cookieStore = cookies();
     cookieStore.set("cart", JSON.stringify(cart));
-    revalidatePath("/")
+    revalidatePath("/");
 }
+

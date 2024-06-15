@@ -1,4 +1,5 @@
-import { getBoxById, getActiveDiscountByBoxId } from "@/lib/data";
+import { getActiveDiscountByBoxId } from '@/lib/data/boxes';
+import { getBoxById } from '@/lib/data/boxes';
 import { notFound } from "next/navigation";
 import CldImage from "@/components/ui/CldImage";
 import BoxProducts from "@/components/box-products";

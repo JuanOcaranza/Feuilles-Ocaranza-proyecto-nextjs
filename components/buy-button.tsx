@@ -1,6 +1,6 @@
 "use client"
 
-import { addToCart } from "@/lib/actions"
+import { addToCart } from "@/lib/actions/cart"
 import clsx from "clsx"
 import { useTransition } from "react"
 
