@@ -13,4 +13,4 @@ export default function SignOutButton() {
             </button>
         </form>
     );
-};
+}
