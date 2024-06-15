@@ -13,8 +13,8 @@ export async function checkout(): Promise<string | undefined> {
     const boxes = (
         await Promise.all(cart.boxes.map(async (box) => {
             const [boxData, discount] = await Promise.all([
-                getBoxById(box.boxId),
-                getActiveDiscountByBoxId(box.boxId)
+                await getBoxById(box.boxId),
+                await getActiveDiscountByBoxId(box.boxId)
             ])
             if (!boxData)
                 return null;
