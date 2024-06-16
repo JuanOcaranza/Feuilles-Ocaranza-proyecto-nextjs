@@ -3,7 +3,7 @@ import NavBar from '@/components/navbar/navbar';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col h-full'>
             <div>
                 <NavBar />
             </div>
