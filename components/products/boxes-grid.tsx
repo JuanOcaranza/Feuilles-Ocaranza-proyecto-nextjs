@@ -1,4 +1,4 @@
-import { getFilteredBoxes } from '@/lib/data/boxes';
+import { getFilteredBoxesWithItems } from '@/lib/data/boxes';
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
 import BoxCard from "@/components/products/box-card";
@@ -12,7 +12,7 @@ export default async function BoxesGrid({
     currentPage: number;
     category: string;
 }) {
-    const boxes = await getFilteredBoxes(query, currentPage, category);
+    const boxes = await getFilteredBoxesWithItems(query, currentPage, category);
 
     return (
         <div className="mt-6 flow-root">

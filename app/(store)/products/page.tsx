@@ -2,7 +2,7 @@ import Pagination from "@/components/pagination";
 import clsx from "clsx";
 import { lusitana } from "@/lib/fonts";
 import BoxesGrid from "@/components/products/boxes-grid";
-import { getFilteredBoxesTotalPages } from '@/lib/data/boxes';
+import { getFilteredBoxesWithItemsTotalPages } from '@/lib/data/boxes';
 import { Suspense } from "react";
 import BoxesGridSkeleton from "@/components/skeletons/boxes-grid-skeleton";
 
@@ -18,7 +18,7 @@ export default async function Products({
     const query = searchParams?.query || "";
     const page = Number(searchParams?.page) || 1;
     const category = searchParams?.category || "";
-    const totalPages = await getFilteredBoxesTotalPages(query, category);
+    const totalPages = await getFilteredBoxesWithItemsTotalPages(query, category);
 
     return (
         <div className="m-6">

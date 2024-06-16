@@ -22,6 +22,7 @@ export const items = pgTable("items", {
     description: text("description").notNull(),
     price: real("price").notNull(),
     imageUrl: text("image_url").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull()
 });
 
 export const itemsRelations = relations(items, ({ many }) => ({

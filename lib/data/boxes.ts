@@ -1,9 +1,9 @@
 import { db } from '@/drizzle/db';
-import { BoxWithRelations, Box, SaleBox } from '@/lib/definitions';
+import { BoxWithRelations, Box, SaleBox, BoxOnly, tableItem } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers } from '@/drizzle/schema';
 import { sql, eq, ilike, and, or, inArray, count, sum } from 'drizzle-orm';
 
-const BOXES_PER_PAGE = 12;
+export const BOXES_PER_PAGE = 12;
 
 const mapBox = (box: BoxWithRelations): Box => ({
     ...box,
@@ -53,7 +53,7 @@ export async function getBoxById(id: number): Promise<Box | null> {
     return mapBox(box);
 }
 
-export async function getFilteredBoxes(query: string, currentPage: number, category: string): Promise<Array<Box>> {
+export async function getFilteredBoxesWithItems(query: string, currentPage: number, category: string): Promise<Array<Box>> {
     const idsInCategory = await db
         .select({ boxId: boxCategories.boxId })
         .from(boxCategories)
@@ -92,7 +92,7 @@ export async function getFilteredBoxes(query: string, currentPage: number, categ
     return response.map((box) => mapBox(box));
 }
 
-export async function getFilteredBoxesTotalPages(query: string, category: string): Promise<number> {
+export async function getFilteredBoxesWithItemsTotalPages(query: string, category: string): Promise<number> {
     const idsInCategory = await db
         .select({ boxId: boxCategories.boxId })
         .from(boxCategories)
@@ -154,4 +154,23 @@ export async function getBoxesFromSaleBoxes(saleBoxes: Array<SaleBox>): Promise<
     return await Promise.all(
         saleBoxes.map((saleBox) => getBoxById(saleBox.boxId).then((box) => ( box !== null ? { ...box, quantity: saleBox.quantity } : null)))
     ).then((boxes) => boxes.filter((box) => box !== null));
+}
+
+export async function getFilteredBoxes(query: string, currentPage: number): Promise<Array<BoxOnly>> {
+    const response = await db.query.boxes.findMany({
+        offset: (currentPage - 1) * BOXES_PER_PAGE,
+        limit: BOXES_PER_PAGE,
+        where: ilike(boxes.name, `%${query}%`),
+    });
+
+    return response;
+}
+
+export async function getFilteredBoxesTotalPages(query: string): Promise<number> {
+    const response = await db
+        .select({ value: count(boxes.id) })
+        .from(boxes)
+        .where(ilike(boxes.name, `%${query}%`));
+
+    return Math.ceil(response[0].value / BOXES_PER_PAGE);
 }

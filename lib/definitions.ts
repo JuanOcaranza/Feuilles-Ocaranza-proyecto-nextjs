@@ -44,3 +44,14 @@ export type SaleWithRelations = typeof sales.$inferSelect & {
 }
 
 export type newSale = typeof sales.$inferInsert
+
+export interface tableItem {
+    id: number
+    name: string
+    description: string
+    price: number
+    imageUrl: string
+    createdAt: Date
+}
+
+export type BoxOnly = typeof boxes.$inferSelect
