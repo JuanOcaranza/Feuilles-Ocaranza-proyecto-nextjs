@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-import { Home, Package, ShoppingCart } from "lucide-react"
+import { Home, Package, Layers, ShoppingCart } from "lucide-react"
 
 const links = [
     { name: 'Dashboard', href: '/admin', icon: Home },
     { name: 'Products', href: '/admin/products', icon: Package },
+    { name: 'Items', href: '/admin/items', icon: Layers },
     { name: 'Sales', href: '/admin/sales', icon: ShoppingCart },
 ];
 
