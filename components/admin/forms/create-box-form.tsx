@@ -8,6 +8,7 @@ import PriceFormItem from "@/components/admin/forms/price-form-item"
 import FormError from "@/components/admin/forms/form-error"
 import CancelButton from "@/components/ui/cancelButton"
 import { SubmitButton } from "@/components/ui/submit-button"
+import ImageFormItem from "@/components/admin/forms/image-form-item"
 
 const initialState = {
     errors: {},
@@ -23,6 +24,7 @@ export default function CreateBoxForm() {
                 <NameFormItem errors={state.errors?.name} />
                 <DescriptionFormItem errors={state.errors?.description} />
                 <PriceFormItem errors={state.errors?.price} />
+                <ImageFormItem errors={state.errors?.image} />
                 <FormError message={state.message} />
             </div>
             <div className="mt-6 flex justify-end gap-4">

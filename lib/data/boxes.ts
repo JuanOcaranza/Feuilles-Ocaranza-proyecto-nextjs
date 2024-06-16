@@ -2,6 +2,7 @@ import { db } from '@/drizzle/db';
 import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers } from '@/drizzle/schema';
 import { sql, eq, ilike, and, or, inArray, count, sum } from 'drizzle-orm';
+import { deleteImage } from '@/lib/cloudinary';
 
 export const BOXES_PER_PAGE = 12;
 
@@ -152,7 +153,7 @@ export async function getFeaturedBoxes(): Promise<Array<Box>> {
 
 export async function getBoxesFromSaleBoxes(saleBoxes: Array<SaleBox>): Promise<Array<Box & { quantity: number } | null>> {
     return await Promise.all(
-        saleBoxes.map((saleBox) => getBoxById(saleBox.boxId).then((box) => ( box !== null ? { ...box, quantity: saleBox.quantity } : null)))
+        saleBoxes.map((saleBox) => getBoxById(saleBox.boxId).then((box) => (box !== null ? { ...box, quantity: saleBox.quantity } : null)))
     ).then((boxes) => boxes.filter((box) => box !== null));
 }
 
@@ -176,9 +177,12 @@ export async function getFilteredBoxesTotalPages(query: string): Promise<number>
 }
 
 export async function deleteBox(id: number) {
-    await db
+    const response = await db
         .delete(boxes)
-        .where(eq(boxes.id, id));
+        .where(eq(boxes.id, id))
+        .returning();
+
+    response.forEach((box) => { deleteImage(box.imageUrl) });
 }
 
 export async function insertBox(newBox: NewBox, items: Array<BoxItem>, categories: Array<boxCategory>) {

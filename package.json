@@ -24,6 +24,7 @@
     "@vercel/postgres": "^0.8.0",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
+    "cloudinary": "^2.2.0",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.31.1",
     "embla-carousel-react": "^8.1.3",

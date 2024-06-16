@@ -14,6 +14,7 @@ export default function DescriptionFormItem({ errors }: { errors?: string[] }) {
                 placeholder="Enter description"
                 className="mt-2 w-full rounded-md border border-gray-200 py-2 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="description-error"
+                required
             />
             <ItemErrors id="description-error" errors={errors} />
         </div>
