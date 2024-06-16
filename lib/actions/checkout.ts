@@ -55,17 +55,19 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
     };
 }
 
-function openBoxes(boxes: Array<Box & { quantity: number }>): Array<{ item: Item, quantity: number }> {
+function openBoxes(boxes: Array<Box & { quantity: number } | null>): Array<{ item: Item, quantity: number }> {
     const itemsMap: { [key: number]: { item: Item, quantity: number } } = {};
 
     for (const box of boxes) {
-        for (let i = 0; i < box.quantity; i++) {
-            const item = openBox(box);
+        if (box !== null) {
+            for (let i = 0; i < box.quantity; i++) {
+                const item = openBox(box);
 
-            if (!itemsMap[item.id]) {
-                itemsMap[item.id] = { item, quantity: 1 };
-            } else {
-                itemsMap[item.id].quantity++;
+                if (!itemsMap[item.id]) {
+                    itemsMap[item.id] = { item, quantity: 1 };
+                } else {
+                    itemsMap[item.id].quantity++;
+                }
             }
         }
     }

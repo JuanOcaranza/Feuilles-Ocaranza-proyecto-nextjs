@@ -150,7 +150,7 @@ export async function getFeaturedBoxes(): Promise<Array<Box>> {
     return response.map((box) => mapBox(box));
 }
 
-export async function getBoxesFromSaleBoxes(saleBoxes: Array<SaleBox>): Promise<Array<Box & { quantity: number }>> {
+export async function getBoxesFromSaleBoxes(saleBoxes: Array<SaleBox>): Promise<Array<Box & { quantity: number } | null>> {
     return await Promise.all(
         saleBoxes.map((saleBox) => getBoxById(saleBox.boxId).then((box) => ( box !== null ? { ...box, quantity: saleBox.quantity } : null)))
     ).then((boxes) => boxes.filter((box) => box !== null));
