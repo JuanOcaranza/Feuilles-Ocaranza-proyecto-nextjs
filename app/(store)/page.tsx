@@ -1,4 +1,4 @@
-import HomeCarousel from "@/components/home-carousel";
+import HomeCarousel from "@/components/home/home-carousel";
 import CldImage from "@/components/ui/CldImage";
 import Link from "next/link";
 

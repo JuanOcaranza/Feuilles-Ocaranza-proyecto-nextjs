@@ -50,3 +50,7 @@ export async function decrementQuantityInCart(boxId: number): Promise<number> {
 
     return result;
 }
+
+export async function clearCart() {
+    setCart({ boxes: [] });
+}

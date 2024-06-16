@@ -1,7 +1,7 @@
 import { getFilteredBoxes } from '@/lib/data/boxes';
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 
-import BoxCard from "@/components/box-card";
+import BoxCard from "@/components/products/box-card";
 
 export default async function BoxesGrid({
     query,

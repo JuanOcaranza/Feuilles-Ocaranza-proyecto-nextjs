@@ -5,20 +5,21 @@ import { getActiveDiscountByBoxId, getBoxById, getBoxesFromSaleBoxes } from '@/l
 import { Box, Item, Sale } from "@/lib/definitions";
 import { getSaleById, insertSale } from "@/lib/data/sales";
 import { createPreference, getBoxesFromPayment } from "@/lib/mercado-pago";
+import { clearCart } from "@/lib/actions/cart";
 
 
-export async function checkout(): Promise<string | undefined> {
+export async function checkout(): Promise<{ preferenceId: string | undefined, boxes: Array<Box & { quantity: number, finalPrice: number }> }> {
     const cart = await getCart();
 
     const boxes = (
         await Promise.all(cart.boxes.map(async (box) => {
             const [boxData, discount] = await Promise.all([
-                await getBoxById(box.boxId),
-                await getActiveDiscountByBoxId(box.boxId)
+                getBoxById(box.boxId),
+                getActiveDiscountByBoxId(box.boxId)
             ])
             if (!boxData)
                 return null;
-            return { ...boxData, quantity: box.quantity, finalPrice: boxData.price - (boxData.price * discount) };
+            return { ...boxData, quantity: box.quantity, finalPrice: boxData.price - (boxData.price * (discount / 100)) };
         }))
     ).filter((box) => box !== null);
 
@@ -26,7 +27,7 @@ export async function checkout(): Promise<string | undefined> {
         boxes.map((box) => (box !== null ? { id: box.id.toString(), title: box.name, unit_price: box.finalPrice, quantity: box.quantity } : { id: '', title: '', unit_price: 0, quantity: 0 }))
     )
 
-    return preference.id;
+    return { preferenceId: preference.id, boxes: boxes };
 
 }export async function checkPayment(paymentId: number): Promise<Sale | null> {
     const sale = await getSaleById(paymentId);
@@ -34,6 +35,8 @@ export async function checkout(): Promise<string | undefined> {
     if (sale !== null) { 
         return sale;
     }
+
+    clearCart();
 
     const saleBoxes = await getBoxesFromPayment(paymentId);
 

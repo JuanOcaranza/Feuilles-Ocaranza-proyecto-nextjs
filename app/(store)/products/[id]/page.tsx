@@ -2,10 +2,10 @@ import { getActiveDiscountByBoxId } from '@/lib/data/boxes';
 import { getBoxById } from '@/lib/data/boxes';
 import { notFound } from "next/navigation";
 import CldImage from "@/components/ui/CldImage";
-import BoxProducts from "@/components/box-products";
+import BoxProducts from "@/components/product/box-products";
 import Price from "@/components/price";
-import BuyButton from "@/components/buy-button";
-import BuyQuantity from "@/components/buy-quantity";
+import BuyButton from "@/components/product/buy-button";
+import BuyQuantity from "@/components/product/buy-quantity";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);

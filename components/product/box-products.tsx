@@ -1,6 +1,6 @@
 import { Item } from "@/lib/definitions";
 import { Carousel, CarouselContent, CarouselPrevious, CarouselNext, CarouselItem } from "@/components/ui/carousel";
-import ProductHover from "@/components/product-hover";
+import ProductHover from "@/components/product/product-hover";
 
 export default function BoxProducts({ products } : { products: Array<Item> }) {
     return (

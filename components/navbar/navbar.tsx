@@ -1,7 +1,7 @@
 import NavLinks from "@/components/navbar/nav-links";
 import HomeLink from "@/components/navbar/home-link";
 import Search from "@/components/navbar/search";
-import Cart from "@/components/cart";
+import Cart from "@/components/cart/cart";
 import Categories from "@/components/navbar/categories";
 import { Suspense } from "react";
 import SearchSkeleton from "@/components/skeletons/search-skeleton";

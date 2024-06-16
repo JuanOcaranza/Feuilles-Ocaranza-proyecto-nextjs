@@ -2,7 +2,7 @@ import { checkPayment } from "@/lib/actions/checkout";
 import { redirect } from "next/navigation";
 import clsx from "clsx";
 import { lusitana } from "@/lib/fonts";
-import ItemQuantityCard from "@/components/item-quantity-card";
+import ItemQuantityCard from "@/components/checkout/item-quantity-card";
 
 export default async function CheckoutSuccess({
     searchParams,

@@ -1,6 +1,6 @@
 import { getBoxById } from '@/lib/data/boxes';
 import CldImage from "@/components/ui/CldImage";
-import BoxCartItemControls from "@/components/box-cart-item-controls";
+import BoxCartItemControls from "@/components/cart/box-cart-item-controls";
 
 export default async function BoxCartItem({ boxId, quantity }: { boxId: number, quantity: number }) {
     const box = await getBoxById(boxId);
