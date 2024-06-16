@@ -8,7 +8,7 @@ import { createPreference, getBoxesFromPayment } from "@/lib/mercado-pago";
 import { clearCart } from "@/lib/actions/cart";
 
 
-export async function checkout(): Promise<{ preferenceId: string | undefined, boxes: Array<Box & { quantity: number, finalPrice: number }> }> {
+export async function checkout(): Promise<{ preferenceId: string | undefined, boxes: Array<Box & { quantity: number, finalPrice: number } | null> }> {
     const cart = await getCart();
 
     const boxes = (

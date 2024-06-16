@@ -1,5 +1,5 @@
 import BoxQuantityCard from "@/components/checkout/box-quantity-card";
-import Checkout from "@/components/checkout/checkout";
+import PayButton from "@/components/checkout/pay-button";
 import { checkout } from "@/lib/actions/checkout";
 import { lusitana } from "@/lib/fonts";
 import clsx from "clsx";
@@ -19,9 +19,9 @@ export default async function CheckoutPage(){
         <div className="flex flex-col m-6">
             <h1 className={clsx("text-3xl mb-8", lusitana.className)}>Checkout</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
-                {boxes?.map((box) => <BoxQuantityCard key={box.id} box={box} finalPrice={box.finalPrice} quantity={box.quantity} />)}
+                {boxes?.map((box) => box !== null && <BoxQuantityCard key={box.id} box={box} finalPrice={box.finalPrice} quantity={box.quantity} />)}
             </div>
-            <Checkout preferendeId={preferenceId} />
+            <PayButton preferendeId={preferenceId} />
         </div>
     )
 }
