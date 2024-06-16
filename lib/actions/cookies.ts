@@ -14,6 +14,7 @@ export async function getCart(): Promise<Cart> {
         };
     }
     return JSON.parse(cartCookie.value);
+    
 }export async function setCart(cart: Cart) {
     const cookieStore = cookies();
     cookieStore.set("cart", JSON.stringify(cart));

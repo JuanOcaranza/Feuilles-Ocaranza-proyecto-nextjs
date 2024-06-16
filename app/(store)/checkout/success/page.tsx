@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import clsx from "clsx";
 import { lusitana } from "@/lib/fonts";
 import ItemQuantityCard from "@/components/checkout/item-quantity-card";
+import Link from "next/link";
+import CartCleaner from "@/components/checkout/cart-cleaner";
 
 export default async function CheckoutSuccess({
     searchParams,
@@ -21,14 +23,18 @@ export default async function CheckoutSuccess({
     if (sale === null) {
         redirect('/checkout/failed');
     }
-    
+
     return (
         <div className="m-6">
+            <CartCleaner />
             <h1 className={clsx("text-3xl text-center", lusitana.className)}>Thank you for your purchase!</h1>
             <h2 className="text-2xl my-6">Here are your items:</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
                 {sale.items.map((item) => <ItemQuantityCard key={item.item.id} item={item.item} quantity={item.quantity} />)}
+            </div>
+            <div className="flex mt-8 justify-center">
+                <Link href="/products" className="bg-black text-white rounded-lg px-4 py-2 hover:bg-gray-800">Continue shopping</Link>
             </div>
         </div>
     );
