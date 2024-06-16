@@ -1,5 +1,5 @@
 import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose} from "@/components/ui/sheet";
-import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import {  ShoppingCart } from "lucide-react"
 import { getCart } from "@/lib/actions/cookies";
 import BoxCartItem from "@/components/cart/box-cart-item";
 import Link from "next/link";
@@ -11,7 +11,7 @@ export default async function Cart(){
     return (
         <Sheet>
             <SheetTrigger>
-                <ShoppingCartIcon className="w-6 lg:w-9 mr-2 ml-2" />
+                <ShoppingCart className="mr-2 ml-2" size={28}/>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
