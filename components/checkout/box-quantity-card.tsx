@@ -16,7 +16,7 @@ export default function BoxQuantityCard({ box, quantity, finalPrice }: { box: Bo
                 </div>
             </div>
             <CardFooter>
-                <Price basePrice={box.price * quantity} discount={(finalPrice - box.price) / box.price * 100 } />
+                <Price basePrice={box.price * quantity} discount={(box.price - finalPrice) / box.price * 100 } />
             </CardFooter>
         </Card>
     )

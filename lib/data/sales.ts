@@ -1,6 +1,6 @@
 import { db } from '@/drizzle/db';
 import { saleBoxes, saleItems, sales } from '@/drizzle/schema';
-import { count, eq } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 import { newSale, Sale, SaleBox, SaleItem, SaleWithRelations } from '@/lib/definitions';
 
 export async function getSaleById(id: number): Promise<Sale | null> {

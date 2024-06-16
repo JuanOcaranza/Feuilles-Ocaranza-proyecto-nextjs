@@ -5,7 +5,6 @@ import { getActiveDiscountByBoxId, getBoxById, getBoxesFromSaleBoxes } from '@/l
 import { Box, Item, Sale } from "@/lib/definitions";
 import { getSaleById, insertSale } from "@/lib/data/sales";
 import { createPreference, getBoxesFromPayment } from "@/lib/mercado-pago";
-import { clearCart } from "@/lib/actions/cart";
 
 
 export async function checkout(): Promise<{ preferenceId: string | undefined, boxes: Array<Box & { quantity: number, finalPrice: number } | null> }> {
@@ -29,14 +28,12 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
 
     return { preferenceId: preference.id, boxes: boxes };
 
-}export async function checkPayment(paymentId: number): Promise<Sale | null> {
+} export async function checkPayment(paymentId: number): Promise<Sale | null> {
     const sale = await getSaleById(paymentId);
 
-    if (sale !== null) { 
+    if (sale !== null) {
         return sale;
     }
-
-    clearCart();
 
     const saleBoxes = await getBoxesFromPayment(paymentId);
 
@@ -49,7 +46,7 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
     const saleItems = items.map((item) => ({ saleId: paymentId, itemId: item.item.id, quantity: item.quantity }));
     const now = new Date();
 
-    insertSale( { id: paymentId, created_at: now } , saleBoxes, saleItems);
+    insertSale({ id: paymentId, created_at: now }, saleBoxes, saleItems);
 
     return {
         id: paymentId,
@@ -58,16 +55,18 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
     };
 }
 
-function openBoxes(boxes: Array<Box>): Array<{ item: Item, quantity: number }> {
+function openBoxes(boxes: Array<Box & { quantity: number }>): Array<{ item: Item, quantity: number }> {
     const itemsMap: { [key: number]: { item: Item, quantity: number } } = {};
 
     for (const box of boxes) {
-        const item = openBox(box);
+        for (let i = 0; i < box.quantity; i++) {
+            const item = openBox(box);
 
-        if (!itemsMap[item.id]) {
-            itemsMap[item.id] = { item, quantity: 1 };
-        } else {
-            itemsMap[item.id].quantity++;
+            if (!itemsMap[item.id]) {
+                itemsMap[item.id] = { item, quantity: 1 };
+            } else {
+                itemsMap[item.id].quantity++;
+            }
         }
     }
 
