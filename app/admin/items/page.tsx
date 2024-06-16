@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { TableSkeleton } from "@/components/skeletons/table-skeleton";
 import ItemsTable from "@/components/admin/items-table";
 import { getFilteredItemsTotalPages } from "@/lib/data/items";
+import Create from "@/components/admin/buttons/create";
 
 export default async function Items({
     searchParams,
@@ -26,7 +27,7 @@ export default async function Items({
             </div>
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 <Search placeholder="Search items..." />
-                {/* <CreateInvoice /> */}
+                <Create type="Item" />
             </div>
             <Suspense key={query + currentPage} fallback={<TableSkeleton type="Item" />}>
                 <ItemsTable query={query} currentPage={currentPage} />

@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { getFilteredBoxesTotalPages } from "@/lib/data/boxes";
 import { TableSkeleton } from "@/components/skeletons/table-skeleton";
 import BoxesTable from "@/components/admin/boxes-table";
+import Create from "@/components/admin/buttons/create";
 
 export default async function Products({
     searchParams,
@@ -26,7 +27,7 @@ export default async function Products({
             </div>
             <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
                 <Search placeholder="Search boxes..." />
-                {/* <CreateInvoice /> */}
+                <Create type="Box" />
             </div>
             <Suspense key={query + currentPage} fallback={<TableSkeleton type="Box" />}>
                 <BoxesTable query={query} currentPage={currentPage} />

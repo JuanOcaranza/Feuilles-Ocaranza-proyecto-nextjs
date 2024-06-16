@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
 import { saleBoxes, saleItems, sales } from '@/drizzle/schema';
 import { eq } from 'drizzle-orm';
-import { newSale, Sale, SaleBox, SaleItem, SaleWithRelations } from '@/lib/definitions';
+import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations } from '@/lib/definitions';
 
 export async function getSaleById(id: number): Promise<Sale | null> {
     const sale = await db.query.sales.findFirst({
@@ -30,7 +30,7 @@ const mapSale = (sale: SaleWithRelations): Sale => ({
     }))
 });
 
-export async function insertSale(sale: newSale, boxes: Array<SaleBox>, items: Array<SaleItem>) {
+export async function insertSale(sale: NewSale, boxes: Array<SaleBox>, items: Array<SaleItem>) {
     await db.insert(sales).values(sale)
 
     await Promise.all([

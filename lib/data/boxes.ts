@@ -1,5 +1,5 @@
 import { db } from '@/drizzle/db';
-import { BoxWithRelations, Box, SaleBox, BoxOnly, tableItem } from '@/lib/definitions';
+import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers } from '@/drizzle/schema';
 import { sql, eq, ilike, and, or, inArray, count, sum } from 'drizzle-orm';
 
@@ -173,4 +173,19 @@ export async function getFilteredBoxesTotalPages(query: string): Promise<number>
         .where(ilike(boxes.name, `%${query}%`));
 
     return Math.ceil(response[0].value / BOXES_PER_PAGE);
+}
+
+export async function deleteBox(id: number) {
+    await db
+        .delete(boxes)
+        .where(eq(boxes.id, id));
+}
+
+export async function insertBox(newBox: NewBox, items: Array<BoxItem>, categories: Array<boxCategory>) {
+    await db.insert(boxes).values(newBox);
+
+    await Promise.all([
+        items.map((async (boxItem) => await db.insert(boxItems).values(boxItem))),
+        categories.map((async (boxCategory) => await db.insert(boxCategories).values(boxCategory)))
+    ])
 }

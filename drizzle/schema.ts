@@ -5,7 +5,7 @@ export const boxes = pgTable("boxes", {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
     description: text("description").notNull(),
-    price: real("price").notNull(),
+    price: integer("price").notNull(),
     imageUrl: text("image_url").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull()
 });
@@ -20,7 +20,7 @@ export const items = pgTable("items", {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
     description: text("description").notNull(),
-    price: real("price").notNull(),
+    price: integer("price").notNull(),
     imageUrl: text("image_url").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull()
 });
