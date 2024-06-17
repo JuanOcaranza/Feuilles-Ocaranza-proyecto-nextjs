@@ -22,3 +22,7 @@ export async function getFilteredItemsTotalPages(query: string): Promise<number>
 
     return Math.ceil(response[0].value / ITEMS_PER_PAGE);
 }
+
+export async function getItems(): Promise<Array<Item>> {
+    return await db.query.items.findMany();
+}

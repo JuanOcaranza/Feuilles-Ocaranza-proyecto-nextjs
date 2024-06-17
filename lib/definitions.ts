@@ -57,3 +57,12 @@ export interface tableItem {
 export type BoxOnly = typeof boxes.$inferSelect
 
 export type NewBox = typeof boxes.$inferInsert
+
+export type newBoxItem = {
+    itemId: number
+    probability: number
+}
+
+export type newBoxCategory = {
+    categoryId: number
+}

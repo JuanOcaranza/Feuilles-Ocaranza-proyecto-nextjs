@@ -50,6 +50,20 @@
       "when": 1718553888706,
       "tag": "0006_lively_gravity",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1718588659393,
+      "tag": "0007_silly_sue_storm",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1718591057865,
+      "tag": "0008_curly_the_order",
+      "breakpoints": true
     }
   ]
 }

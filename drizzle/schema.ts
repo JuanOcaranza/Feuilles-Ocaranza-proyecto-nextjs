@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { pgTable, real, serial, text, timestamp, integer, primaryKey, uuid } from "drizzle-orm/pg-core";
+import { pgTable, real, serial, text, timestamp, integer, primaryKey, uuid, boolean } from "drizzle-orm/pg-core";
 
 export const boxes = pgTable("boxes", {
     id: serial("id").primaryKey(),
@@ -7,13 +7,15 @@ export const boxes = pgTable("boxes", {
     description: text("description").notNull(),
     price: integer("price").notNull(),
     imageUrl: text("image_url").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull()
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    active: boolean("active").notNull().default(true)
 });
 
 export const boxesRelations = relations(boxes, ({ many }) => ({
     boxItems: many(boxItems),
     boxOffers: many(boxOffers),
-    boxCategories: many(boxCategories)
+    boxCategories: many(boxCategories),
+    saleBoxes: many(saleBoxes)
 }));
 
 export const items = pgTable("items", {
@@ -27,10 +29,11 @@ export const items = pgTable("items", {
 
 export const itemsRelations = relations(items, ({ many }) => ({
     boxItems: many(boxItems),
+    saleItems: many(saleItems)
 }));
 
 export const boxItems = pgTable("box_items", {
-    boxId: serial("box_id").references(() => boxes.id),
+    boxId: serial("box_id").references(() => boxes.id, { onDelete: "cascade", onUpdate: "cascade" }),
     itemId: serial("item_id").references(() => items.id),
     probability: real("probability").notNull()
 }, (table) => {
@@ -63,8 +66,8 @@ export const offersRelations = relations(offers, ({ many }) => ({
 }));
 
 export const boxOffers = pgTable("box_offers", {
-    boxId: serial("box_id").references(() => boxes.id),
-    offerId: serial("offer_id").references(() => offers.id),
+    boxId: serial("box_id").references(() => boxes.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    offerId: serial("offer_id").references(() => offers.id, { onDelete: "cascade", onUpdate: "cascade" }),
     discount: integer("discount").notNull()
 }, (table) => {
     return {
@@ -99,8 +102,8 @@ export const categoriesRelations = relations(categories, ({ one, many }) => ({
 }))
 
 export const boxCategories = pgTable("box_categories", {
-    boxId: serial("box_id").references(() => boxes.id),
-    categoryId: serial("category_id").references(() => categories.id)
+    boxId: serial("box_id").references(() => boxes.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    categoryId: serial("category_id").references(() => categories.id, { onDelete: "cascade", onUpdate: "cascade" }),
 }, (table) => {
     return {
         pk: primaryKey({ columns: [table.boxId, table.categoryId] }),

@@ -9,14 +9,19 @@ import FormError from "@/components/admin/forms/form-error"
 import CancelButton from "@/components/ui/cancelButton"
 import { SubmitButton } from "@/components/ui/submit-button"
 import ImageFormItem from "@/components/admin/forms/image-form-item"
+import { Item } from "@/lib/definitions"
+import AddItemsFormItem from "./add-items-form-item"
+import { useState } from "react"
 
 const initialState = {
     errors: {},
     message: ""
 }
 
-export default function CreateBoxForm() {
-    const [state, formAction] = useFormState(createBox, initialState); 
+export default function CreateBoxForm({ items }: { items: Item[] }) {
+    const [boxItems, setBoxItems] = useState<{ itemId: number | null, probability: number }[]>([{ itemId: null, probability: 1 }]);
+    const createBoxWithBoxItems = createBox.bind(null, boxItems);
+    const [state, formAction] = useFormState(createBoxWithBoxItems, initialState); 
 
     return (
         <form action={formAction}>
@@ -25,6 +30,7 @@ export default function CreateBoxForm() {
                 <DescriptionFormItem errors={state.errors?.description} />
                 <PriceFormItem errors={state.errors?.price} />
                 <ImageFormItem errors={state.errors?.image} />
+                <AddItemsFormItem items={items} boxItems={boxItems} setBoxItems={setBoxItems} errors={state.errors?.items} />
                 <FormError message={state.message} />
             </div>
             <div className="mt-6 flex justify-end gap-4">

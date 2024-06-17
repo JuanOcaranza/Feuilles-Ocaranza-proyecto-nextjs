@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
-import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox } from '@/lib/definitions';
-import { boxCategories, boxItems, items, boxes, boxOffers, offers } from '@/drizzle/schema';
-import { sql, eq, ilike, and, or, inArray, count, sum } from 'drizzle-orm';
+import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox, newBoxItem, newBoxCategory } from '@/lib/definitions';
+import { boxCategories, boxItems, items, boxes, boxOffers, offers, saleBoxes } from '@/drizzle/schema';
+import { sql, eq, ilike, and, or, inArray, count, sum, gte } from 'drizzle-orm';
 import { deleteImage } from '@/lib/cloudinary';
 
 export const BOXES_PER_PAGE = 12;
@@ -74,7 +74,8 @@ export async function getFilteredBoxesWithItems(query: string, currentPage: numb
                 ilike(boxes.name, `%${query}%`),
                 idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
             ),
-            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId))
+            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId)),
+            boxes.active
         ),
         with: {
             boxItems: {
@@ -113,7 +114,8 @@ export async function getFilteredBoxesWithItemsTotalPages(query: string, categor
                 ilike(boxes.name, `%${query}%`),
                 idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
             ),
-            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId))
+            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId)),
+            boxes.active
         ));
 
     return Math.ceil(response[0].value / BOXES_PER_PAGE);
@@ -133,7 +135,7 @@ export async function getFeaturedBoxes(): Promise<Array<Box>> {
     const thirtyDaysAgo = new Date(Date.now() - (30 * 24 * 60 * 60 * 1000));
 
     const response = await db.query.boxes.findMany({
-        where: (boxes, { gte }) => gte(boxes.createdAt, thirtyDaysAgo),
+        where: (and(gte(boxes.createdAt, thirtyDaysAgo), boxes.active)),
         with: {
             boxItems: {
                 with: {
@@ -161,7 +163,7 @@ export async function getFilteredBoxes(query: string, currentPage: number): Prom
     const response = await db.query.boxes.findMany({
         offset: (currentPage - 1) * BOXES_PER_PAGE,
         limit: BOXES_PER_PAGE,
-        where: ilike(boxes.name, `%${query}%`),
+        where: and(ilike(boxes.name, `%${query}%`), boxes.active),
     });
 
     return response;
@@ -171,25 +173,43 @@ export async function getFilteredBoxesTotalPages(query: string): Promise<number>
     const response = await db
         .select({ value: count(boxes.id) })
         .from(boxes)
-        .where(ilike(boxes.name, `%${query}%`));
+        .where(and(ilike(boxes.name, `%${query}%`), boxes.active));
 
     return Math.ceil(response[0].value / BOXES_PER_PAGE);
 }
 
 export async function deleteBox(id: number) {
-    const response = await db
-        .delete(boxes)
-        .where(eq(boxes.id, id))
-        .returning();
-
-    response.forEach((box) => { deleteImage(box.imageUrl) });
+    if (await isDeletableBox(id)) {
+        const response = await db
+            .delete(boxes)
+            .where(eq(boxes.id, id))
+            .returning();
+    
+        response.forEach((box) => { deleteImage(box.imageUrl) });
+    }
+    else {
+        await db
+            .update(boxes)
+            .set({ active: false })
+            .where(eq(boxes.id, id));
+    }
 }
 
-export async function insertBox(newBox: NewBox, items: Array<BoxItem>, categories: Array<boxCategory>) {
-    await db.insert(boxes).values(newBox);
+async function isDeletableBox(id: number) {
+    const response = await db
+        .select({ value: count(saleBoxes.boxId) })
+        .from(saleBoxes)
+        .where(eq(saleBoxes.boxId, id));
+
+    return response[0].value === 0;
+}
+
+export async function insertBox(newBox: NewBox, items: Array<newBoxItem>, categories: Array<newBoxCategory>) {
+    const response = await db.insert(boxes).values(newBox).returning();
+    const id = response[0].id;
 
     await Promise.all([
-        items.map((async (boxItem) => await db.insert(boxItems).values(boxItem))),
-        categories.map((async (boxCategory) => await db.insert(boxCategories).values(boxCategory)))
+        items.map((async (boxItem) => await db.insert(boxItems).values({ ...boxItem, boxId: id }))),
+        categories.map((async (boxCategory) => await db.insert(boxCategories).values({ ...boxCategory, boxId: id })))
     ])
 }

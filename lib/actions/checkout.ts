@@ -23,7 +23,7 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
     ).filter((box) => box !== null);
 
     const preference = await createPreference(
-        boxes.map((box) => (box !== null ? { id: box.id.toString(), title: box.name, unit_price: box.finalPrice, quantity: box.quantity } : { id: '', title: '', unit_price: 0, quantity: 0 }))
+        boxes.map((box) => (box !== null ? { id: box.id.toString(), title: box.name, unit_price: box.finalPrice / 100, quantity: box.quantity } : { id: '', title: '', unit_price: 0, quantity: 0 }))
     )
 
     return { preferenceId: preference.id, boxes: boxes };
