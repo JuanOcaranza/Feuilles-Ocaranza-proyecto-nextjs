@@ -26,7 +26,7 @@ export type State = {
 const formSchema = z.object({
     name: z.string().min(1, { message: "Name is required." }),
     description: z.string().min(1, { message: "Description is required." }),
-    price: z.coerce.number().gt(0, { message: "Price must be greater than 0." }),
+    price: z.coerce.number().gt(0, { message: "Price must be greater than 0." }).lte(21474836.47, { message: "Price must be less than 21474836.47." }),
     image: z.instanceof(File).refine((file) => ["image/png", "image/jpeg", "image/jpg", "image/gif"].includes(file.type), { message: "Image is required. Must be a PNG, JPEG, JPG, or GIF." }),
     items: z.array(z.object({
         itemId: z.coerce.number().int().min(1, { message: "Item must be selected." }),
