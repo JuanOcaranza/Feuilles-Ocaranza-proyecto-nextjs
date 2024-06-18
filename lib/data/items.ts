@@ -1,7 +1,7 @@
 import { db } from "@/drizzle/db";
 import { items } from "@/drizzle/schema";
 import { count, ilike } from "drizzle-orm";
-import { Item } from "@/lib/definitions";
+import { Item, NewItem } from "@/lib/definitions";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -25,4 +25,8 @@ export async function getFilteredItemsTotalPages(query: string): Promise<number>
 
 export async function getItems(): Promise<Array<Item>> {
     return await db.query.items.findMany();
+}
+
+export async function insertItem(newItem: NewItem) {
+    await db.insert(items).values(newItem);
 }
