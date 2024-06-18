@@ -66,3 +66,13 @@ export type newBoxItem = {
 export type newBoxCategory = {
     categoryId: number
 }
+
+export type UpdatedBox = {
+    id: number
+    name: string
+    description: string
+    price: number
+    imageUrl?: string
+    items: newBoxItem[]
+    categories: newBoxCategory[]
+}

@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
-import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox, newBoxItem, newBoxCategory } from '@/lib/definitions';
+import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox, newBoxItem, newBoxCategory, UpdatedBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers, saleBoxes } from '@/drizzle/schema';
-import { sql, eq, ilike, and, or, inArray, count, sum, gte } from 'drizzle-orm';
+import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray } from 'drizzle-orm';
 import { deleteImage } from '@/lib/cloudinary';
 
 export const BOXES_PER_PAGE = 12;
@@ -211,5 +211,42 @@ export async function insertBox(newBox: NewBox, items: Array<newBoxItem>, catego
     await Promise.all([
         items.map((async (boxItem) => await db.insert(boxItems).values({ ...boxItem, boxId: id }))),
         categories.map((async (boxCategory) => await db.insert(boxCategories).values({ ...boxCategory, boxId: id })))
+    ])
+}
+
+export async function updateBox(box: UpdatedBox) {db
+    await Promise.all([
+        db
+            .update(boxes)
+            .set(box)
+            .where(eq(boxes.id, box.id)),
+
+        box.items.map((async (boxItem) => await db
+            .insert(boxItems)
+            .values({ ...boxItem, boxId: box.id }).
+            onConflictDoUpdate({
+                target: [boxItems.boxId, boxItems.itemId],
+                set: { probability: boxItem.probability }
+            }))),
+
+        box.categories.map((async (boxCategory) => await db
+            .insert(boxCategories)
+            .values({ ...boxCategory, boxId: box.id })
+            .onConflictDoNothing())),
+
+        db
+            .delete(boxItems)
+            .where(
+                and(
+                    eq(boxItems.boxId, box.id),
+                    box.items.length === 0 ? sql`false` : notInArray(boxItems.itemId, box.items.map((boxItem) => boxItem.itemId))
+                )),
+
+        db
+            .delete(boxCategories)
+            .where(
+                and(
+                    eq(boxCategories.boxId, box.id),
+                    box.categories.length === 0 ? sql`false` : notInArray(boxCategories.categoryId, box.categories.map((boxCategory) => boxCategory.categoryId))))
     ])
 }

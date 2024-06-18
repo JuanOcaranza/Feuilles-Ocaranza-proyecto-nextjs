@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Update({ type, id }: { type: string, id: number }) {
   return (
     <Link
-      href={`/admin/${type}/${id}/edit`}
+      href={`/admin/${type === "Item" ? "items" : "products"}/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
       <PencilIcon className="w-5" />
