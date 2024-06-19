@@ -1,5 +1,5 @@
 import { db } from '@/drizzle/db';
-import { BoxWithRelations, Box, SaleBox, BoxOnly, BoxItem, boxCategory, NewBox, newBoxItem, newBoxCategory, UpdatedBox } from '@/lib/definitions';
+import { BoxWithRelations, Box, SaleBox, BoxOnly, NewBox, newBoxItem, newBoxCategory, UpdatedBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers, saleBoxes } from '@/drizzle/schema';
 import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray } from 'drizzle-orm';
 import { deleteImage } from '@/lib/cloudinary';
@@ -54,27 +54,33 @@ export async function getBoxById(id: number): Promise<Box | null> {
     return mapBox(box);
 }
 
-export async function getFilteredBoxesWithItems(query: string, currentPage: number, category: string): Promise<Array<Box>> {
-    const idsInCategory = await db
-        .select({ boxId: boxCategories.boxId })
-        .from(boxCategories)
-        .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)));
-
-    const idsCotainingSearchedItem = await db
-        .select({ boxId: boxItems.boxId })
-        .from(boxItems)
-        .leftJoin(items, eq(boxItems.itemId, items.id))
-        .where(ilike(items.name, `%${query}%`));
+export async function getFilteredBoxesWithItems(query: string, currentPage: number, category: string, mustBeFeatured: boolean, mustBeOnOffer: boolean): Promise<Array<Box>> {
+    const idsInCategory = category !== "" ? await getIdsByCategory(category) : [];
+    const idsCotainingSearchedItem = query !== "" ? await getIdsContainingSearchedItem(query) : [];
+    const featuredBoxes = mustBeFeatured ? await getFeaturedBoxes() : [];
+    const idsOnOffer = mustBeOnOffer ? await getIdsOnOffer() : [];
 
     const response = await db.query.boxes.findMany({
         offset: (currentPage - 1) * BOXES_PER_PAGE,
         limit: BOXES_PER_PAGE,
         where: and(
             or(
+                query === "" ? sql`true` : sql`false`,
                 ilike(boxes.name, `%${query}%`),
                 idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
             ),
-            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId)),
+            or(
+                category === "" ? sql`true` : sql`false`,
+                idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId)),
+            ),
+            or(
+                mustBeFeatured ? sql`false` : sql`true`,
+                featuredBoxes.length === 0 ? sql`false` : inArray(boxes.id, featuredBoxes.map((featuredBox) => featuredBox.id)),
+            ),
+            or(
+                mustBeOnOffer ? sql`false` : sql`true`,
+                idsOnOffer.length === 0 ? sql`false` : inArray(boxes.id, idsOnOffer.map((boxOnOffer) => boxOnOffer.boxId)),
+            ),
             boxes.active
         ),
         with: {
@@ -94,31 +100,60 @@ export async function getFilteredBoxesWithItems(query: string, currentPage: numb
     return response.map((box) => mapBox(box));
 }
 
-export async function getFilteredBoxesWithItemsTotalPages(query: string, category: string): Promise<number> {
-    const idsInCategory = await db
-        .select({ boxId: boxCategories.boxId })
+async function getIdsByCategory(category: string) {
+    return await db
+        .selectDistinct({ boxId: boxCategories.boxId })
         .from(boxCategories)
         .where(category === "" ? sql`true` : eq(boxCategories.categoryId, parseInt(category)));
+}
 
-    const idsCotainingSearchedItem = await db
-        .select({ boxId: boxItems.boxId })
+async function getIdsContainingSearchedItem(query: string) {
+    return await db
+        .selectDistinct({ boxId: boxItems.boxId })
         .from(boxItems)
         .leftJoin(items, eq(boxItems.itemId, items.id))
         .where(ilike(items.name, `%${query}%`));
+}
+
+async function getIdsOnOffer() {
+    return await db
+        .selectDistinct({ boxId: boxOffers.boxId })
+        .from(boxOffers)
+        .leftJoin(offers, eq(boxOffers.offerId, offers.id))
+        .where(sql`NOW() BETWEEN ${offers.startsAt} AND ${offers.expiresAt}`)
+}
+
+export async function countFilteredBoxes(query: string, category: string, mustBeFeatured: boolean, mustBeOnOffer: boolean): Promise<{ count: number, pages: number }> {
+    const idsInCategory = category !== "" ? await getIdsByCategory(category) : [];
+    const idsCotainingSearchedItem = query !== "" ? await getIdsContainingSearchedItem(query) : [];
+    const featuredBoxes = mustBeFeatured ? await getFeaturedBoxes() : [];
+    const idsOnOffer = mustBeOnOffer ? await getIdsOnOffer() : [];
 
     const response = await db
         .select({ value: count(boxes.id) })
         .from(boxes)
         .where(and(
             or(
+                query === "" ? sql`true` : sql`false`,
                 ilike(boxes.name, `%${query}%`),
                 idsCotainingSearchedItem.length === 0 ? sql`false` : inArray(boxes.id, idsCotainingSearchedItem.map((boxItem) => boxItem.boxId))
             ),
-            idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId)),
+            or(
+                category === "" ? sql`true` : sql`false`,
+                idsInCategory.length === 0 ? sql`false` : inArray(boxes.id, idsInCategory.map((boxCategory) => boxCategory.boxId)),
+            ),
+            or(
+                mustBeFeatured ? sql`false` : sql`true`,
+                featuredBoxes.length === 0 ? sql`false` : inArray(boxes.id, featuredBoxes.map((featuredBox) => featuredBox.id)),
+            ),
+            or(
+                mustBeOnOffer ? sql`false` : sql`true`,
+                idsOnOffer.length === 0 ? sql`false` : inArray(boxes.id, idsOnOffer.map((boxOnOffer) => boxOnOffer.boxId)),
+            ),
             boxes.active
         ));
 
-    return Math.ceil(response[0].value / BOXES_PER_PAGE);
+    return { count: response[0].value, pages: Math.ceil(response[0].value / BOXES_PER_PAGE) };
 }
 
 export async function getActiveDiscountByBoxId(boxId: number): Promise<number> {
@@ -184,7 +219,7 @@ export async function deleteBox(id: number) {
             .delete(boxes)
             .where(eq(boxes.id, id))
             .returning();
-    
+
         response.forEach((box) => { deleteImage(box.imageUrl) });
     }
     else {
@@ -214,7 +249,8 @@ export async function insertBox(newBox: NewBox, items: Array<newBoxItem>, catego
     ])
 }
 
-export async function updateBox(box: UpdatedBox) {db
+export async function updateBox(box: UpdatedBox) {
+    db
     await Promise.all([
         db
             .update(boxes)

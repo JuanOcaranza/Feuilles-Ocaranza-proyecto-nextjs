@@ -1,4 +1,4 @@
-import { boxes, boxItems, categories, items, boxCategories, users, sales, saleItems, saleBoxes } from "@/drizzle/schema"
+import { boxes, boxItems, categories, items, boxCategories, users, sales, saleItems, saleBoxes, groups } from "@/drizzle/schema"
 
 export type Box = typeof boxes.$inferSelect & {
     items: Array<{ item: Item, probability: number }>
@@ -78,3 +78,5 @@ export type UpdatedBox = {
     items: newBoxItem[]
     categories: newBoxCategory[]
 }
+
+export type CategoryGroup = typeof groups.$inferSelect

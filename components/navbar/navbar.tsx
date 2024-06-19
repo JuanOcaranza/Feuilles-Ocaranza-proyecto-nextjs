@@ -5,6 +5,7 @@ import Cart from "@/components/cart/cart";
 import Categories from "@/components/navbar/categories";
 import { Suspense } from "react";
 import SearchSkeleton from "@/components/skeletons/search-skeleton";
+import HoverLink from "@/components/navbar/hover-link";
 
 export default function NavBar() {
     return (
@@ -24,8 +25,9 @@ export default function NavBar() {
                 <HomeLink />
             </div>
             <ul className="menu menu-horizontal hidden lg:flex flex-1 justify-center space-x-4">
-                <NavLinks />
-                <Categories className="bg-gray-100 " />
+                <HoverLink baseUrl="/products?featured=true&" name="Featured" href="/products?featured=true" />
+                <HoverLink baseUrl="/products?" name="Products" href="/products" />
+                <HoverLink baseUrl="/products?onOffer=true&" name="On Offer" href="/products?onOffer=true" />
             </ul>
             <div className="flex space-x-4">
                 <Suspense key="search" fallback={<SearchSkeleton placeholder="Search..." />}>
