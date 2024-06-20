@@ -16,7 +16,7 @@ export default async function MenuSheet(){
                 <Accordion className="mt-6" type="single" collapsible>
                     <AccordionLink baseUrl="/products?featured=true&" name="Featured" href="/products?featured=true" />
                     <AccordionLink baseUrl="/products?" name="Products" href="/products" />
-                    <AccordionLink baseUrl="/products?onOffer=true&" name="On Offer" href="/products?onOffer=true" />
+                    <AccordionLink baseUrl="/products?onOffer=true&" name="Sale" href="/products?onOffer=true" />
                 </Accordion>
             </SheetContent>
         </Sheet>

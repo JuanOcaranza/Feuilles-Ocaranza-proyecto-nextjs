@@ -6,7 +6,7 @@ export default function HoverLink({ href, baseUrl, name }: { href: string, baseU
     return (
         <HoverCard openDelay={300}>
             <HoverCardTrigger asChild>
-                <Link href={href} className="hover:underline underline-offset-8 text-xl font-semibold p-2 transition-all">
+                <Link href={href} className="hover:underline underline-offset-8 text-lg font-medium p-2 transition-all">
                     {name}
                 </Link>
             </HoverCardTrigger>

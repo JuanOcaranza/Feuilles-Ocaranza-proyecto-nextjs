@@ -18,7 +18,7 @@ export default function NavBar() {
             <ul className="menu menu-horizontal hidden lg:flex flex-1 justify-center space-x-4">
                 <HoverLink baseUrl="/products?featured=true&" name="Featured" href="/products?featured=true" />
                 <HoverLink baseUrl="/products?" name="Products" href="/products" />
-                <HoverLink baseUrl="/products?onOffer=true&" name="On Offer" href="/products?onOffer=true" />
+                <HoverLink baseUrl="/products?onOffer=true&" name="Sale" href="/products?onOffer=true" />
             </ul>
             <div className="flex space-x-4">
                 <Suspense key="search" fallback={<SearchSkeleton placeholder="Search..." />}>
