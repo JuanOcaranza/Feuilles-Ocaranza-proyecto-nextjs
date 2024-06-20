@@ -29,8 +29,20 @@ export type Cart = {
 
 export type User = typeof users.$inferSelect;
 
-export type Sale = typeof sales.$inferSelect & {
-    items: Array<{ item: Item, quantity: number }>
+export type Sale = SaleOnly & {
+    items: Array<{ item: Item, quantity: number }>,
+    boxes: Array<{ box: Box, price: number, quantity: number }>
+}
+
+export type SaleWithBoxes = SaleOnly & {
+    saleBoxes: Array<SaleBox>
+}
+
+export type SaleOnly = typeof sales.$inferSelect;
+
+export type SaleWithAmmountAndQuantity = SaleOnly & {
+    ammount: number,
+    quantity: number
 }
 
 export type SaleItem = typeof saleItems.$inferSelect
@@ -40,6 +52,9 @@ export type SaleBox = typeof saleBoxes.$inferSelect
 export type SaleWithRelations = typeof sales.$inferSelect & {
     saleItems: Array<SaleItem & {
         item: Item
+    }>,
+    saleBoxes: Array<SaleBox & {
+        box: Box
     }>
 }
 

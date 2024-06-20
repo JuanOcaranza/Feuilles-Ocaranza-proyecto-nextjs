@@ -109,3 +109,4 @@ export function TableSkeleton({ type }: { type: string }) {
     </div>
   );
 }
+
