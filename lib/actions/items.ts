@@ -2,7 +2,7 @@
 
 import { db } from '@/drizzle/db';
 import { items } from '@/drizzle/schema';
-import { insertItem } from '@/lib/data/items';
+import { insertItem, updateItem } from '@/lib/data/items';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { uploadImage } from '@/lib/cloudinary';
@@ -56,6 +56,45 @@ export async function createItem(prevState: State, formData: FormData) {
     } catch (error) {
         return {
             message: "Database error. Failed to create box."
+        };
+    }
+
+    revalidatePath("/admin/items");
+    redirect("/admin/items");
+}
+
+const editFormSchema = formSchema.omit({ image: true });
+
+export async function editItem(id: number, prevState: State, formData: FormData) {
+    const validatedFields = editFormSchema.safeParse({
+        name: formData.get("name"),
+        description: formData.get("description"),
+        price: formData.get("price")
+    });
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+            message: "Missing fields. Failed to edit item."
+        };
+    }
+
+    const { name, description, price } = validatedFields.data;
+    const priceInCents = price * 100;
+    const image = formData.get("image");
+    const imageUrl = (image === null || (image instanceof File && image.size === 0)) ? undefined : await uploadImage(image as File);
+
+    try {
+        await updateItem({
+            id,
+            name,
+            description,
+            price: priceInCents,
+            imageUrl
+        })
+    } catch (error) {
+        return {
+            message: "Database error. Failed to edit item."
         };
     }
 

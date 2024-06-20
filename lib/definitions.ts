@@ -79,4 +79,12 @@ export type UpdatedBox = {
     categories: newBoxCategory[]
 }
 
+export type UpdateItem = {
+    id: number
+    name: string
+    description: string
+    price: number
+    imageUrl?: string
+}
+
 export type CategoryGroup = typeof groups.$inferSelect

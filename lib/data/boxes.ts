@@ -250,7 +250,6 @@ export async function insertBox(newBox: NewBox, items: Array<newBoxItem>, catego
 }
 
 export async function updateBox(box: UpdatedBox) {
-    db
     await Promise.all([
         db
             .update(boxes)
