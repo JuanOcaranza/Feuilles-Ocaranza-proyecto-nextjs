@@ -24,7 +24,8 @@ export const items = pgTable("items", {
     description: text("description").notNull(),
     price: integer("price").notNull(),
     imageUrl: text("image_url").notNull(),
-    createdAt: timestamp("created_at").defaultNow().notNull()
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    active: boolean("active").notNull().default(true)
 });
 
 export const itemsRelations = relations(items, ({ many }) => ({
@@ -139,7 +140,7 @@ export const users = pgTable("users", {
 
 export const sales = pgTable("sales", {
     id: integer("id").primaryKey(),
-    created_at: timestamp("created_at").defaultNow().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 })
 
 export const salesRelations = relations(sales, ({ many }) => ({

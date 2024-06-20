@@ -31,7 +31,7 @@ export default async function SalesTable({
                                         <div className="mb-2 flex items-center">
                                             <p>Id: {sale.id}</p>
                                         </div>
-                                        <p className="text-sm text-gray-500">{formatDateToLocal(sale.created_at.toString())}</p>
+                                        <p className="text-sm text-gray-500">{formatDateToLocal(sale.createdAt.toString())}</p>
                                     </div>
                                 </div>
                                 <div className="flex w-full items-center justify-between pt-4">
@@ -84,7 +84,7 @@ export default async function SalesTable({
                                         {sale.id}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                        {formatDateToLocal(sale.created_at.toString())}
+                                        {formatDateToLocal(sale.createdAt.toString())}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
                                         {sale.quantity}

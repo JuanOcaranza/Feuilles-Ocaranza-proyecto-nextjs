@@ -72,7 +72,7 @@ export async function getFilteredSalesTotalPages(startDate: Date, endDate: Date)
     const response = await db
         .select({ value: count(sales.id) })
         .from(sales)
-        .where(and(gte(sales.created_at, startDate), lte(sales.created_at, endDate)));
+        .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate)));
 
     return Math.ceil(response[0].value / SALES_PER_PAGE);
 }
@@ -93,7 +93,7 @@ export async function getFilteredSales(currentPage: number, startDate: Date, end
     const response = await db.query.sales.findMany({
         offset: (currentPage - 1) * SALES_PER_PAGE,
         limit: SALES_PER_PAGE,
-        where: and(gte(sales.created_at, startDate), lte(sales.created_at, endDate)),
+        where: and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate)),
         with: {
             saleBoxes: true
         }

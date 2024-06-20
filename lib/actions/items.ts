@@ -1,18 +1,15 @@
 "use server"
 
-import { db } from '@/drizzle/db';
-import { items } from '@/drizzle/schema';
-import { insertItem, updateItem } from '@/lib/data/items';
-import { eq } from 'drizzle-orm';
+import { insertItem, updateItem, deleteItem as deleteItemsFromDB } from '@/lib/data/items';
 import { z } from 'zod';
 import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function deleteItem(id: number) {
-    await db
-        .delete(items)
-        .where(eq(items.id, id));
+    await deleteItemsFromDB(id);
+
+    revalidatePath('/admin/products');
 }
 
 export type State = {
