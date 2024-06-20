@@ -2,7 +2,7 @@
 
 import { getCart } from "@/lib/actions/cookies";
 import { getActiveDiscountByBoxId, getBoxById, getBoxesFromSaleBoxes } from '@/lib/data/boxes';
-import { Box, Item, Sale, SaleWithItems } from "@/lib/definitions";
+import { Box, Item, SaleWithItems } from "@/lib/definitions";
 import { getSaleById, insertSale } from "@/lib/data/sales";
 import { createPreference, getBoxesFromPayment } from "@/lib/mercado-pago";
 
@@ -43,14 +43,14 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
 
     const boxes = await getBoxesFromSaleBoxes(saleBoxes);
     const items = openBoxes(boxes);
-    const saleItems = items.map((item) => ({ saleId: paymentId, itemId: item.item.id, quantity: item.quantity }));
+    const saleItems = items.map((item) => ({ saleId: paymentId, itemId: item.item.id, quantity: item.quantity, price: item.item.price }));
     const now = new Date();
 
-    insertSale({ id: paymentId, created_at: now }, saleBoxes, saleItems);
+    insertSale({ id: paymentId, createdAt: now }, saleBoxes, saleItems);
 
     return {
         id: paymentId,
-        created_at: now,
+        createdAt: now,
         items: items
     };
 }

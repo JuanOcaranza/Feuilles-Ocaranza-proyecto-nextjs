@@ -174,6 +174,7 @@ export const saleItems = pgTable("sale_items", {
     saleId: integer("sale_id").notNull().references(() => sales.id),
     itemId: serial("item_id").references(() => items.id),
     quantity: integer("quantity").notNull(),
+    price: real("price").notNull()
 }, (table) => {
     return {
         pk: primaryKey({ columns: [table.saleId, table.itemId] }),

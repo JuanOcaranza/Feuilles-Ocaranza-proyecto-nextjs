@@ -34,8 +34,9 @@ export type Sale = SaleOnly & {
     boxes: Array<{ box: BoxOnly, price: number, quantity: number }>
 }
 
-export type SaleWithBoxes = SaleOnly & {
-    saleBoxes: Array<SaleBox>
+export type SaleWithSaleBoxesAndItems = SaleOnly & {
+    saleBoxes: Array<SaleBox>,
+    saleItems: Array<SaleItem>
 }
 
 export type SaleWithItems = SaleOnly & {
@@ -45,8 +46,9 @@ export type SaleWithItems = SaleOnly & {
 export type SaleOnly = typeof sales.$inferSelect;
 
 export type SaleWithAmmountAndQuantity = SaleOnly & {
-    ammount: number,
-    quantity: number
+    boxesAmmount: number,
+    quantity: number,
+    profit: number
 }
 
 export type SaleItem = typeof saleItems.$inferSelect

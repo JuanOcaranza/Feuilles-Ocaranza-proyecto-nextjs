@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
 import { saleBoxes, saleItems, sales } from '@/drizzle/schema';
-import { eq, count, gte, and, lte } from 'drizzle-orm';
-import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithBoxes, SaleWithAmmountAndQuantity } from '@/lib/definitions';
+import { eq, count, gte, and, lte, sum, sql } from 'drizzle-orm';
+import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithSaleBoxesAndItems, SaleWithAmmountAndQuantity } from '@/lib/definitions';
 
 const SALES_PER_PAGE = 12;
 
@@ -33,7 +33,8 @@ const mapSale = (sale: SaleWithRelations): Sale => ({
     ...sale,
     items: sale.saleItems.map((saleItem) => ({
         item: saleItem.item,
-        quantity: saleItem.quantity
+        quantity: saleItem.quantity,
+        price: saleItem.price
     })),
     boxes: sale.saleBoxes.map((saleBox) => ({
         box: saleBox.box,
@@ -42,14 +43,20 @@ const mapSale = (sale: SaleWithRelations): Sale => ({
     }))
 });
 
-const amountSale = (sale: SaleWithBoxes): number => sale.saleBoxes.reduce((acc, box) => acc + box.price * box.quantity, 0);
-const quantitySale = (sale: SaleWithBoxes): number => sale.saleBoxes.reduce((acc, box) => acc + box.quantity, 0);
+const boxesAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + box.price * box.quantity, 0);
+const itemsAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+const quantitySale = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + box.quantity, 0);
 
-const mapSaleWithBoxes = (sale: SaleWithBoxes): SaleWithAmmountAndQuantity => ({
-    ...sale,
-    ammount: amountSale(sale),
-    quantity: quantitySale(sale)
-});
+const mapSaleWithBoxes = (sale: SaleWithSaleBoxesAndItems): SaleWithAmmountAndQuantity => {
+    const boxesAmmountResult = boxesAmmount(sale);
+
+    return {
+        ...sale,
+        boxesAmmount: boxesAmmountResult,
+        quantity: quantitySale(sale),
+        profit: boxesAmmountResult - itemsAmmount(sale)
+    }
+};
 
 export async function insertSale(sale: NewSale, boxes: Array<SaleBox>, items: Array<SaleItem>) {
     await db.insert(sales).values(sale)
@@ -60,21 +67,67 @@ export async function insertSale(sale: NewSale, boxes: Array<SaleBox>, items: Ar
     ])
 }
 
-export async function getSalesTotalPages(): Promise<number> {
-    const response = await db
-        .select({ value: count(sales.id) })
-        .from(sales);
+export async function getSalesResume(): Promise<{
+    pages: number,
+    boxes: number,
+    total: number,
+    profit: number
+}> {
+    const responseBoxes = await db
+        .select({ 
+            count: count(sales.id),
+            boxes: sum(saleBoxes.quantity),
+            total: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
+        })
+        .from(sales)
+        .leftJoin(saleBoxes, eq(sales.id, saleBoxes.saleId));
+    
+    const responseItems = await db
+        .select({ 
+            total: sql<number>`sum(${saleItems.price} * ${saleItems.quantity})`,
+        })
+        .from(sales)
+        .leftJoin(saleItems, eq(sales.id, saleItems.saleId));
 
-    return Math.ceil(response[0].value / SALES_PER_PAGE);
+    return {
+        pages: Math.ceil(responseBoxes[0].count / SALES_PER_PAGE),
+        boxes: parseInt(responseBoxes[0].boxes ?? "0"),
+        total: responseBoxes[0].total ?? 0,
+        profit: (responseBoxes[0].total - responseItems[0].total) ?? 0
+    }
+
 }
 
-export async function getFilteredSalesTotalPages(startDate: Date, endDate: Date): Promise<number> {
-    const response = await db
-        .select({ value: count(sales.id) })
+export async function getFilteredSalesResume(startDate: Date, endDate: Date): Promise<{
+    pages: number,
+    boxes: number,
+    total: number,
+    profit: number
+}> {
+    const responseBoxes = await db
+        .select({ 
+            count: count(sales.id),
+            boxes: sum(saleBoxes.quantity),
+            total: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
+        })
         .from(sales)
+        .leftJoin(saleBoxes, eq(sales.id, saleBoxes.saleId))
+        .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate)));
+    
+    const responseItems = await db
+        .select({ 
+            total: sql<number>`sum(${saleItems.price} * ${saleItems.quantity})`,
+        })
+        .from(sales)
+        .leftJoin(saleItems, eq(sales.id, saleItems.saleId))
         .where(and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate)));
 
-    return Math.ceil(response[0].value / SALES_PER_PAGE);
+    return {
+        pages: Math.ceil(responseBoxes[0].count / SALES_PER_PAGE),
+        boxes: parseInt(responseBoxes[0].boxes ?? "0"),
+        total: responseBoxes[0].total ?? 0,
+        profit: (responseBoxes[0].total - responseItems[0].total) ?? 0
+    }
 }
 
 export async function getSales(currentPage: number): Promise<Array<SaleWithAmmountAndQuantity>> {
@@ -82,7 +135,8 @@ export async function getSales(currentPage: number): Promise<Array<SaleWithAmmou
         offset: (currentPage - 1) * SALES_PER_PAGE,
         limit: SALES_PER_PAGE,
         with: {
-            saleBoxes: true
+            saleBoxes: true,
+            saleItems: true
         }
     });
 
@@ -95,7 +149,8 @@ export async function getFilteredSales(currentPage: number, startDate: Date, end
         limit: SALES_PER_PAGE,
         where: and(gte(sales.createdAt, startDate), lte(sales.createdAt, endDate)),
         with: {
-            saleBoxes: true
+            saleBoxes: true,
+            saleItems: true
         }
     });
 

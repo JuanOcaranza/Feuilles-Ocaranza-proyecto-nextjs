@@ -2,6 +2,7 @@ import { getFilteredSales, getSales } from "@/lib/data/sales";
 import { formatCurrency, formatDateToLocal } from "@/lib/utils";
 import { addDays } from "date-fns";
 import ShowDetails from "@/components/admin/buttons/show-details";
+import clsx from "clsx";
 
 export default async function SalesTable({
     startDate,
@@ -20,7 +21,7 @@ export default async function SalesTable({
         <div className="mt-6 flow-root">
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-                    <div className="md:hidden">
+                    <div className="lg:hidden">
                         {sales?.map((sale) => (
                             <div
                                 key={sale.id}
@@ -35,11 +36,12 @@ export default async function SalesTable({
                                     </div>
                                 </div>
                                 <div className="flex w-full items-center justify-between pt-4">
-                                    <div>
-                                        <p className="text-xl font-semibold">
-                                            Total: {formatCurrency(sale.ammount)}
-                                        </p>
-                                    </div>
+                                    <p className="text-xl font-semibold">
+                                        Total: {formatCurrency(sale.boxesAmmount)}
+                                    </p>
+                                    <p className={clsx("text-xl font-semibold", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
+                                        {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
+                                    </p>
                                 </div>
                                 <div className="flex w-full items-center justify-between">
                                     <div>
@@ -54,7 +56,7 @@ export default async function SalesTable({
                             </div>
                         ))}
                     </div>
-                    <table className="hidden min-w-full text-gray-900 md:table">
+                    <table className="hidden min-w-full text-gray-900 lg:table">
                         <thead className="rounded-lg text-left text-sm font-normal">
                             <tr>
                                 <th scope="col" className="px-3 py-5 font-medium">
@@ -68,6 +70,9 @@ export default async function SalesTable({
                                 </th>
                                 <th scope="col" className="px-3 py-5 font-medium">
                                     Ammount
+                                </th>
+                                <th scope="col" className="px-3 py-5 font-medium">
+                                    Profit
                                 </th>
                                 <th scope="col" className="px-3 py-5 font-medium">
                                     <span className="sr-only">Show Details</span>
@@ -90,7 +95,10 @@ export default async function SalesTable({
                                         {sale.quantity}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                        {formatCurrency(sale.ammount)}
+                                        {formatCurrency(sale.boxesAmmount)}
+                                    </td>
+                                    <td className={clsx("whitespace-nowrap px-3 py-3", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
+                                        {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex justify-end gap-3">

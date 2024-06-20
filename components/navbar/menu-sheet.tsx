@@ -1,4 +1,4 @@
-import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle, SheetFooter, SheetClose} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle} from "@/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
 import AccordionLink from "@/components/navbar/accordtion-link";
 import { Accordion } from "@/components/ui/accordion";

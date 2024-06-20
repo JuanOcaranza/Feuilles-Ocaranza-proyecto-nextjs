@@ -1,6 +1,6 @@
 import { db } from "@/drizzle/db";
 import { items, saleItems } from "@/drizzle/schema";
-import { count, ilike, eq, Table, and } from "drizzle-orm";
+import { count, ilike, eq, and } from "drizzle-orm";
 import { Item, NewItem, UpdateItem, TableItem } from "@/lib/definitions";
 import { deleteImage } from "../cloudinary";
 
