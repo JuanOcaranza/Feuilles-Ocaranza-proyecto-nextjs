@@ -31,11 +31,15 @@ export type User = typeof users.$inferSelect;
 
 export type Sale = SaleOnly & {
     items: Array<{ item: Item, quantity: number }>,
-    boxes: Array<{ box: Box, price: number, quantity: number }>
+    boxes: Array<{ box: BoxOnly, price: number, quantity: number }>
 }
 
 export type SaleWithBoxes = SaleOnly & {
     saleBoxes: Array<SaleBox>
+}
+
+export type SaleWithItems = SaleOnly & {
+    items: Array<{ item: Item, quantity: number }>,
 }
 
 export type SaleOnly = typeof sales.$inferSelect;
@@ -54,7 +58,7 @@ export type SaleWithRelations = typeof sales.$inferSelect & {
         item: Item
     }>,
     saleBoxes: Array<SaleBox & {
-        box: Box
+        box: BoxOnly
     }>
 }
 
