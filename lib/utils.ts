@@ -11,6 +11,11 @@ export const formatCurrency = (amount: number) => {
     });
 };
 
+export const calculatePercentageChange = (a: number, b: number) => {
+    const response = parseFloat((((b - a) / a) * 100).toFixed(2));
+    return response > 0 ? `+${response}%` : `${response}%`;
+};
+
 export const formatDateToLocal = (
     dateStr: string,
     locale: string = 'en-US',

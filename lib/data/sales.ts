@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
 import { saleBoxes, saleItems, sales } from '@/drizzle/schema';
 import { eq, count, gte, and, lte, sum, sql } from 'drizzle-orm';
-import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithSaleBoxesAndItems, SaleWithResume } from '@/lib/definitions';
+import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithSaleBoxesAndItems, SaleWithResume, DataResume } from '@/lib/definitions';
 
 const SALES_PER_PAGE = 12;
 
@@ -155,4 +155,39 @@ export async function getFilteredSales(currentPage: number, startDate: Date, end
     });
 
     return response.map((saleBox) => mapSaleWithBoxes(saleBox));
+}
+
+export async function getResumePerMonth(): Promise<Array<DataResume>> {
+    const response = await db
+        .select({
+            month: sql<string>`to_char(${sales.createdAt}, 'YYYY-MM')`,
+            boxProfit: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
+            itemCost: sql<number>`sum(${saleItems.price} * ${saleItems.quantity})`,
+            products: sql<number>`sum(${saleBoxes.quantity})`,
+            sales: sql<number>`count(${sales.id})`
+        })
+        .from(sales)
+        .leftJoin(saleBoxes, eq(sales.id, saleBoxes.saleId))
+        .leftJoin(saleItems, eq(sales.id, saleItems.saleId))
+        .groupBy(sql`to_char(${sales.createdAt}, 'YYYY-MM')`);
+
+    const profitByMonth = response.map(row => ({
+        month: row.month,
+        profit: row.boxProfit - row.itemCost,
+        productsSold: row.products ?? 0,
+        sales: row.sales
+    }));
+
+    return profitByMonth;
+}
+
+export async function getRecentSales({ limit = 5 }: { limit?: number } = {}): Promise<Array<SaleWithResume>> {
+    const response = await db.query.sales.findMany({
+        limit: limit,
+        with: {
+            saleBoxes: true,
+            saleItems: true
+        }
+    });
+    return response.map((sale) => mapSaleWithBoxes(sale));    
 }
