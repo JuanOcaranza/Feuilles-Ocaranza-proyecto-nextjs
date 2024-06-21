@@ -21,7 +21,7 @@ export default function DateFormItem({ label, id, errors, defaultValue }: { labe
                     id={id}
                     name={id}
                     type="datetime-local"
-                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                    className="peer block w-[250px] rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                     aria-describedby={`${id}-error`}
                     required
                     defaultValue={formatDateToLocalInputString(defaultValue)}

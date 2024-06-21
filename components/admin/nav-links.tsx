@@ -9,8 +9,8 @@ const links = [
     { name: 'Dashboard', href: '/admin', icon: Home },
     { name: 'Products', href: '/admin/products', icon: Package },
     { name: 'Items', href: '/admin/items', icon: Layers },
-    { name: 'Sales', href: '/admin/sales', icon: ShoppingCart },
     { name: 'Offers', href: '/admin/offers', icon: BadgePercent },
+    { name: 'Sales', href: '/admin/sales', icon: ShoppingCart },
 ];
 
 export default function NavLinks({ className }: { className?: string }) {
