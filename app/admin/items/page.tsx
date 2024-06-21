@@ -32,7 +32,9 @@ export default async function Items({
             <Suspense key={query + currentPage} fallback={<TableSkeleton type="Item" />}>
                 <ItemsTable query={query} currentPage={currentPage} />
             </Suspense>
-            <div className="mt-5 felx w-full justify-center">
+            {/* Message: Items in a box cannot be deleted*/}
+            <p className=" text-gray-500 mt-3 text-right">Items in a box cannot be deleted, edit or delete box first.</p>
+            <div className="felx w-full justify-center">
                 <Pagination totalPages={totalPages} />
             </div>
         </div>
