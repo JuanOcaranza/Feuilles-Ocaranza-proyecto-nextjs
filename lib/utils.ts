@@ -24,6 +24,7 @@ export const formatDateToLocal = (
     const formatter = new Intl.DateTimeFormat(locale, options);
     return formatter.format(date);
 };
+
 export function getUrlName(type: string) {
     switch (type) {
         case "Item":
@@ -33,4 +34,11 @@ export function getUrlName(type: string) {
         default:
             return "products";
     }
+}
+
+export function formatDateToLocalInputString(date: Date | undefined): string | undefined {
+    if (!date) {
+        return undefined;
+    }
+    return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split('.')[0];
 }

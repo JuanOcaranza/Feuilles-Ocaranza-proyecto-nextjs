@@ -1,4 +1,4 @@
-import { Item } from "@/lib/definitions"
+import { ComboBoxItem } from "@/lib/definitions"
 import AddItemFormItem from "@/components/admin/forms/add-item-form-item";
 import ItemErrors from "@/components/admin/forms/item-errors";
 import { formatCurrency } from "@/lib/utils";
@@ -11,7 +11,7 @@ export default function AddItemsFormItem({
     setBoxItems,
     errors
 }: {
-    items: Item[],
+    items: ComboBoxItem[],
     boxItems: { itemId: number | null, probability: number }[],
     setBoxItems: (boxItems: { itemId: number | null, probability: number }[]) => void,
     errors?: string[]

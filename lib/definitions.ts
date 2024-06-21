@@ -12,7 +12,7 @@ export type BoxWithRelations = typeof boxes.$inferSelect & {
         item: Item
     }>
 } & {
-    boxCategories: Array<boxCategory & {
+    boxCategories: Array<BoxCategory & {
         category: Category
     }>
 }
@@ -26,7 +26,7 @@ export type UpdatedBox = {
     price: number
     imageUrl?: string
     items: newBoxItem[]
-    categories: newBoxCategory[]
+    categories: NewBoxCategory[]
 }
 
 export type BoxItem = typeof boxItems.$inferSelect;
@@ -36,9 +36,9 @@ export type newBoxItem = {
     probability: number
 }
 
-export type boxCategory = typeof boxCategories.$inferSelect;
+export type BoxCategory = typeof boxCategories.$inferSelect;
 
-export type newBoxCategory = {
+export type NewBoxCategory = {
     categoryId: number
 }
 
@@ -62,6 +62,13 @@ export interface TableItem {
     imageUrl: string
     createdAt: Date
     isDeletable?: boolean
+}
+
+export interface ComboBoxItem {
+    id: number
+    name: string
+    price: number
+    imageUrl: string
 }
 
 export type Category = typeof categories.$inferSelect;
@@ -106,7 +113,7 @@ export type SaleWithRelations = typeof sales.$inferSelect & {
 
 export type NewSale = typeof sales.$inferInsert
 
-export type Offer = typeof offers.$inferInsert
+export type Offer = typeof offers.$inferSelect
 
 export type OfferWithResume = Offer & {
     quantity: number,
@@ -116,6 +123,13 @@ export type OfferWithResume = Offer & {
 
 export type OfferWithRelations = Offer & {
     boxOffers: Array<boxOffer>
+}
+
+export type newOffer = typeof offers.$inferInsert
+
+export type NewOfferBox = {
+    boxId: number
+    discount: number
 }
 
 export type boxOffer = typeof boxOffers.$inferSelect

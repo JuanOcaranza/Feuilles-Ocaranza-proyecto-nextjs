@@ -1,5 +1,5 @@
 import { db } from '@/drizzle/db';
-import { BoxWithRelations, Box, SaleBox, BoxOnly, NewBox, newBoxItem, newBoxCategory, UpdatedBox } from '@/lib/definitions';
+import { BoxWithRelations, Box, SaleBox, BoxOnly, NewBox, newBoxItem, NewBoxCategory, UpdatedBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers, saleBoxes } from '@/drizzle/schema';
 import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray } from 'drizzle-orm';
 import { deleteImage } from '@/lib/cloudinary';
@@ -239,7 +239,7 @@ async function isDeletableBox(id: number) {
     return response[0].value === 0;
 }
 
-export async function insertBox(newBox: NewBox, items: Array<newBoxItem>, categories: Array<newBoxCategory>) {
+export async function insertBox(newBox: NewBox, items: Array<newBoxItem>, categories: Array<NewBoxCategory>) {
     const response = await db.insert(boxes).values(newBox).returning();
     const id = response[0].id;
 
@@ -274,7 +274,7 @@ export async function updateBox(box: UpdatedBox) {
             .where(
                 and(
                     eq(boxItems.boxId, box.id),
-                    box.items.length === 0 ? sql`false` : notInArray(boxItems.itemId, box.items.map((boxItem) => boxItem.itemId))
+                    box.items.length === 0 ? sql`true` : notInArray(boxItems.itemId, box.items.map((boxItem) => boxItem.itemId))
                 )),
 
         db
@@ -282,6 +282,12 @@ export async function updateBox(box: UpdatedBox) {
             .where(
                 and(
                     eq(boxCategories.boxId, box.id),
-                    box.categories.length === 0 ? sql`false` : notInArray(boxCategories.categoryId, box.categories.map((boxCategory) => boxCategory.categoryId))))
+                    box.categories.length === 0 ? sql`true` : notInArray(boxCategories.categoryId, box.categories.map((boxCategory) => boxCategory.categoryId))))
     ])
+}
+
+export async function getBoxesOnly(): Promise<Array<BoxOnly>> {
+    return await db.query.boxes.findMany({
+        where: eq(boxes.active, true)
+    })
 }

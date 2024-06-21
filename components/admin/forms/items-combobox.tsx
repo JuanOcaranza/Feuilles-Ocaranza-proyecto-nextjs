@@ -12,11 +12,11 @@ import {
     CommandList,
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Item } from "@/lib/definitions"
+import { ComboBoxItem } from "@/lib/definitions"
 import { useState } from "react"
 import CldImage from "@/components/ui/CldImage"
 
-export default function ItemsCombobox({ items, value, setValue }: { items: Item[], value: number | null, setValue: (itemId: number | null) => void }) {
+export default function ItemsCombobox({ items, value, setValue, itemName }: { items: ComboBoxItem[], value: number | null, setValue: (itemId: number | null) => void, itemName: string }) {
     const [open, setOpen] = useState(false)
 
     return (
@@ -32,15 +32,15 @@ export default function ItemsCombobox({ items, value, setValue }: { items: Item[
                     ?
                         <ImageAndName item={items.find((item) => item.id === value)!} />
                     : 
-                        "Select item..."}
+                        `Select ${itemName}...`}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
                 <Command>
-                    <CommandInput placeholder="Search item..." />
+                    <CommandInput placeholder={`Search ${itemName}...`} />
                     <CommandList>
-                        <CommandEmpty>No item found.</CommandEmpty>
+                        <CommandEmpty>No {itemName} found.</CommandEmpty>
                         <CommandGroup>
                             {items.map((item) => (
                                 <CommandItem
@@ -70,7 +70,7 @@ export default function ItemsCombobox({ items, value, setValue }: { items: Item[
     )
 }
 
-function ImageAndName({ item }: { item: Item }) {
+function ImageAndName({ item }: { item: ComboBoxItem }) {
     return (
         <div className="flex gap-2">
             <CldImage src={item.imageUrl} alt={item.name} width={24} height={24} />

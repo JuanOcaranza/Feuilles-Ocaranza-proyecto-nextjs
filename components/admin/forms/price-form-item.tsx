@@ -4,6 +4,12 @@ import { CircleDollarSignIcon } from "lucide-react";
 import ItemErrors from "@/components/admin/forms/item-errors";
 
 export default function PriceFormItem({ errors, defaultValue }: { errors?: string[], defaultValue?: number }) {
+    const handleKeydown = (e: any) => {
+        if (e.key === "Enter") {
+            e.preventDefault()
+        }
+    }
+
     return (
         <div className="mb-4">
             <Label htmlFor="price">
@@ -21,6 +27,7 @@ export default function PriceFormItem({ errors, defaultValue }: { errors?: strin
                     aria-describedby="price-error"
                     required
                     defaultValue={defaultValue}
+                    onKeyDown={handleKeydown}
                 >
                 </Input>
                 <CircleDollarSignIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
