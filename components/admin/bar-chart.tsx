@@ -15,8 +15,6 @@ function formatData(data: DataResume[]) {
   const backgroundColors = data.map((_, index) => (index % 2 === 0 ? 'rgba(54, 162, 235, 0.2)' : 'rgba(153, 102, 255, 0.2)'));
   const borderColors = data.map((_, index) => (index % 2 === 0 ? 'rgba(54, 162, 235, 1)' : 'rgba(153, 102, 255, 1)'));
 
-  console.log(labels)
-
   return {
     labels: labels,
     datasets: [
@@ -31,11 +29,12 @@ function formatData(data: DataResume[]) {
   };
   }
 
-export default function BarChart({ className, data }: { className?: string, data: DataResume[] }) {
-  console.log(data)
+export default function BarChart({ className, data }: { className?: string, data?: DataResume[] }) {
   return (
     <div className={className}>
-      <Bar data={formatData(data)} />
+      { data ? 
+        <Bar data={formatData(data)} /> 
+      : <p> No sales data recorded. </p> }
     </div>
   );
 };

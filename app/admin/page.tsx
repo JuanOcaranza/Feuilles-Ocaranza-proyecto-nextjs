@@ -1,4 +1,4 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
     CreditCard,
     DollarSign,
@@ -10,6 +10,10 @@ import { getResumePerMonth } from "@/lib/data/sales"
 import { formatCurrency, calculatePercentageChange } from "@/lib/utils";
 import RecentSalesCard from "@/components/admin/recent-sales-card";
 import AnalyticCard from "@/components/admin/analytic-card";
+import { Suspense } from 'react';
+import AnalyticCardSkeleton from "@/components/skeletons/analytic-card-skeleton";
+import { RecentSalesCardSkeleton } from "@/components/skeletons/recent-sales-card-skeleton";
+import BarChartSkeleton from "@/components/skeletons/bar-chart-skeleton";
 
 export default async function Admin() {
     const response = (await getResumePerMonth()).reverse()
@@ -17,40 +21,48 @@ export default async function Admin() {
     return (
         <div className="flex min-h-screen w-full flex-col">
             <div className="flex min-h-screen w-full flex-col">
-                <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+                <main className="flex flex-1 flex-col gap-4 md:gap-8">
                     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-                        <Card x-chunk="dashboard-01-chunk-0">
-                            <AnalyticCard 
-                                title="Total Revenue" 
-                                icon={<DollarSign className="h-4 w-4 text-muted-foreground" />} 
-                                value={formatCurrency(response[0].profit)} 
-                                percentage={calculatePercentageChange(response[1].profit, response[0].profit)} 
-                            />
-                        </Card>
-                        <Card x-chunk="dashboard-01-chunk-1">
-                            <AnalyticCard 
-                                title="Sold Products" 
-                                icon={<BoxIcon className="h-4 w-4 text-muted-foreground" />} 
-                                value={response[0].productsSold.toString()} 
-                                percentage={calculatePercentageChange(response[1].productsSold, response[0].productsSold)} 
-                            />
-                        </Card>
-                        <Card x-chunk="dashboard-01-chunk-2">
-                            <AnalyticCard 
-                                title="Sales" 
-                                icon={<CreditCard className="h-4 w-4 text-muted-foreground" />} 
-                                value={response[0].sales.toString()} 
-                                percentage={calculatePercentageChange(response[1].sales, response[0].sales)} 
-                            />
-                        </Card>
-                        <Card x-chunk="dashboard-01-chunk-3">
-                            <AnalyticCard 
-                                title="Active Offers" 
-                                icon={<TagIcon className="h-4 w-4 text-muted-foreground" />} 
-                                value={"33"} 
-                                percentage={"+18%"} 
-                            />
-                        </Card>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                            <Card x-chunk="dashboard-01-chunk-0">
+                                <AnalyticCard
+                                    title="Total Revenue"
+                                    icon={<DollarSign className="h-4 w-4 text-muted-foreground" />}
+                                    value={response[0]?.profit ? formatCurrency(response[0].profit) : '0'}
+                                    percentage={response[0]?.profit && response[1].profit ? calculatePercentageChange(response[1].profit, response[0].profit) : '0'}
+                                />
+                            </Card>
+                        </Suspense>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                            <Card x-chunk="dashboard-01-chunk-1">
+                                <AnalyticCard
+                                    title="Sold Products"
+                                    icon={<BoxIcon className="h-4 w-4 text-muted-foreground" />}
+                                    value={response[0]?.productsSold ? response[0].productsSold.toString() : '0'}
+                                    percentage={response[0]?.productsSold && response[1].productsSold ? calculatePercentageChange(response[1].productsSold, response[0].productsSold) : '0'}
+                                />
+                            </Card>
+                        </Suspense>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                            <Card x-chunk="dashboard-01-chunk-2">
+                                <AnalyticCard
+                                    title="Sales"
+                                    icon={<CreditCard className="h-4 w-4 text-muted-foreground" />}
+                                    value={response[0]?.sales ? response[0]?.sales.toString() : '0'}
+                                    percentage={response[1]?.sales && response[0]?.sales ? calculatePercentageChange(response[1].sales, response[0].sales) : '0'}
+                                />
+                            </Card>
+                        </Suspense>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                            <Card x-chunk="dashboard-01-chunk-3">
+                                <AnalyticCard
+                                    title="Active Offers"
+                                    icon={<TagIcon className="h-4 w-4 text-muted-foreground" />}
+                                    value={"33"}
+                                    percentage={"+18%"}
+                                />
+                            </Card>
+                        </Suspense>
                     </div>
                     <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
                         <div className="hidden md:block xl:col-span-2">
@@ -59,12 +71,16 @@ export default async function Admin() {
                                     <CardTitle>Revenue Per Month</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <BarChart data={response} className="w-full h-80" />
+                                    <Suspense fallback={<BarChartSkeleton />}>
+                                        <BarChart data={response} className="w-full h-full" />
+                                    </Suspense>
                                 </CardContent>
                             </Card>
                         </div>
                         <Card x-chunk="dashboard-01-chunk-5">
-                            <RecentSalesCard />
+                            <Suspense fallback={<RecentSalesCardSkeleton />}>
+                                <RecentSalesCard />
+                            </Suspense>
                         </Card>
                     </div>
                 </main>
