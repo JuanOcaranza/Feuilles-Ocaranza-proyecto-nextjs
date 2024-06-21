@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
 import { saleBoxes, saleItems, sales } from '@/drizzle/schema';
 import { eq, count, gte, and, lte, sum, sql } from 'drizzle-orm';
-import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithSaleBoxesAndItems, SaleWithAmmountAndQuantity } from '@/lib/definitions';
+import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithSaleBoxesAndItems, SaleWithResume } from '@/lib/definitions';
 
 const SALES_PER_PAGE = 12;
 
@@ -47,7 +47,7 @@ const boxesAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes
 const itemsAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 const quantitySale = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + box.quantity, 0);
 
-const mapSaleWithBoxes = (sale: SaleWithSaleBoxesAndItems): SaleWithAmmountAndQuantity => {
+const mapSaleWithBoxes = (sale: SaleWithSaleBoxesAndItems): SaleWithResume => {
     const boxesAmmountResult = boxesAmmount(sale);
 
     return {
@@ -130,7 +130,7 @@ export async function getFilteredSalesResume(startDate: Date, endDate: Date): Pr
     }
 }
 
-export async function getSales(currentPage: number): Promise<Array<SaleWithAmmountAndQuantity>> {
+export async function getSales(currentPage: number): Promise<Array<SaleWithResume>> {
     const response = await db.query.sales.findMany({
         offset: (currentPage - 1) * SALES_PER_PAGE,
         limit: SALES_PER_PAGE,
@@ -143,7 +143,7 @@ export async function getSales(currentPage: number): Promise<Array<SaleWithAmmou
     return response.map((saleBox) => mapSaleWithBoxes(saleBox));
 }
 
-export async function getFilteredSales(currentPage: number, startDate: Date, endDate: Date): Promise<Array<SaleWithAmmountAndQuantity>> {
+export async function getFilteredSales(currentPage: number, startDate: Date, endDate: Date): Promise<Array<SaleWithResume>> {
     const response = await db.query.sales.findMany({
         offset: (currentPage - 1) * SALES_PER_PAGE,
         limit: SALES_PER_PAGE,

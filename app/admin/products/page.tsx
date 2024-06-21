@@ -32,7 +32,7 @@ export default async function Products({
             <Suspense key={query + currentPage} fallback={<TableSkeleton type="Box" />}>
                 <BoxesTable query={query} currentPage={currentPage} />
             </Suspense>
-            <div className="mt-5 felx w-full justify-center">
+            <div className="mt-5 flex w-full justify-center">
                 <Pagination totalPages={totalPages} />
             </div>
         </div>

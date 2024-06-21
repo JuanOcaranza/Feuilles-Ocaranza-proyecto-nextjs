@@ -45,7 +45,7 @@ export default async function Sales({
             <Suspense key={currentPage} fallback={<TableSkeleton type="Item" />}>
                 <SalesTable startDate={searchParams?.from} endDate={searchParams?.to} currentPage={currentPage} />
             </Suspense>
-            <div className="mt-5 felx w-full justify-center">
+            <div className="mt-5 flex w-full justify-center">
                 <Pagination totalPages={pages} />
             </div>
         </div>

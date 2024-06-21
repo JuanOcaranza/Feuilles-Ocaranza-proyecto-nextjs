@@ -24,3 +24,13 @@ export const formatDateToLocal = (
     const formatter = new Intl.DateTimeFormat(locale, options);
     return formatter.format(date);
 };
+export function getUrlName(type: string) {
+    switch (type) {
+        case "Item":
+            return "items";
+        case "Offer":
+            return "offers";
+        default:
+            return "products";
+    }
+}
