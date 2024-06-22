@@ -1,5 +1,3 @@
-"use client"
-
 import { Trash2Icon } from "lucide-react";
 import {
   AlertDialog,
@@ -11,11 +9,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
 
 export default function Delete({ id, active, itemName, action }: { id: number, active: boolean, itemName: string, action: Function }) {
   const onClick = () => {
-    action.apply(null, [id])
+    action.apply(null, [id]);
   };
 
   return (
@@ -30,7 +28,7 @@ export default function Delete({ id, active, itemName, action }: { id: number, a
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure you want to delete this {itemName}?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. Once deleted, you won't be able to recover this {itemName}.
+            This action cannot be undone. Once deleted, you won&apos;t be able to recover this {itemName}.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
