@@ -91,7 +91,7 @@ export default async function Table({
                       <p>{dataItem.name}</p>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3">
+                  <td className="whitespace-nowrap px-3 py-3 overflow-hidden text-ellipsis max-w-48">
                     {dataItem.description}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">

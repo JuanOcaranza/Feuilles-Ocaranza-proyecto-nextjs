@@ -11,7 +11,7 @@ export default async function HomeCarousel() {
             <Carousel>
                 <CarouselContent>
                     {featuredBoxes.map(box => (
-                        <CarouselItem key={box.id} className="basis-1/3 md:basis-1/5">
+                        <CarouselItem key={box.id} className=" basis-full md:basis-1/2 lg:basis-1/4">
                             <BoxCard box={box} />
                         </CarouselItem>
                     ))}
