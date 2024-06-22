@@ -11,7 +11,7 @@ export default async function BoxCard({ box } : { box: Box }) {
         <Link
             href={`/products/${box.id}`}
         >
-            <Card className="group h-full border-0 shadow-md rounded">
+            <Card className="group h-full border-opacity-90 shadow-sm rounded">
                 <BoxCardContent box={box} discount={discount} />
             </Card>
         </Link>
