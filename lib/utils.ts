@@ -47,3 +47,7 @@ export function formatDateToLocalInputString(date: Date | undefined): string | u
     }
     return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().split('.')[0];
 }
+
+export function convertToCents(price: number) {
+    return Math.round(price * 100)
+}

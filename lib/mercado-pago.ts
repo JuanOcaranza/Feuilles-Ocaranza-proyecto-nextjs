@@ -1,5 +1,6 @@
 import { MercadoPagoConfig, Payment, Preference } from "mercadopago";
 import { SaleBox } from "@/lib/definitions";
+import { convertToCents } from "./utils";
 
 export function createMercadoPagoConfig() {
     return new MercadoPagoConfig({ accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN! })
@@ -45,7 +46,7 @@ export async function getBoxesFromPayment(paymentId: number): Promise<SaleBox[] 
         const boxes = payment.additional_info.items.map((item) => ({
             saleId: paymentId,
             boxId: parseInt(item.id),
-            price: item.unit_price,
+            price: convertToCents(item.unit_price),
             quantity: item.quantity
         }))
 
@@ -55,3 +56,4 @@ export async function getBoxesFromPayment(paymentId: number): Promise<SaleBox[] 
         return null
     }
 }
+

@@ -43,8 +43,8 @@ const mapSale = (sale: SaleWithRelations): Sale => ({
     }))
 });
 
-const boxesAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + box.price * box.quantity, 0);
-const itemsAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+const boxesAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + (box.price * box.quantity), 0);
+const itemsAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 const quantitySale = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + box.quantity, 0);
 
 const mapSaleWithBoxes = (sale: SaleWithSaleBoxesAndItems): SaleWithResume => {
