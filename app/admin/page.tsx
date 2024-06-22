@@ -27,7 +27,7 @@ export default async function Admin() {
                             <Card x-chunk="dashboard-01-chunk-0">
                                 <AnalyticCard
                                     title="Total Revenue"
-                                    icon={<DollarSign className="h-4 w-4 text-muted-foreground" />}
+                                    type={"revenue"}
                                     value={response[0]?.profit ? formatCurrency(response[0].profit) : '0'}
                                     percentage={response[0]?.profit && response[1].profit ? calculatePercentageChange(response[1].profit, response[0].profit) : '0'}
                                 />
@@ -37,7 +37,7 @@ export default async function Admin() {
                             <Card x-chunk="dashboard-01-chunk-1">
                                 <AnalyticCard
                                     title="Sold Products"
-                                    icon={<BoxIcon className="h-4 w-4 text-muted-foreground" />}
+                                    type={"productsSold"}
                                     value={response[0]?.productsSold ? response[0].productsSold.toString() : '0'}
                                     percentage={response[0]?.productsSold && response[1].productsSold ? calculatePercentageChange(response[1].productsSold, response[0].productsSold) : '0'}
                                 />
@@ -47,7 +47,7 @@ export default async function Admin() {
                             <Card x-chunk="dashboard-01-chunk-2">
                                 <AnalyticCard
                                     title="Sales"
-                                    icon={<CreditCard className="h-4 w-4 text-muted-foreground" />}
+                                    type={"sales"}
                                     value={response[0]?.sales ? response[0]?.sales.toString() : '0'}
                                     percentage={response[1]?.sales && response[0]?.sales ? calculatePercentageChange(response[1].sales, response[0].sales) : '0'}
                                 />
@@ -57,7 +57,7 @@ export default async function Admin() {
                             <Card x-chunk="dashboard-01-chunk-3">
                                 <AnalyticCard
                                     title="Active Offers"
-                                    icon={<TagIcon className="h-4 w-4 text-muted-foreground" />}
+                                    type={"offers"}
                                     value={"33"}
                                     percentage={"+18%"}
                                 />

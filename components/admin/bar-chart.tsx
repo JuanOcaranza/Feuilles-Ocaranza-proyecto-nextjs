@@ -37,4 +37,4 @@ export default function BarChart({ className, data }: { className?: string, data
       : <p> No sales data recorded. </p> }
     </div>
   );
-};
+}
