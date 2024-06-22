@@ -14,19 +14,10 @@ export default function Footer() {
                             <h3 className="text-sm font-medium text-gray-900">Company</h3>
                             <ul role="list" className="mt-6 space-y-6">
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">About</Link>
+                                    <Link href="/about" className="text-gray-500 hover:text-gray-600">About Us</Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Blog</Link>
-                                </li>
-                                <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Jobs</Link>
-                                </li>
-                                <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Partners</Link>
-                                </li>
-                                <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Terms & Conditions</Link>
+                                    <Link href="/terms" className="text-gray-500 hover:text-gray-600">Terms & Conditions</Link>
                                 </li>
                             </ul>
                         </div>
@@ -34,16 +25,13 @@ export default function Footer() {
                             <h3 className="text-sm font-medium text-gray-900">Legal</h3>
                             <ul role="list" className="mt-6 space-y-6">
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Claim</Link>
+                                    <Link href="/privacy" className="text-gray-500 hover:text-gray-600">Privacy</Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Privacy</Link>
+                                    <Link href="/cookies" className="text-gray-500 hover:text-gray-600">Cookies</Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Cookies</Link>
-                                </li>
-                                <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Legal</Link>
+                                    <Link href="/legal" className="text-gray-500 hover:text-gray-600">Legal</Link>
                                 </li>
                             </ul>
                         </div>
@@ -54,10 +42,7 @@ export default function Footer() {
                                     <Link href="/contact" className="text-gray-500 hover:text-gray-600">Contact Us</Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">FAQ</Link>
-                                </li>
-                                <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Support</Link>
+                                    <Link href="/faq" className="text-gray-500 hover:text-gray-600">FAQ</Link>
                                 </li>
                             </ul>
                         </div>
@@ -104,22 +89,10 @@ export default function Footer() {
                             <AccordionContent>
                                 <ul role="list" className="mt-2 space-y-2">
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">About</Link>
+                                        <Link href="/about" className="text-gray-500 hover:text-gray-600">About Us</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Blog</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Jobs</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Press</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Partners</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Terms & Conditions</Link>
+                                        <Link href="/terms" className="text-gray-500 hover:text-gray-600">Terms & Conditions</Link>
                                     </li>
                                 </ul>
                             </AccordionContent>
@@ -129,16 +102,13 @@ export default function Footer() {
                             <AccordionContent>
                                 <ul role="list" className="mt-2 space-y-2">
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Claim</Link>
+                                        <Link href="/privacy" className="text-gray-500 hover:text-gray-600">Privacy</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Privacy</Link>
+                                        <Link href="/cookies" className="text-gray-500 hover:text-gray-600">Cookies</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Cookies</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Legal</Link>
+                                        <Link href="/legal" className="text-gray-500 hover:text-gray-600">Legal</Link>
                                     </li>
                                 </ul>
                             </AccordionContent>
@@ -151,10 +121,7 @@ export default function Footer() {
                                         <Link href="/contact" className="text-gray-500 hover:text-gray-600">Contact Us</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">FAQ</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Support</Link>
+                                        <Link href="/faq" className="text-gray-500 hover:text-gray-600">FAQ</Link>
                                     </li>
                                 </ul>
                             </AccordionContent>
@@ -164,7 +131,7 @@ export default function Footer() {
                             <AccordionContent>
                                 <ul role="list" className="mt-2 space-y-2">
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Home</Link>
+                                        <Link href="/" className="text-gray-500 hover:text-gray-600">Home</Link>
                                     </li>
                                     <li className="text-sm">
                                         <Link href="/products?featured=true" className="text-gray-500 hover:text-gray-600">Featured</Link>
