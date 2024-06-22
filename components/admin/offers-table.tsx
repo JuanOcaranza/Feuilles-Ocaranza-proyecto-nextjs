@@ -46,7 +46,7 @@ export default async function OffersTable({
                                     </div>
                                     <div className="flex justify-end gap-2">
                                         <Update type="Offer" id={offer.id || 0} />
-                                        <Delete id={offer.id || 0} active={true} action={deleteOffer} />
+                                        <Delete id={offer.id || 0} itemName={"offer"} active={true} action={deleteOffer} />
                                     </div>
                                 </div>
                             </div>
@@ -105,7 +105,7 @@ export default async function OffersTable({
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
                                         <div className="flex justify-end gap-3">
                                             <Update type="Offer" id={offer.id || 0} />
-                                            <Delete id={offer.id || 0} active={true} action={deleteOffer} />
+                                            <Delete id={offer.id || 0} itemName={"offer"} active={true} action={deleteOffer} />
                                         </div>
                                     </td>
                                 </tr>

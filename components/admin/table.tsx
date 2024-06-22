@@ -47,7 +47,7 @@ export default async function Table({
                   </div>
                   <div className="flex justify-end gap-2">
                     <Update type={type} id={dataItem.id} />
-                    <Delete id={dataItem.id} active={dataItem.isDeletable !== undefined ? dataItem.isDeletable : true } action={type === 'Item' ? deleteItem : deleteBox} /> 
+                    <Delete id={dataItem.id} active={dataItem.isDeletable !== undefined ? dataItem.isDeletable : true } itemName={type.toLowerCase()}  action={type === 'Item' ? deleteItem : deleteBox} /> 
                   </div>
                 </div>
               </div>
@@ -103,7 +103,7 @@ export default async function Table({
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                         <Update type={type} id={dataItem.id} />
-                        <Delete active={dataItem.isDeletable !== undefined ? dataItem.isDeletable : true } id={dataItem.id} action={type === 'Item' ? deleteItem : deleteBox} />
+                        <Delete active={dataItem.isDeletable !== undefined ? dataItem.isDeletable : true } id={dataItem.id} itemName={type.toLowerCase()} action={type === 'Item' ? deleteItem : deleteBox} />
                     </div>
                   </td>
                 </tr>
