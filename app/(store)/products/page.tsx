@@ -6,6 +6,7 @@ import { countFilteredBoxes } from '@/lib/data/boxes';
 import { Suspense } from "react";
 import BoxesGridSkeleton from "@/components/skeletons/boxes-grid-skeleton";
 import { getCategoryById } from "@/lib/data/categories";
+import Footer from "@/components/footer";
 
 export default async function Products({
     searchParams,
