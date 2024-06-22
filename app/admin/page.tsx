@@ -1,10 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {
-    CreditCard,
-    DollarSign,
-    BoxIcon,
-    TagIcon
-} from "lucide-react"
 import BarChart from "@/components/admin/bar-chart"
 import { getResumePerMonth } from "@/lib/data/sales"
 import { formatCurrency, calculatePercentageChange } from "@/lib/utils";
@@ -14,16 +8,23 @@ import { Suspense } from 'react';
 import AnalyticCardSkeleton from "@/components/skeletons/analytic-card-skeleton";
 import BarChartSkeleton from "@/components/skeletons/bar-chart-skeleton";
 import { RecentSalesCardSkeleton } from "@/components/skeletons/recent-sales-card-skeleton";
+import { getActiveOffersPerMonth } from "@/lib/data/offers";
 
 export default async function Admin() {
-    const response = (await getResumePerMonth()).reverse()
+    const [resumeResponse, offersResponse] = await Promise.all([
+        getResumePerMonth(),
+        getActiveOffersPerMonth()
+    ]);
+
+    const response = resumeResponse.reverse();
+    const responseOffers = offersResponse.reverse();
 
     return (
         <div className="flex min-h-screen w-full flex-col">
             <div className="flex min-h-screen w-full flex-col">
                 <main className="flex flex-1 flex-col gap-4 md:gap-8">
                     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-                        <Suspense key={ response.length } fallback={<AnalyticCardSkeleton />}>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-0">
                                 <AnalyticCard
                                     title="Total Revenue"
@@ -33,7 +34,7 @@ export default async function Admin() {
                                 />
                             </Card>
                         </Suspense>
-                        <Suspense key={ response.length } fallback={<AnalyticCardSkeleton />}>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-1">
                                 <AnalyticCard
                                     title="Sold Products"
@@ -43,7 +44,7 @@ export default async function Admin() {
                                 />
                             </Card>
                         </Suspense>
-                        <Suspense key={ response.length} fallback={<AnalyticCardSkeleton />}>
+                        <Suspense fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-2">
                                 <AnalyticCard
                                     title="Sales"
@@ -53,13 +54,13 @@ export default async function Admin() {
                                 />
                             </Card>
                         </Suspense>
-                        <Suspense key={null} fallback={<AnalyticCardSkeleton />}> {/* TODO: Recordar cambiar la key */}
+                        <Suspense fallback={<AnalyticCardSkeleton />}> {/* TODO: Recordar cambiar la key */}
                             <Card x-chunk="dashboard-01-chunk-3">
                                 <AnalyticCard
                                     title="Active Offers"
                                     type={"offers"}
-                                    value={"33"}
-                                    percentage={"+18%"}
+                                    value={responseOffers[0]?.count ? responseOffers[0].count.toString() : '0'}
+                                    percentage={responseOffers[1]?.count && responseOffers[0]?.count ? calculatePercentageChange(responseOffers[1].count, responseOffers[0].count) : '0'}
                                 />
                             </Card>
                         </Suspense>
@@ -71,7 +72,7 @@ export default async function Admin() {
                                     <CardTitle>Revenue Per Month</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <Suspense key={response.length} fallback={<BarChartSkeleton />}>
+                                    <Suspense fallback={<BarChartSkeleton />}>
                                         <BarChart data={response} className="w-full h-full" />
                                     </Suspense>
                                 </CardContent>

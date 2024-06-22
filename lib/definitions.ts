@@ -141,3 +141,5 @@ export type Cart = {
 export type User = typeof users.$inferSelect;
 
 export type DataResume = { month: string, profit: number, productsSold: number, sales: number }
+
+export type DataOffer = { month: string, count: number }

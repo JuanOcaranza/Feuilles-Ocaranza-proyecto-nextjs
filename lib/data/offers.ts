@@ -1,6 +1,6 @@
 import { db } from "@/drizzle/db";
 import { boxOffers, offers } from "@/drizzle/schema";
-import { newOffer, NewOfferBox, Offer, OfferWithRelations, OfferWithResume} from "@/lib/definitions";
+import { newOffer, NewOfferBox, Offer, OfferWithRelations, OfferWithResume, DataOffer } from "@/lib/definitions";
 import { and, count, desc, eq, ilike, notInArray, sql } from "drizzle-orm";
 
 const OFFERS_PER_PAGE = 12;
@@ -95,4 +95,27 @@ export async function getOfferById(id: number): Promise<OfferWithRelations | nul
         return null;
 
     return offer;
+}
+
+export async function getActiveOffersPerMonth(): Promise<Array<DataOffer>> {
+    const response = await db
+        .select({
+            month: sql<string>`month`,
+            count: sql<number>`COUNT(offers.id)`
+        })
+        .from(sql`(
+            SELECT generate_series(
+                date_trunc('month', MIN(offers."starts_at") - interval '1 month'), 
+                date_trunc('month', MAX(offers."expires_at")), 
+                interval '1 month'
+            )::date AS month
+            FROM offers
+            WHERE offers."expires_at" >= NOW()
+        ) AS months`)
+        .leftJoin(offers, sql`months.month BETWEEN date_trunc('month', offers."starts_at") AND date_trunc('month', offers."expires_at")`)
+        .where(sql`months.month <= date_trunc('month', NOW())`)
+        .groupBy(sql`months.month`)
+        .orderBy(sql`months.month`);
+
+    return response.map((row) => ({ month: row.month, count: row.count }));
 }
