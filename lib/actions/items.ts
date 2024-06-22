@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { convertToCents } from '@/lib/utils';
 
 export async function deleteItem(id: number) {
     await deleteItemsFromDB(id);
@@ -45,7 +46,7 @@ export async function createItem(prevState: State, formData: FormData) {
     }
 
     const { name, description, price, image} = validatedFields.data;
-    const priceInCents = price * 100;
+    const priceInCents = convertToCents(price);
     const imageUrl = await uploadImage(image);
 
     try {
@@ -77,7 +78,7 @@ export async function editItem(id: number, prevState: State, formData: FormData)
     }
 
     const { name, description, price } = validatedFields.data;
-    const priceInCents = price * 100;
+    const priceInCents = convertToCents(price);;
     const image = formData.get("image");
     const imageUrl = (image === null || (image instanceof File && image.size === 0)) ? undefined : await uploadImage(image as File);
 

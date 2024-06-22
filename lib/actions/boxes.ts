@@ -5,6 +5,7 @@ import { deleteBox as deleteBoxFromDB, insertBox, updateBox } from '@/lib/data/b
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { uploadImage } from '@/lib/cloudinary';
+import { convertToCents } from '@/lib/utils';
 
 export async function deleteBox(id: number) {
     await deleteBoxFromDB(id);
@@ -53,7 +54,7 @@ export async function createBox(rawItems: Array<{ itemId: number | null, probabi
     }
 
     const { name, description, price, image, items } = validatedFields.data;
-    const priceInCents = price * 100;
+    const priceInCents = convertToCents(price);
     const imageUrl = await uploadImage(image);
 
     try {
@@ -86,7 +87,7 @@ export async function editBox(id: number, rawItems: Array<{ itemId: number | nul
     }
 
     const { name, description, price, items } = validatedFields.data;
-    const priceInCents = price * 100;
+    const priceInCents = convertToCents(price);
     const image = formData.get("image");
     const imageUrl = (image === null || (image instanceof File && image.size === 0)) ? undefined : await uploadImage(image as File);
 

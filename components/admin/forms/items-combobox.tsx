@@ -72,8 +72,8 @@ export default function ItemsCombobox({ items, value, setValue, itemName }: { it
 
 function ImageAndName({ item }: { item: ComboBoxItem }) {
     return (
-        <div className="flex gap-2">
-            <CldImage src={item.imageUrl} alt={item.name} width={24} height={24} />
+        <div className="flex gap-2 items-center">
+            <CldImage className="flex-shrink-0" src={item.imageUrl} alt={item.name} width={24} height={24} />
             {item.name}
         </div>
     )

@@ -6,6 +6,7 @@ import BoxProducts from "@/components/product/box-products";
 import Price from "@/components/price";
 import BuyButton from "@/components/product/buy-button";
 import BuyQuantity from "@/components/product/buy-quantity";
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);
@@ -28,16 +29,16 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <Price basePrice={box.price} discount={discount} className="sm:w-2/3" />
                 <CldImage src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} sizes="100vw" />
                 <BoxProducts products={products} />
-                <p>{box.description}</p>
+                <p className='whitespace-break-spaces'>{box.description}</p>
                 <BuyButton boxId={id} className="fixed bottom-0 w-full h-16" />
             </div>
             <div className="hidden md:flex flex-col lg:px-48">
                 <div className="flex">
-                    <CldImage src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} className="mr-4 lg:mr-16 w-2/3" sizes="(max-width: 1024px) 66vw, 50vw" />
+                    <CldImage src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} className="mr-4 lg:mr-16 w-2/3 flex-shrink-0" sizes="(max-width: 1024px) 66vw, 50vw" />
                     <div className="flex flex-col gap-4 justify-between flex-grow">
                         <div>
                             <h1 className="text-3xl mb-4">{box.name}</h1>
-                            <p>{box.description}</p>
+                            <ScrollArea className='h-[200px] xl:h-[300px] 2xl:h-[500px] whitespace-break-spaces'>{box.description}</ScrollArea>
                         </div>
                         <BuyQuantity BoxId={id} basePrice={box.price} discount={discount} />
                     </div>
