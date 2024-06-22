@@ -78,7 +78,7 @@ export async function editItem(id: number, prevState: State, formData: FormData)
     }
 
     const { name, description, price } = validatedFields.data;
-    const priceInCents = convertToCents(price);;
+    const priceInCents = convertToCents(price);  
     const image = formData.get("image");
     const imageUrl = (image === null || (image instanceof File && image.size === 0)) ? undefined : await uploadImage(image as File);
 
