@@ -1,4 +1,4 @@
-import { boxes, boxItems, categories, items, boxCategories, users, sales, saleItems, saleBoxes, groups, offers, boxOffers } from "@/drizzle/schema"
+import { boxes, boxItems, categories, items, boxCategories, users, sales, saleItems, saleBoxes, groups, offers, boxOffers, messages } from "@/drizzle/schema"
 
 export type BoxOnly = typeof boxes.$inferSelect
 
@@ -143,3 +143,5 @@ export type User = typeof users.$inferSelect;
 export type DataResume = { month: string, profit: number, productsSold: number, sales: number }
 
 export type DataOffer = { month: string, count: number }
+
+export type NewMessage = typeof messages.$inferInsert;

@@ -191,3 +191,10 @@ export const saleItemsRelations = relations(saleItems, ({ one }) => ({
         references: [items.id],
     }),
 }))
+
+export const messages = pgTable("messages", {
+    id: serial("id").primaryKey(),
+    email: text("email").notNull(),
+    message: text("message").notNull(),
+    sentAt: timestamp("sent_at").defaultNow().notNull()
+})

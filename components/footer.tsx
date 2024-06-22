@@ -51,10 +51,7 @@ export default function Footer() {
                             <h3 className="text-sm font-medium text-gray-900">Support</h3>
                             <ul role="list" className="mt-6 space-y-6">
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Help Center</Link>
-                                </li>
-                                <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Contact Us</Link>
+                                    <Link href="/contact" className="text-gray-500 hover:text-gray-600">Contact Us</Link>
                                 </li>
                                 <li className="text-sm">
                                     <Link href="#" className="text-gray-500 hover:text-gray-600">FAQ</Link>
@@ -68,7 +65,7 @@ export default function Footer() {
                             <h3 className="text-sm font-medium text-gray-900">Links</h3>
                             <ul role="list" className="mt-6 space-y-6">
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600">Home</Link>
+                                    <Link href="/" className="text-gray-500 hover:text-gray-600">Home</Link>
                                 </li>
                                 <li className="text-sm">
                                     <Link href="/products?featured=true" className="text-gray-500 hover:text-gray-600">Featured</Link>
@@ -151,10 +148,7 @@ export default function Footer() {
                             <AccordionContent>
                                 <ul role="list" className="mt-2 space-y-2">
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Help Center</Link>
-                                    </li>
-                                    <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Contact Us</Link>
+                                        <Link href="/contact" className="text-gray-500 hover:text-gray-600">Contact Us</Link>
                                     </li>
                                     <li className="text-sm">
                                         <Link href="#" className="text-gray-500 hover:text-gray-600">FAQ</Link>
