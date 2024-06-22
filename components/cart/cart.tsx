@@ -4,14 +4,23 @@ import { getCart } from "@/lib/actions/cookies";
 import BoxCartItem from "@/components/cart/box-cart-item";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import clsx from "clsx";
 
 export default async function Cart(){
     const cart = await getCart();
+    const elements = cart.boxes.reduce((acc, box) => acc + box.quantity, 0);
 
     return (
         <Sheet>
             <SheetTrigger>
-                <ShoppingCart className="mr-2 ml-2" size={28}/>
+                <div className="relative">
+                    <ShoppingCart className="mr-2 ml-2" size={28} />
+                    {cart.boxes.length > 0 && (
+                        <span className={clsx("absolute bottom-[14px] right-0 bg-black text-white rounded-full text-xs flex items-center justify-center", elements > 99 ? "w-6 h-6" : "w-5 h-5")}>
+                            {elements}
+                        </span>
+                    )}
+                </div>
             </SheetTrigger>
             <SheetContent>
                 <SheetHeader>
