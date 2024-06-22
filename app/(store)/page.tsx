@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import HomeCarousel from "@/components/home/home-carousel";
 import CldImage from "@/components/ui/CldImage";
 import Link from "next/link";
@@ -18,7 +19,7 @@ export default function Home() {
           </Link>
         </div>
       </div>
-      <div className="py-10 bg-gray-100">
+      <div className="py-10">
         <div className="container mx-auto">
           <HomeCarousel />
         </div>
