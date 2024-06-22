@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function ShowDetails({ id }: { id: number }) {
   return (
     <Link
-      href={`/admin/salles/${id}`}
+      href={`/admin/sales/${id}`}
       className="rounded-full p-1 hover:bg-gray-100"
     >
       <div className="flex items-center gap-2">

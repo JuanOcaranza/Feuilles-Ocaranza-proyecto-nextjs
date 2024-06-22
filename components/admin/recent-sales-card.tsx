@@ -2,6 +2,7 @@ import { getRecentSales } from "@/lib/data/sales";
 import { CardContent, CardHeader, CardTitle } from "../ui/card";
 import { SaleWithResume } from "@/lib/definitions";
 import { formatCurrency } from "@/lib/utils";
+
 export default async function RecentSalesCard() {
     const sales: Array<SaleWithResume> = await getRecentSales();
 
