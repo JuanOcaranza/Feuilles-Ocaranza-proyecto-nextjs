@@ -1,6 +1,6 @@
 import { db } from '@/drizzle/db';
 import { saleBoxes, saleItems, sales } from '@/drizzle/schema';
-import { eq, count, gte, and, lte, sum, sql } from 'drizzle-orm';
+import { eq, count, gte, and, lte, sum, sql, desc } from 'drizzle-orm';
 import { NewSale, Sale, SaleBox, SaleItem, SaleWithRelations, SaleWithSaleBoxesAndItems, SaleWithResume, DataResume } from '@/lib/definitions';
 
 const SALES_PER_PAGE = 12;
@@ -137,7 +137,8 @@ export async function getSales(currentPage: number): Promise<Array<SaleWithResum
         with: {
             saleBoxes: true,
             saleItems: true
-        }
+        },
+        orderBy: desc(sales.createdAt)
     });
 
     return response.map((saleBox) => mapSaleWithBoxes(saleBox));
@@ -151,7 +152,8 @@ export async function getFilteredSales(currentPage: number, startDate: Date, end
         with: {
             saleBoxes: true,
             saleItems: true
-        }
+        },
+        orderBy: desc(sales.createdAt)
     });
 
     return response.map((saleBox) => mapSaleWithBoxes(saleBox));
@@ -187,7 +189,8 @@ export async function getRecentSales({ limit = 5 }: { limit?: number } = {}): Pr
         with: {
             saleBoxes: true,
             saleItems: true
-        }
+        },
+        orderBy: desc(sales.createdAt)
     });
     return response.map((sale) => mapSaleWithBoxes(sale));    
 }
