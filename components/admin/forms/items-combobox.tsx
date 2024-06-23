@@ -13,11 +13,27 @@ import {
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ComboBoxItem } from "@/lib/definitions"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import CldImage from "@/components/ui/CldImage"
 
 export default function ItemsCombobox({ items, value, setValue, itemName }: { items: ComboBoxItem[], value: number | null, setValue: (itemId: number | null) => void, itemName: string }) {
     const [open, setOpen] = useState(false)
+    const [selectedName, setSelectedName] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (value) {
+            setSelectedName(items.find((item) => item.id === value)?.name || null)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (selectedName) {
+            setValue(items.find((item) => item.name === selectedName)?.id || null)
+        }
+        else {
+            setValue(null)
+        }
+    }, [selectedName])
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -28,9 +44,9 @@ export default function ItemsCombobox({ items, value, setValue, itemName }: { it
                     aria-expanded={open}
                     className="w-[200px] justify-between"
                 >
-                    {value
+                    {selectedName
                     ?
-                        <ImageAndName item={items.find((item) => item.id === value)!} />
+                        <ImageAndName item={items.find((item) => item.name === selectedName)!} />
                     : 
                         `Select ${itemName}...`}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -45,9 +61,9 @@ export default function ItemsCombobox({ items, value, setValue, itemName }: { it
                             {items.map((item) => (
                                 <CommandItem
                                     key={item.id}
-                                    value={item.id.toString()}
-                                    onSelect={(currentValue) => {
-                                        setValue(parseInt(currentValue) === value ? null : parseInt(currentValue))
+                                    value={item.name}
+                                    onSelect={(currentName) => {
+                                        setSelectedName(currentName === selectedName ? null : currentName)
                                         setOpen(false)
                                     }}
                                 >

@@ -13,10 +13,26 @@ import {
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Category } from "@/lib/definitions"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function CategoriesCombobox({ categories, value, setValue}: { categories: Category[], value: number | null, setValue: (itemId: number | null) => void }) {
     const [open, setOpen] = useState(false)
+    const [selectedName, setSelectedName] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (value) {
+            setSelectedName(categories.find((item) => item.id === value)?.name || null)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (selectedName) {
+            setValue(categories.find((item) => item.name === selectedName)?.id || null)
+        }
+        else {
+            setValue(null)
+        }
+    }, [selectedName])
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -27,9 +43,9 @@ export default function CategoriesCombobox({ categories, value, setValue}: { cat
                     aria-expanded={open}
                     className="w-[200px] justify-between"
                 >
-                    {value
+                    {selectedName
                     ?
-                        <p className="overflow-hidden text-ellipsis">{categories.find((item) => item.id === value)?.name}</p>
+                        <p className="overflow-hidden text-ellipsis">{categories.find((category) => category.name === selectedName)?.name}</p>
                     : 
                         `Select category...`}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -44,9 +60,9 @@ export default function CategoriesCombobox({ categories, value, setValue}: { cat
                             {categories.map((category) => (
                                 <CommandItem
                                     key={category.id}
-                                    value={category.id.toString()}
-                                    onSelect={(currentValue) => {
-                                        setValue(parseInt(currentValue) === value ? null : parseInt(currentValue))
+                                    value={category.name}
+                                    onSelect={(currentName) => {
+                                        setSelectedName(currentName === selectedName ? null : currentName)
                                         setOpen(false)
                                     }}
                                 >
