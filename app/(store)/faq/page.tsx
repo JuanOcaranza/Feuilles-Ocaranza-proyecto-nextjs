@@ -7,19 +7,19 @@ export default function FAQ() {
             <div className="hidden md:block w-full max-w-4xl text-left space-y-8 mt-12">
                 <div>
                     <h2 className="text-xl font-semibold">What is a surprise box?</h2>
-                    <p>A surprise box is a unique and exciting way to receive a mystery item from our curated selection. Each box contains one item chosen at random from the items available for that particular box. It's a fun and adventurous way to discover new products!</p>
+                    <p>A surprise box is a unique and exciting way to receive a mystery item from our curated selection. Each box contains one item chosen at random from the items available for that particular box. It&apos;s a fun and adventurous way to discover new products!</p>
                 </div>
                 <div>
                     <h2 className="text-xl font-semibold">How does it work?</h2>
-                    <p>Simply choose the surprise box you want to purchase and complete the checkout process. Once your order is placed, we will randomly select one item from the box’s available pool of products and ship it to you.</p>
+                    <p>Simply choose the surprise box you want to purchase and complete the checkout process. Once your order is placed, we will randomly select one item from the box&apos;s available pool of products and ship it to you.</p>
                 </div>
                 <div>
                     <h2 className="text-xl font-semibold">Are the items in the surprise box of good quality?</h2>
-                    <p>Absolutely! We carefully select each item to ensure it meets our quality standards. Whether it’s a gadget, a piece of jewelry, or a collectible, you can be assured that every item is of excellent quality.</p>
+                    <p>Absolutely! We carefully select each item to ensure it meets our quality standards. Whether it&apos;s a gadget, a piece of jewelry, or a collectible, you can be assured that every item is of excellent quality.</p>
                 </div>
                 <div>
-                    <h2 className="text-xl font-semibold">Can I choose what’s inside the box?</h2>
-                    <p>The thrill of a surprise box lies in the mystery of not knowing what you’ll get. Unfortunately, you cannot choose the specific item inside. However, rest assured that all items are thoughtfully selected and worth the value of the box.</p>
+                    <h2 className="text-xl font-semibold">Can I choose what&apos;s inside the box?</h2>
+                    <p>The thrill of a surprise box lies in the mystery of not knowing what you&apos;ll get. Unfortunately, you cannot choose the specific item inside. However, rest assured that all items are thoughtfully selected and worth the value of the box.</p>
                 </div>
                 <div>
                     <h2 className="text-xl font-semibold">Is shipping free?</h2>
@@ -47,25 +47,25 @@ export default function FAQ() {
                     <AccordionItem value="item-1">
                         <AccordionTrigger>What is a surprise box?</AccordionTrigger>
                         <AccordionContent>
-                            <p>A surprise box is a unique and exciting way to receive a mystery item from our curated selection. Each box contains one item chosen at random from the items available for that particular box. It's a fun and adventurous way to discover new products!</p>
+                            <p>A surprise box is a unique and exciting way to receive a mystery item from our curated selection. Each box contains one item chosen at random from the items available for that particular box. It&apos;s a fun and adventurous way to discover new products!</p>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-2">
                         <AccordionTrigger>How does it work?</AccordionTrigger>
                         <AccordionContent>
-                            <p>Simply choose the surprise box you want to purchase and complete the checkout process. Once your order is placed, we will randomly select one item from the box’s available pool of products and ship it to you.</p>
+                            <p>Simply choose the surprise box you want to purchase and complete the checkout process. Once your order is placed, we will randomly select one item from the box&apos;s available pool of products and ship it to you.</p>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-3">
                         <AccordionTrigger className="text-left">Are the items in the surprise box of good quality?</AccordionTrigger>
                         <AccordionContent>
-                            <p>Absolutely! We carefully select each item to ensure it meets our quality standards. Whether it’s a gadget, a piece of jewelry, or a collectible, you can be assured that every item is of excellent quality.</p>
+                            <p>Absolutely! We carefully select each item to ensure it meets our quality standards. Whether it&apos;s a gadget, a piece of jewelry, or a collectible, you can be assured that every item is of excellent quality.</p>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-4">
-                        <AccordionTrigger>Can I choose what’s inside the box?</AccordionTrigger>
+                        <AccordionTrigger>Can I choose what&apos;s inside the box?</AccordionTrigger>
                         <AccordionContent>
-                            <p>The thrill of a surprise box lies in the mystery of not knowing what you’ll get. Unfortunately, you cannot choose the specific item inside. However, rest assured that all items are thoughtfully selected and worth the value of the box.</p>
+                            <p>The thrill of a surprise box lies in the mystery of not knowing what you&apos;ll get. Unfortunately, you cannot choose the specific item inside. However, rest assured that all items are thoughtfully selected and worth the value of the box.</p>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="item-5">
