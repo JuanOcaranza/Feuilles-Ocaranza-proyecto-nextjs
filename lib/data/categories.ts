@@ -20,3 +20,9 @@ export async function getCategoryById(id: number) {
         where: (eq(categories.id, id))
     });
 }
+
+export async function getCategories() {
+    return await db
+        .select()
+        .from(categories)
+}

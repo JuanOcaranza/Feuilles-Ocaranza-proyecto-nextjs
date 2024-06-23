@@ -4,6 +4,7 @@ import { getBoxById } from "@/lib/data/boxes";
 import { getItems } from "@/lib/data/items";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { getCategories } from "@/lib/data/categories";
 
 export const metadata: Metadata = {
     title: 'Edit Box',
@@ -11,9 +12,10 @@ export const metadata: Metadata = {
 
 export default async function EditBox({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);
-    const [box, items] = await Promise.all([
+    const [box, items, categories] = await Promise.all([
         getBoxById(id),
-        getItems()
+        getItems(),
+        getCategories()
     ])
 
     if (!box) {
@@ -23,7 +25,7 @@ export default async function EditBox({ params }: { params: { id: string } }) {
     return (
         <div>
             <BreadcrumbFromList className="mb-6" items={[{ name: "Products", url: "/admin/products" }, { name: "Edit Box", url: `/admin/products/${id}/edit` }]} />
-            <EditBoxForm box={box} items={items} />
+            <EditBoxForm box={box} items={items} categories={categories} />
         </div>
     )
 }

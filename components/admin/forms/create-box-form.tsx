@@ -9,29 +9,34 @@ import FormError from "@/components/admin/forms/form-error"
 import CancelButton from "@/components/ui/cancelButton"
 import { SubmitButton } from "@/components/ui/submit-button"
 import ImageFormItem from "@/components/admin/forms/image-form-item"
-import { Item } from "@/lib/definitions"
+import { Category, Item } from "@/lib/definitions"
 import AddItemsFormItem from "./add-items-form-item"
 import { useState } from "react"
+import AddCategoriesFormItem from "./add-categories-forn-item"
 
 const initialState = {
     errors: {},
     message: ""
 }
 
-export default function CreateBoxForm({ items }: { items: Item[] }) {
+export default function CreateBoxForm({ items, categories }: { items: Item[], categories: Category[] }) {
     const [boxItems, setBoxItems] = useState<{ itemId: number | null, probability: number }[]>([{ itemId: null, probability: 1 }]);
-    const createBoxWithBoxItems = createBox.bind(null, boxItems);
-    const [state, formAction] = useFormState(createBoxWithBoxItems, initialState); 
+    const [boxCategories, setBoxCategories] = useState<{ categoryId: number | null }[]>([]);
+    const createBoxWithBoxItemsAndBoxCategories = createBox.bind(null, boxItems, boxCategories);
+    const [state, formAction] = useFormState(createBoxWithBoxItemsAndBoxCategories, initialState); 
 
     return (
         <form action={formAction}>
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                <NameFormItem errors={state.errors?.name} />
-                <DescriptionFormItem errors={state.errors?.description} />
-                <PriceFormItem errors={state.errors?.price} />
-                <ImageFormItem errors={state.errors?.image} />
-                <AddItemsFormItem items={items} boxItems={boxItems} setBoxItems={setBoxItems} errors={state.errors?.items} />
-                <FormError message={state.message} />
+                <NameFormItem errors={state?.errors?.name} />
+                <DescriptionFormItem errors={state?.errors?.description} />
+                <PriceFormItem errors={state?.errors?.price} />
+                <ImageFormItem errors={state?.errors?.image} />
+                <div className="flex flex-col xl:flex-row xl:justify-around">
+                    <AddItemsFormItem className="max-w-[450px] xl:w-1/2" items={items} boxItems={boxItems} setBoxItems={setBoxItems} errors={state?.errors?.items} />
+                    <AddCategoriesFormItem categories={categories} boxCategories={boxCategories} setBoxCategories={setBoxCategories} errors={state?.errors?.categories} />
+                </div>
+                <FormError message={state?.message} />
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <CancelButton backUrl="/admin/products" />

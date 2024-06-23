@@ -23,11 +23,11 @@ export default function EditItemForm({ item }: { item: Item }) {
     return (
         <form action={formAction}>
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                <NameFormItem errors={state.errors?.name} defaultValue={item.name} />
-                <DescriptionFormItem errors={state.errors?.description} defaultValue={item.description} />
-                <PriceFormItem errors={state.errors?.price} defaultValue={item.price / 100} />
+                <NameFormItem errors={state?.errors?.name} defaultValue={item.name} />
+                <DescriptionFormItem errors={state?.errors?.description} defaultValue={item.description} />
+                <PriceFormItem errors={state?.errors?.price} defaultValue={item.price / 100} />
                 <ImageFormItem replace />
-                <FormError message={state.message} />
+                <FormError message={state?.message} />
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <CancelButton backUrl="/admin/items" />

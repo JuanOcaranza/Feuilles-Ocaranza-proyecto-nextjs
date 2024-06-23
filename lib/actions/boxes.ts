@@ -37,16 +37,19 @@ const createFormSchema = z.object({
         const totalProbability = items.reduce((acc, item) => acc + item.probability, 0);
         return totalProbability >= 0.999999 && totalProbability <= 1.000001
     }, { message: "Probability must add up to 1." })
-    .refine(items => new Set(items.map(item => item.itemId)).size === items.length, { message: "Items must be unique." })
+    .refine(items => new Set(items.map(item => item.itemId)).size === items.length, { message: "Items must be unique." }),
+    categories: z.array(z.object({categoryId: z.coerce.number().int().min(1, { message: "Category must be selected." })}))
+    .refine(categories => new Set(categories.map(category => category.categoryId)).size === categories.length, { message: "Categories must be unique." })
 });
 
-export async function createBox(rawItems: Array<{ itemId: number | null, probability: number }>, prevState: State, formData: FormData) {
+export async function createBox(rawItems: Array<{ itemId: number | null, probability: number }>, rawCategories: Array<{ categoryId: number | null }>, prevState: State, formData: FormData) {
     const validatedFields = createFormSchema.safeParse({
         name: formData.get("name"),
         description: formData.get("description"),
         price: formData.get("price"),
         image: formData.get("image"),
-        items: rawItems
+        items: rawItems,
+        categories: rawCategories
     });
 
     if (!validatedFields.success) {
@@ -56,12 +59,12 @@ export async function createBox(rawItems: Array<{ itemId: number | null, probabi
         };
     }
 
-    const { name, description, price, image, items } = validatedFields.data;
+    const { name, description, price, image, items, categories } = validatedFields.data;
     const priceInCents = convertToCents(price);
     const imageUrl = await uploadImage(image);
 
     try {
-        await insertBox({ name, description, price: priceInCents, imageUrl }, items, []);
+        await insertBox({ name, description, price: priceInCents, imageUrl }, items, categories);
     } catch (error) {
         return {
             message: "Database error. Failed to create box."
@@ -74,12 +77,13 @@ export async function createBox(rawItems: Array<{ itemId: number | null, probabi
 
 const editFormSchema = createFormSchema.omit({ image: true });
 
-export async function editBox(id: number, rawItems: Array<{ itemId: number | null, probability: number }>, prevState: State, formData: FormData) {
+export async function editBox(id: number, rawItems: Array<{ itemId: number | null, probability: number }>, rawCategories: Array<{ categoryId: number | null }>, prevState: State, formData: FormData) {
     const validatedFields = editFormSchema.safeParse({
         name: formData.get("name"),
         description: formData.get("description"),
         price: formData.get("price"),
-        items: rawItems
+        items: rawItems,
+        categories: rawCategories
     });
 
     if (!validatedFields.success) {
@@ -89,7 +93,7 @@ export async function editBox(id: number, rawItems: Array<{ itemId: number | nul
         };
     }
 
-    const { name, description, price, items } = validatedFields.data;
+    const { name, description, price, items, categories } = validatedFields.data;
     const priceInCents = convertToCents(price);
     const image = formData.get("image");
     const imageUrl = (image === null || (image instanceof File && image.size === 0)) ? undefined : await uploadImage(image as File);
@@ -102,7 +106,7 @@ export async function editBox(id: number, rawItems: Array<{ itemId: number | nul
             price: priceInCents,
             imageUrl,
             items,
-            categories: []
+            categories
         })
     } catch (error) {
         return {

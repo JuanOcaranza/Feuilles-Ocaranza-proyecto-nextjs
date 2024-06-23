@@ -4,17 +4,20 @@ import ItemErrors from "@/components/admin/forms/item-errors";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { SquarePlusIcon } from "lucide-react";
+import clsx from "clsx";
 
 export default function AddItemsFormItem({
     items,
     boxItems,
     setBoxItems,
-    errors
+    errors,
+    className
 }: {
     items: ComboBoxItem[],
     boxItems: { itemId: number | null, probability: number }[],
     setBoxItems: (boxItems: { itemId: number | null, probability: number }[]) => void,
-    errors?: string[]
+    errors?: string[],
+    className?: string
 }) {
     const updateItemId = (index: number, newItemId: number | null) => {
         const newBoxItems = [...boxItems];
@@ -46,7 +49,7 @@ export default function AddItemsFormItem({
     }
 
     return (
-        <div className="mt-8">
+        <div className={clsx("mt-8", className)}>
             <h3 className="text-xl mb-2">Items</h3>
             <div>
                 {

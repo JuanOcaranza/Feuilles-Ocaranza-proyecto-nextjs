@@ -21,11 +21,11 @@ export default function CreateItemForm() {
     return (
         <form action={formAction}>
             <div className="rounded-md bg-gray-50 p-4 md:p-6">
-                <NameFormItem errors={state.errors?.name} />
-                <DescriptionFormItem errors={state.errors?.description} />
-                <PriceFormItem errors={state.errors?.price} />
-                <ImageFormItem errors={state.errors?.image} />
-                <FormError message={state.message} />
+                <NameFormItem errors={state?.errors?.name} />
+                <DescriptionFormItem errors={state?.errors?.description} />
+                <PriceFormItem errors={state?.errors?.price} />
+                <ImageFormItem errors={state?.errors?.image} />
+                <FormError message={state?.message} />
             </div>
             <div className="mt-6 flex justify-end gap-4">
                 <CancelButton backUrl="/admin/items" />

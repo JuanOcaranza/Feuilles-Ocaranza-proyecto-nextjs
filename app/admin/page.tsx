@@ -29,7 +29,7 @@ export default async function Admin() {
             <div className="flex min-h-screen w-full flex-col">
                 <main className="flex flex-1 flex-col gap-4 md:gap-8">
                     <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                        <Suspense key="totalRevenueSuspense" fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-0">
                                 <AnalyticCard
                                     title="Total Revenue"
@@ -39,7 +39,7 @@ export default async function Admin() {
                                 />
                             </Card>
                         </Suspense>
-                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                        <Suspense key="productsSoldSuspense" fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-1">
                                 <AnalyticCard
                                     title="Sold Products"
@@ -49,7 +49,7 @@ export default async function Admin() {
                                 />
                             </Card>
                         </Suspense>
-                        <Suspense fallback={<AnalyticCardSkeleton />}>
+                        <Suspense key="salesSuspense" fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-2">
                                 <AnalyticCard
                                     title="Sales"
@@ -59,7 +59,7 @@ export default async function Admin() {
                                 />
                             </Card>
                         </Suspense>
-                        <Suspense fallback={<AnalyticCardSkeleton />}> {/* TODO: Recordar cambiar la key */}
+                        <Suspense key="offersSuspense" fallback={<AnalyticCardSkeleton />}>
                             <Card x-chunk="dashboard-01-chunk-3">
                                 <AnalyticCard
                                     title="Active Offers"
@@ -77,14 +77,14 @@ export default async function Admin() {
                                     <CardTitle>Revenue Per Month</CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <Suspense fallback={<BarChartSkeleton />}>
+                                    <Suspense key="barChartSuspense" fallback={<BarChartSkeleton />}>
                                         <BarChart data={response} className="w-full h-full" />
                                     </Suspense>
                                 </CardContent>
                             </Card>
                         </div>
                         <Card x-chunk="dashboard-01-chunk-5">
-                            <Suspense fallback={<RecentSalesCardSkeleton />}>
+                            <Suspense key="recentSalesCardSuspense" fallback={<RecentSalesCardSkeleton />}>
                                 <RecentSalesCard />
                             </Suspense>
                         </Card>

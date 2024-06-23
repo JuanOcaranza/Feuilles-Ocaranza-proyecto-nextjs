@@ -12,11 +12,10 @@ import {
     CommandList,
 } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { ComboBoxItem } from "@/lib/definitions"
+import { Category } from "@/lib/definitions"
 import { useState } from "react"
-import CldImage from "@/components/ui/CldImage"
 
-export default function ItemsCombobox({ items, value, setValue, itemName }: { items: ComboBoxItem[], value: number | null, setValue: (itemId: number | null) => void, itemName: string }) {
+export default function CategoriesCombobox({ categories, value, setValue}: { categories: Category[], value: number | null, setValue: (itemId: number | null) => void }) {
     const [open, setOpen] = useState(false)
 
     return (
@@ -30,22 +29,22 @@ export default function ItemsCombobox({ items, value, setValue, itemName }: { it
                 >
                     {value
                     ?
-                        <ImageAndName item={items.find((item) => item.id === value)!} />
+                        <p className="overflow-hidden text-ellipsis">{categories.find((item) => item.id === value)?.name}</p>
                     : 
-                        `Select ${itemName}...`}
+                        `Select category...`}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
                 <Command>
-                    <CommandInput placeholder={`Search ${itemName}...`} />
+                    <CommandInput placeholder={`Search category...`} />
                     <CommandList>
-                        <CommandEmpty>No {itemName} found.</CommandEmpty>
+                        <CommandEmpty>No category found.</CommandEmpty>
                         <CommandGroup>
-                            {items.map((item) => (
+                            {categories.map((category) => (
                                 <CommandItem
-                                    key={item.id}
-                                    value={item.id.toString()}
+                                    key={category.id}
+                                    value={category.id.toString()}
                                     onSelect={(currentValue) => {
                                         setValue(parseInt(currentValue) === value ? null : parseInt(currentValue))
                                         setOpen(false)
@@ -54,12 +53,12 @@ export default function ItemsCombobox({ items, value, setValue, itemName }: { it
                                     <Check
                                         className={cn(
                                             "mr-2 h-4 w-4",
-                                            value === item.id
+                                            value === category.id
                                                 ? "opacity-100"
                                                 : "opacity-0"
                                         )}
                                     />
-                                    <ImageAndName item={item} />
+                                    <p className="overflow-hidden text-ellipsis">{category.name}</p>
                                 </CommandItem>
                             ))}
                         </CommandGroup>
@@ -67,14 +66,5 @@ export default function ItemsCombobox({ items, value, setValue, itemName }: { it
                 </Command>
             </PopoverContent>
         </Popover>
-    )
-}
-
-function ImageAndName({ item }: { item: ComboBoxItem }) {
-    return (
-        <div className="flex gap-2 items-center overflow-hidden text-ellipsis">
-            <CldImage className="flex-shrink-0" src={item.imageUrl} alt={item.name} width={24} height={24} />
-            {item.name}
-        </div>
     )
 }
