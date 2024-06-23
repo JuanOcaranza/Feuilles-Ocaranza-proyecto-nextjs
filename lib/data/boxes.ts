@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
 import { BoxWithRelations, Box, SaleBox, BoxOnly, NewBox, newBoxItem, NewBoxCategory, UpdatedBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers, saleBoxes } from '@/drizzle/schema';
-import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray } from 'drizzle-orm';
+import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray, desc } from 'drizzle-orm';
 import { deleteImage } from '@/lib/cloudinary';
 
 export const BOXES_PER_PAGE = 12;
@@ -13,7 +13,7 @@ const mapBox = (box: BoxWithRelations): Box => ({
 });
 
 export async function getBoxes(): Promise<Array<Box>> {
-    const boxes = await db.query.boxes.findMany({
+    const response = await db.query.boxes.findMany({
         with: {
             boxItems: {
                 with: {
@@ -25,10 +25,11 @@ export async function getBoxes(): Promise<Array<Box>> {
                     category: true
                 }
             }
-        }
+        },
+        orderBy: desc(boxes.createdAt)
     });
 
-    return boxes.map((box) => mapBox(box));
+    return response.map((box) => mapBox(box));
 }
 
 export async function getBoxById(id: number): Promise<Box | null> {
@@ -94,7 +95,8 @@ export async function getFilteredBoxesWithItems(query: string, currentPage: numb
                     category: true
                 }
             }
-        }
+        },
+        orderBy: desc(boxes.createdAt)
     });
 
     return response.map((box) => mapBox(box));
@@ -199,6 +201,7 @@ export async function getFilteredBoxes(query: string, currentPage: number): Prom
         offset: (currentPage - 1) * BOXES_PER_PAGE,
         limit: BOXES_PER_PAGE,
         where: and(ilike(boxes.name, `%${query}%`), boxes.active),
+        orderBy: desc(boxes.createdAt),
     });
 
     return response;

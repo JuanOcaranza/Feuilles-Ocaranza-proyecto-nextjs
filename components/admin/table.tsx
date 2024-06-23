@@ -35,7 +35,6 @@ export default async function Table({
                       />
                       <p>{dataItem.name}</p>
                     </div>
-                    <p className="text-sm text-gray-500">{dataItem.description}</p>
                   </div>
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
@@ -91,7 +90,7 @@ export default async function Table({
                       <p>{dataItem.name}</p>
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-3 overflow-hidden text-ellipsis max-w-48">
+                  <td className="whitespace-nowrap px-3 py-3 overflow-hidden text-ellipsis max-w-[200px] xl:max-w-[300px] 2xl:max-w-[600px]">
                     {dataItem.description}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">

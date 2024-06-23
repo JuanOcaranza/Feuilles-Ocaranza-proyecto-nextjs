@@ -1,6 +1,6 @@
 import { db } from "@/drizzle/db";
 import { items, saleItems } from "@/drizzle/schema";
-import { count, ilike, eq, and } from "drizzle-orm";
+import { count, ilike, eq, and, desc } from "drizzle-orm";
 import { Item, NewItem, UpdateItem, TableItem } from "@/lib/definitions";
 import { deleteImage } from "../cloudinary";
 
@@ -14,6 +14,7 @@ export async function getFilteredItems(query: string, currentPage: number): Prom
         with: {
             boxItems: true
         },
+        orderBy: desc(items.createdAt)
     });
 
     return response.map(item => ({
@@ -38,7 +39,9 @@ export async function getFilteredItemsTotalPages(query: string): Promise<number>
 
 export async function getItems(): Promise<Array<Item>> {
     return await db.query.items.findMany({
-        where: (items, { eq }) => eq(items.active, true)});
+        where: (items, { eq }) => eq(items.active, true),
+        orderBy: desc(items.createdAt)
+    });
 }
 
 export async function getItemById(id: number): Promise<Item | null> {
