@@ -27,8 +27,9 @@ export async function checkout(): Promise<{ preferenceId: string | undefined, bo
     )
 
     return { preferenceId: preference.id, boxes: boxes };
+} 
 
-} export async function checkPayment(paymentId: number): Promise<SaleWithItems | null> {
+export async function checkPayment(paymentId: number): Promise<SaleWithItems | null> {
     const sale = await getSaleById(paymentId);
 
     if (sale !== null) {
