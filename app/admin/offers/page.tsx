@@ -7,6 +7,7 @@ import Create from "@/components/admin/buttons/create";
 import { getFilteredOffersTotalPages } from "@/lib/data/offers";
 import OffersTable from "@/components/admin/offers-table";
 import { Metadata } from "next";
+import { OffersTableSkeleton } from "@/components/skeletons/offers-table-skeleton";
 
 export const metadata: Metadata = {
     title: 'Offers',
@@ -34,7 +35,7 @@ export default async function Offers({
                 <Search placeholder="Search offers..." />
                 <Create type="Offer" />
             </div>
-            <Suspense key={query + currentPage} fallback={<TableSkeleton type="Item" />}>
+            <Suspense key={query + currentPage} fallback={<OffersTableSkeleton />}>
                 <OffersTable query={query} currentPage={currentPage} />
             </Suspense>
             <div className="flex mt-5 w-full justify-center">
