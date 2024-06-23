@@ -1,22 +1,11 @@
 import Sidebar from "@/components/admin/sidenav"
 import Link from "next/link"
-import {
-    CircleUser,
-    Menu,
-} from "lucide-react"
+import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import SignOutButton from '@/components/admin/sign-out-button';
 import Image from "next/image";
 import NavLinks from "@/components/admin/nav-links"
+import User from "@/components/admin/user"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 
@@ -41,34 +30,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                     <Image src="/images/logo.svg" alt="Logo" className="w-8 pb-3 h-auto" width={24} height={24} />
                                     <span className="sr-only">Surprise Boxes</span>
                                 </Link>
-                                <NavLinks className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-1.5 text-muted-foreground hover:text-foreground"/>
+                                <NavLinks className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-1.5 text-muted-foreground hover:text-foreground" />
                             </nav>
                         </SheetContent>
                     </Sheet>
                     <div className="w-full flex-1">
                     </div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="secondary" size="icon" className="rounded-full">
-                                <CircleUser className="h-5 w-5" />
-                                <span className="sr-only">Toggle user menu</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Settings</DropdownMenuItem>
-                            <DropdownMenuItem>
-                                <Link href="/support">
-                                    Support
-                                </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>
-                                <SignOutButton />
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <User />
                 </header>
                 <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                     {children}
