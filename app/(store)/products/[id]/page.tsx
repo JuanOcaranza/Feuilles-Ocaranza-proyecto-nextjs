@@ -7,6 +7,11 @@ import Price from "@/components/price";
 import BuyButton from "@/components/product/buy-button";
 import BuyQuantity from "@/components/product/buy-quantity";
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Box',
+  };
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);

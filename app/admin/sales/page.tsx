@@ -8,7 +8,11 @@ import { DatePickerWithRange } from "@/components/ui/data-range-picker";
 import { addDays } from "date-fns";
 import { formatCurrency } from "@/lib/utils";
 import clsx from "clsx";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: 'Sales',
+};
 
 export default async function Sales({
     searchParams,

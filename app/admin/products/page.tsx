@@ -7,6 +7,12 @@ import { TableSkeleton } from "@/components/skeletons/table-skeleton";
 import BoxesTable from "@/components/admin/boxes-table";
 import Create from "@/components/admin/buttons/create";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Products',
+};
+
 export default async function Products({
     searchParams,
 }: {

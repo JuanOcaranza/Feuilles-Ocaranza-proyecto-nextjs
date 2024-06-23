@@ -7,7 +7,7 @@ export default function ProductHover({ product} : {product: Item}) {
     return (
         <HoverCard>
             <HoverCardTrigger>
-                <CldImage src={product.imageUrl} alt={product.name + ' image'} width={400} height={400} />
+                <CldImage src={product.imageUrl} alt={product.name + ' image'} width={400} height={400} crop={"fill"} />
             </HoverCardTrigger>
             <HoverCardContent>
                 <Card>

@@ -13,6 +13,11 @@ import {
 
 import { Separator } from "@/components/ui/separator"
 import { formatCurrency } from "@/lib/utils"
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Sale',
+};
 
 
 export default async function Page({ params }: { params: { id: number } }) {

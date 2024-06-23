@@ -5,6 +5,11 @@ import { lusitana } from "@/lib/fonts";
 import ItemQuantityCard from "@/components/checkout/item-quantity-card";
 import Link from "next/link";
 import CartCleaner from "@/components/checkout/cart-cleaner";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Success',
+  };
 
 export default async function CheckoutSuccess({
     searchParams,

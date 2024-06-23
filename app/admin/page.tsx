@@ -9,6 +9,11 @@ import AnalyticCardSkeleton from "@/components/skeletons/analytic-card-skeleton"
 import BarChartSkeleton from "@/components/skeletons/bar-chart-skeleton";
 import { RecentSalesCardSkeleton } from "@/components/skeletons/recent-sales-card-skeleton";
 import { getActiveOffersPerMonth } from "@/lib/data/offers";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Dashboard',
+  };
 
 export default async function Admin() {
     const [resumeResponse, offersResponse] = await Promise.all([

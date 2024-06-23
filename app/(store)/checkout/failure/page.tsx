@@ -1,7 +1,12 @@
 import { lusitana } from "@/lib/fonts";
 import { FaceFrownIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: 'Failure',
+  };
 
 export default function CheckoutFailed() {
     return (

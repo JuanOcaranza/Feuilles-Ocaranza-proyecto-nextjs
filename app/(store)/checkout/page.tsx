@@ -3,6 +3,11 @@ import PayButton from "@/components/checkout/pay-button";
 import { checkout } from "@/lib/actions/checkout";
 import { lusitana } from "@/lib/fonts";
 import clsx from "clsx";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Checkout',
+  };
 
 export default async function CheckoutPage(){
     const { preferenceId, boxes } = await checkout();

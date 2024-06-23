@@ -1,9 +1,13 @@
-import EditBoxForm from "@/components/admin/forms/edit-box-form";
 import EditOfferForm from "@/components/admin/forms/edit-offer-form";
 import BreadcrumbFromList from "@/components/ui/breadcrumb-from-list";
 import { getBoxesOnly } from "@/lib/data/boxes";
 import { getOfferById } from "@/lib/data/offers";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+    title: 'Edit Offer',
+  };
 
 export default async function EditOfffer({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);

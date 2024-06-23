@@ -3,10 +3,14 @@ import { lusitana } from "@/lib/fonts";
 import Search from "@/components/search";
 import { Suspense } from "react";
 import { TableSkeleton } from "@/components/skeletons/table-skeleton";
-import ItemsTable from "@/components/admin/items-table";
 import Create from "@/components/admin/buttons/create";
 import { getFilteredOffersTotalPages } from "@/lib/data/offers";
 import OffersTable from "@/components/admin/offers-table";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Offers',
+  };
 
 export default async function Offers({
     searchParams,

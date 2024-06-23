@@ -6,6 +6,11 @@ import { TableSkeleton } from "@/components/skeletons/table-skeleton";
 import ItemsTable from "@/components/admin/items-table";
 import { getFilteredItemsTotalPages } from "@/lib/data/items";
 import Create from "@/components/admin/buttons/create";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Items',
+  };
 
 export default async function Items({
     searchParams,

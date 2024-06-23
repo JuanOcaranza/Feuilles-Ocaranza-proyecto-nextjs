@@ -1,7 +1,11 @@
-import Footer from "@/components/footer";
 import HomeCarousel from "@/components/home/home-carousel";
 import CldImage from "@/components/ui/CldImage";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: 'Home',
+};
 
 export default function Home() {
   return (

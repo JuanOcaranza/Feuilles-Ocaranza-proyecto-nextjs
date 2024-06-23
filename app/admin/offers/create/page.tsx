@@ -1,6 +1,11 @@
 import CreateOfferForm from "@/components/admin/forms/create-offer-form";
 import BreadcrumbFromList from "@/components/ui/breadcrumb-from-list";
 import { getBoxesOnly } from "@/lib/data/boxes";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: 'Create Offer',
+  };
 
 export default async function CreateOffer() {
     const boxes = await getBoxesOnly();
