@@ -9,7 +9,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Success',
-  };
+};
 
 export default async function CheckoutSuccess({
     searchParams,
@@ -18,7 +18,7 @@ export default async function CheckoutSuccess({
         payment_id?: string;
     }
 }) {
-    if (!searchParams?.payment_id) { 
+    if (!searchParams?.payment_id) {
         redirect('/checkout/failed');
     }
 

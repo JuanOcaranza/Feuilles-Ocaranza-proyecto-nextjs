@@ -11,7 +11,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Box',
-  };
+};
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);

@@ -7,7 +7,7 @@ import { notFound } from "next/navigation";
 
 export const metadata: Metadata = {
     title: 'Edit Offer',
-  };
+};
 
 export default async function EditOfffer({ params }: { params: { id: string } }) {
     const id = parseInt(params.id);

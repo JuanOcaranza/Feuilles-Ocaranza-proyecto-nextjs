@@ -33,7 +33,10 @@ const createFormSchema = z.object({
         probability: z.coerce.number().min(0.01, { message: "Probability must be between 0.01 and 1." }).max(1, { message: "Probability must be between 0.01 and 1." })
     }))
     .refine(items => items.length > 0, { message: "At least one item is required." })
-    .refine(items => items.reduce((acc, item) => acc + item.probability, 0) === 1, { message: "Probability must add up to 1." })
+    .refine(items => {
+        const totalProbability = items.reduce((acc, item) => acc + item.probability, 0);
+        return totalProbability >= 0.999999 && totalProbability <= 1.000001
+    }, { message: "Probability must add up to 1." })
     .refine(items => new Set(items.map(item => item.itemId)).size === items.length, { message: "Items must be unique." })
 });
 

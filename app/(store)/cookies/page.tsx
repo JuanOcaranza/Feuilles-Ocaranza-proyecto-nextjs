@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const metadata: Metadata = {
     title: 'Cookies Policy',
-  };
+};
 
 export default function CookiesPolicy() {
     return (

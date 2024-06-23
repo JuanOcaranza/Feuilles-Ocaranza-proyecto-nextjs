@@ -13,7 +13,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Dashboard',
-  };
+};
 
 export default async function Admin() {
     const [resumeResponse, offersResponse] = await Promise.all([

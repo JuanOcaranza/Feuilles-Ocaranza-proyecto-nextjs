@@ -7,9 +7,9 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Checkout',
-  };
+};
 
-export default async function CheckoutPage(){
+export default async function CheckoutPage() {
     const { preferenceId, boxes } = await checkout();
 
     if (!preferenceId) {

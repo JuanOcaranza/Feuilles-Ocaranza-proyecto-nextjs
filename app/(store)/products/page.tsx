@@ -10,7 +10,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Products',
-  };
+};
 
 export default async function Products({
     searchParams,
@@ -29,7 +29,7 @@ export default async function Products({
     const mustBeFeatured = searchParams?.featured === 'true';
     const mustBeOnOffer = searchParams?.onOffer === 'true';
 
-    const [ category, { count, pages } ] = await Promise.all([
+    const [category, { count, pages }] = await Promise.all([
         categoryId === "" ? null : getCategoryById(parseInt(categoryId)),
         countFilteredBoxes(query, categoryId, mustBeFeatured, mustBeOnOffer)
     ]);

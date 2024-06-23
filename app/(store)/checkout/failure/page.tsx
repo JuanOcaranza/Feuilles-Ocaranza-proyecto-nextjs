@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
     title: 'Failure',
-  };
+};
 
 export default function CheckoutFailed() {
     return (

@@ -14,8 +14,9 @@ export async function addToCart(boxId: number, quantity: number) {
         cart.boxes.push({ boxId, quantity });
 
     setCart(cart);
+}
 
-}export async function removeFromCart(boxId: number) {
+export async function removeFromCart(boxId: number) {
     const cart = await getCart();
     const index = cart.boxes.findIndex((box) => box.boxId === boxId);
 

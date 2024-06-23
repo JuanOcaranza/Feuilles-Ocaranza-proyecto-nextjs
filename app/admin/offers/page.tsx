@@ -10,7 +10,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Offers',
-  };
+};
 
 export default async function Offers({
     searchParams,

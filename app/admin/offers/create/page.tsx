@@ -5,7 +5,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
     title: 'Create Offer',
-  };
+};
 
 export default async function CreateOffer() {
     const boxes = await getBoxesOnly();
