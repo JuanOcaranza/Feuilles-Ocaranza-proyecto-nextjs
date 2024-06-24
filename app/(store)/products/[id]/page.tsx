@@ -21,7 +21,6 @@ export default async function Page({ params }: { params: { id: string } }) {
     ])
 
     if (!box) {
-        console.log('Box not found');
         notFound();
     }
 

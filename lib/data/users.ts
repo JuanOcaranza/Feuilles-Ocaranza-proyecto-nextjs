@@ -13,7 +13,6 @@ export async function getUser(email: string): Promise<User | undefined> {
 
         return user[0];
     } catch (error) {
-        console.error('Failed to fetch user:', error);
         throw new Error('Failed to fetch user.');
     }
 }

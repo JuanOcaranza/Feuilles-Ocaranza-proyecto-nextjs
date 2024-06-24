@@ -9,7 +9,6 @@ export default function LinkSearch({ placeholder }: { placeholder: string }) {
     const router = useRouter();
 
     const handleSearch = () => {
-        console.log("serach")
         if (value) {
             router.push(`/products?query=${value}`);
         }
