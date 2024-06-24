@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <CldImage src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} sizes="100vw" />
                 <BoxProducts products={products} />
                 <p className='whitespace-break-spaces'>{box.description}</p>
-                <BuyButton boxId={id} className="fixed bottom-0 w-full h-16" />
+                <BuyButton boxId={id} className="fixed bottom-0 w-full h-16 z-10" />
             </div>
             <div className="hidden md:flex flex-col lg:px-48">
                 <div className="flex">
