@@ -1,7 +1,6 @@
 
 import { Item } from "@/lib/definitions";
 import { Carousel, CarouselContent, CarouselPrevious, CarouselNext, CarouselItem } from "@/components/ui/carousel";
-import ProductHover from "@/components/product/product-hover";
 import Link from "next/link";
 import CldImage from "../ui/CldImage";
 
