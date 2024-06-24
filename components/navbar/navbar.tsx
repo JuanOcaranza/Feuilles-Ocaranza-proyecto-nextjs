@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import SearchSkeleton from "@/components/skeletons/search-skeleton";
 import HoverLink from "@/components/navbar/hover-link";
 import MenuSheet from "@/components/navbar/menu-sheet";
+import NavbarSearch from "./navbar-search";
 
 export default function NavBar() {
     return (
@@ -22,7 +23,7 @@ export default function NavBar() {
             </ul>
             <div className="flex space-x-4">
                 <Suspense key="search" fallback={<SearchSkeleton placeholder="Search..." />}>
-                    <Search placeholder="Search..." />
+                    <NavbarSearch placeholder="Search..." />
                 </Suspense>
                 <Cart />
             </div>
