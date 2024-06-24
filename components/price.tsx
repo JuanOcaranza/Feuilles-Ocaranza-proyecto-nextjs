@@ -10,7 +10,7 @@ export default function Price({ basePrice, discount, className }: { basePrice: n
                 <p className="text-2xl font-semibold">{formatCurrency(price)}</p>
                 {discount > 0 && <p className="text-sm text-gray-500 line-through">{formatCurrency(basePrice)}</p>}
             </div>
-            {discount > 0 && <p className= "text-green-500 ">{discount.toFixed(2)}% OFF</p>}
+            {discount > 0 && <p className= "text-green-500 ">{discount % 1 === 0 ? discount : discount.toFixed(2)}% OFF</p>}
         </div>
     )
 }

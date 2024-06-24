@@ -34,6 +34,7 @@ export default function BoxCardContent({ box, discount }: { box: Box, discount: 
                             alt={product.name + ' image'}
                             width={56}height={56}
                             onMouseEnter={() => setMainImage(product.imageUrl)}
+                            crop={"fill"}
                         />
                     ))}
                     {remainingProducts > 0 && (
