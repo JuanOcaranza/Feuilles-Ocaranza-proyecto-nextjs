@@ -12,7 +12,7 @@ export default async function BoxCartItem({ boxId, quantity }: { boxId: number, 
         
     return (
         <>
-            <div className="flex flex-col gap-2 sm:flex-row items-center justify-between py-4">
+            <div className="flex flex-col gap-4 justify-between py-4 ">
                 <div className="flex gap-x-2 items-center">
                     <CldImage src={box.imageUrl} alt={box.name} width={64} height={64} />
                     <p className="text-xl truncate">{box.name}</p>
