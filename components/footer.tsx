@@ -67,16 +67,16 @@ export default function Footer() {
                             <h3 className="text-sm font-medium text-gray-900">Social</h3>
                             <ul role="list" className="mt-6 flex space-x-6">
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600"><FacebookIcon /></Link>
+                                    <Link href="https://www.facebook.com" target="_blank" aria-label="Facebook" className="text-gray-500 hover:text-gray-600"><FacebookIcon /></Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600"><TwitterIcon /></Link>
+                                    <Link href="https://www.x.com" target="_blank" aria-label="Twitter" className="text-gray-500 hover:text-gray-600"><TwitterIcon /></Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600"><InstagramIcon /></Link>
+                                    <Link href="https://www.instagram.com" target="_blank" aria-label="Instagram" className="text-gray-500 hover:text-gray-600"><InstagramIcon /></Link>
                                 </li>
                                 <li className="text-sm">
-                                    <Link href="#" className="text-gray-500 hover:text-gray-600"><LinkedinIcon /></Link>
+                                    <Link href="https://www.linkedin.com" target="_blank" aria-label="Linkedin" className="text-gray-500 hover:text-gray-600"><LinkedinIcon /></Link>
                                 </li>
                             </ul>
                         </div>
@@ -150,16 +150,16 @@ export default function Footer() {
                             <AccordionContent>
                                 <ul role="list" className="mt-2 space-y-2">
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Facebook</Link>
+                                        <Link href="https://www.facebook.com" target="_blank" aria-label="Facebook" className="text-gray-500 hover:text-gray-600">Facebook</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Twitter</Link>
+                                        <Link href="https://www.x.com" target="_blank" aria-label="Twitter" className="text-gray-500 hover:text-gray-600">Twitter</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">Instagram</Link>
+                                        <Link href="https://www.instagram.com" target="_blank" aria-label="Instagram" className="text-gray-500 hover:text-gray-600">Instagram</Link>
                                     </li>
                                     <li className="text-sm">
-                                        <Link href="#" className="text-gray-500 hover:text-gray-600">LinkedIn</Link>
+                                        <Link href="https://www.linkedin.com" target="_blank" aria-label="Linkedin" className="text-gray-500 hover:text-gray-600">LinkedIn</Link>
                                     </li>
                                 </ul>
                             </AccordionContent>

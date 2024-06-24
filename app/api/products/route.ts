@@ -1,7 +1,7 @@
-import { getBoxes } from "@/lib/data/boxes";
+import { getBoxesOnly } from "@/lib/data/boxes";
 
 export async function GET() {
-    const products = await getBoxes()
+    const products = await getBoxesOnly()
 
-    return Response.json({ products })
+    return new Response(JSON.stringify({ products }), { status: 200 })
 }

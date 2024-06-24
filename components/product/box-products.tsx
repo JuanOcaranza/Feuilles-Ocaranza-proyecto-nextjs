@@ -5,7 +5,7 @@ import ProductHover from "@/components/product/product-hover";
 export default function BoxProducts({ products }: { products: Array<Item> }) {
     return (
         <div className="w-full">
-            <h1 className="text-3xl mb-4 hidden md:block">Possible rewards</h1>
+            <h1 className="text-xl mb-2">Possible rewards:</h1>
             <Carousel className="w-full items-center">
                 <CarouselContent className="-ml-1 gap-4">
                     {products.map(product => (
@@ -15,7 +15,7 @@ export default function BoxProducts({ products }: { products: Array<Item> }) {
                     ))}
                 </CarouselContent>
                 <CarouselPrevious />
-                <CarouselNext />
+                <CarouselNext className="hidden md:flex"/>
             </Carousel>
         </div>
     )
