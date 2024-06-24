@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 <Price basePrice={item.price} discount={0} className="sm:w-2/3" />
                 <CldImage src={item.imageUrl} alt={item.name + ' image'} width={500} height={400} sizes="100vw" />
                 <p className='whitespace-break-spaces'>{item.description}</p>
-                <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center flex items-center justify-center round-md font-bold py-2 px-4 fixed bottom-0 w-full h-16 z-10">
+                <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center flex items-center justify-center font-bold py-2 px-4 fixed bottom-0 w-full h-16 z-10">
                     See Products
                 </Link>
             </div>
@@ -38,7 +38,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <h1 className="text-3xl mb-4">{item.name}</h1>
                             <ScrollArea className='h-[200px] xl:h-[300px] 2xl:h-[500px] whitespace-break-spaces'>{item.description}</ScrollArea>
                         </div>
-                        <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center round-md font-bold py-2 px-4">See Products</Link>
+                        <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center rounded-md font-bold py-2 px-4">See Products</Link>
                     </div>
                 </div>
             </div>
