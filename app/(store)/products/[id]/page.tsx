@@ -28,9 +28,9 @@ export default async function Page({ params }: { params: { id: string } }) {
     const products = box.items.map((boxItem) => boxItem.item);
 
     return (
-        <div className="m-6">
-            <div className="flex flex-col items-center gap-8 md:hidden">
-                <h1 className="text-3xl">{box.name}</h1>
+        <div className="m-4">
+            <div className="flex flex-col items-center gap-4 md:hidden">
+                <h1 className="self-start text-3xl">{box.name}</h1>
                 <Price basePrice={box.price} discount={discount} className="sm:w-2/3" />
                 <CldImage src={box.imageUrl} alt={box.name + ' image'} width={500} height={400} sizes="100vw" />
                 <BoxProducts products={products} />

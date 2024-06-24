@@ -1,6 +1,9 @@
+
 import { Item } from "@/lib/definitions";
 import { Carousel, CarouselContent, CarouselPrevious, CarouselNext, CarouselItem } from "@/components/ui/carousel";
 import ProductHover from "@/components/product/product-hover";
+import Link from "next/link";
+import CldImage from "../ui/CldImage";
 
 export default function BoxProducts({ products }: { products: Array<Item> }) {
     return (
@@ -10,7 +13,9 @@ export default function BoxProducts({ products }: { products: Array<Item> }) {
                 <CarouselContent className="-ml-1 gap-4">
                     {products.map(product => (
                         <CarouselItem key={product.id} className="pl-1 md:basis-1/2 lg:basis-1/5">
-                            <ProductHover product={product} />
+                            <Link key={product.id} href={`/items/${product.id}`}>
+                                <CldImage src={product.imageUrl} alt={product.name + ' image'} width={400} height={400} crop={"fill"} />
+                            </Link>
                         </CarouselItem>
                     ))}
                 </CarouselContent>

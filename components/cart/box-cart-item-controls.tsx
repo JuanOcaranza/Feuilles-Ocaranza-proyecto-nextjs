@@ -32,18 +32,21 @@ export default function BoxCartItemControls({ boxId, quantity }: { boxId: number
     }
 
     return (
-        <div className="flex items-center">
-            <div className="mr-4">
+        <div className="self-end flex items-center">
+            <div className="flex items-center mr-4 space-x-1">
                 <button
-                    className={clsx("w-8 h-8 shadow-sm disabled:shadow-none disabled:cursor-pointer rounded-md bg-slate-300", value === 1 && "opacity-50 disabled:cursor-default")}
+                    className={clsx(
+                        "w-8 h-8 flex items-center justify-center rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all duration-200",
+                        value === 1 && "opacity-50 cursor-not-allowed"
+                    )}
                     onClick={onDecrement} 
                     disabled={isPending || value === 1}
                 >
                     -
                 </button>
-                <span className="px-1">{value}</span>
+                <span className="px-2 text-lg font-semibold">{value}</span>
                 <button 
-                    className="w-8 h-8 shadow-sm disabled:shadow-none disabled:cursor-pointer rounded-md bg-slate-300"
+                    className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-200 text-gray-700 hover:bg-gray-300 transition-all duration-200"
                     onClick={onIncrement}
                     disabled={isPending}
                 >
@@ -51,12 +54,13 @@ export default function BoxCartItemControls({ boxId, quantity }: { boxId: number
                 </button>
             </div>
             <button
-                className="w-8 h-8 shadow-sm disabled:shadow-none rounded-md bg-slate-300 flex items-center justify-center hover:bg-red-500"
+                className="w-8 h-8 flex items-center ml-2 justify-center rounded-md bg-gray-200 text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-200"
                 onClick={onDelete}
                 disabled={isPending}
             >
-                <Trash2 />
+                <Trash2 size={16} />
             </button>
         </div>
     )
+    
 }
