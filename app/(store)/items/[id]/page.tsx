@@ -6,7 +6,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Metadata } from 'next';
 import { getItemById } from "@/lib/data/items";
 import Link from "next/link";
-import BuyQuantity from "@/components/product/buy-quantity";
 
 export const metadata: Metadata = {
     title: 'Item',
@@ -25,7 +24,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col items-center gap-4 md:hidden">
                 <h1 className="self-start text-3xl">{item.name}</h1>
                 <Price basePrice={item.price} discount={0} className="sm:w-2/3" />
-                <CldImage src={item.imageUrl} alt={item.name + ' image'} width={500} height={400} sizes="100vw" />
+                <CldImage src={item.imageUrl} alt={item.name + ' image'} width={500} height={400} sizes="100vw" crop={"fill"} />
                 <p className='whitespace-break-spaces'>{item.description}</p>
                 <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center flex items-center justify-center font-bold py-2 px-4 fixed bottom-0 w-full h-16 z-10">
                     See Products
@@ -33,7 +32,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             </div>
             <div className="hidden md:flex flex-col lg:px-48">
                 <div className="flex">
-                    <CldImage src={item.imageUrl} alt={item.name + ' image'} width={500} height={400} className="mr-4 lg:mr-16 w-2/3 flex-shrink-0" sizes="(max-width: 1024px) 66vw, 50vw" />
+                    <CldImage src={item.imageUrl} alt={item.name + ' image'} width={500} height={400} className="mr-4 lg:mr-16 w-2/3 flex-shrink-0" sizes="(max-width: 1024px) 66vw, 50vw" crop={"fill"} />
                     <div className="flex flex-col gap-4 justify-between flex-grow">
                         <div>
                             <h1 className="text-3xl mb-4">{item.name}</h1>
