@@ -6,6 +6,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Metadata } from 'next';
 import { getItemById } from "@/lib/data/items";
 import Link from "next/link";
+import BuyQuantity from "@/components/product/buy-quantity";
 
 export const metadata: Metadata = {
     title: 'Item',
@@ -38,7 +39,10 @@ export default async function Page({ params }: { params: { id: string } }) {
                             <h1 className="text-3xl mb-4">{item.name}</h1>
                             <ScrollArea className='h-[200px] xl:h-[300px] 2xl:h-[500px] whitespace-break-spaces'>{item.description}</ScrollArea>
                         </div>
-                        <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center rounded-md font-bold py-2 px-4">See Products</Link>
+                        <div className="flex flex-col gap-6">
+                            <Price basePrice={item.price} discount={0} />
+                            <Link href={`/products?query=${item.name}`} className="bg-black hover:bg-green-900 text-white text-center rounded-md font-bold py-2 px-4">See Products</Link>
+                        </div>
                     </div>
                 </div>
             </div>

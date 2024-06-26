@@ -14,9 +14,9 @@ export async function createPreference(boxes: Array<{ id: string, title: string,
         body: {
             items: boxes,
             back_urls: {
-                success: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/success",
-                failure: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/failure",
-                pending: "https://feuilles-ocaranza-proyecto-nextjs.vercel.app/checkout/failure",
+                success: "https://feuilles-ocaranza-proyecto-nextjs-update.vercel.app/checkout/success",
+                failure: "https://feuilles-ocaranza-proyecto-nextjs-update.vercel.app/checkout/failure",
+                pending: "https://feuilles-ocaranza-proyecto-nextjs-update.vercel.app/checkout/failure",
             },
             payment_methods: {
                 excluded_payment_types: [
