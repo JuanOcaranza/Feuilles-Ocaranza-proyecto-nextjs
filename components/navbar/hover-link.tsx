@@ -10,7 +10,7 @@ export default function HoverLink({ href, baseUrl, name }: { href: string, baseU
                     {name}
                 </Link>
             </HoverCardTrigger>
-            <HoverCardContent>
+            <HoverCardContent className="w-full">
                 <CategoriesList baseUrl={baseUrl} />
             </HoverCardContent>
         </HoverCard>
