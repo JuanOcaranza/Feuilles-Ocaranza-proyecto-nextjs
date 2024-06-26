@@ -21,13 +21,13 @@ export default function CategoriesCombobox({ categories, value, setValue}: { cat
 
     useEffect(() => {
         if (value) {
-            setSelectedName(categories.find((item) => item.id === value)?.name || null)
+            setSelectedName(categories.find((category) => category.id === value)?.name || null)
         }
     }, [])
 
     useEffect(() => {
-        if (selectedName) {
-            setValue(categories.find((item) => item.name === selectedName)?.id || null)
+        if (selectedName) { 
+            setValue(categories.find((category) => category.name === selectedName)?.id || null)
         }
         else {
             setValue(null)

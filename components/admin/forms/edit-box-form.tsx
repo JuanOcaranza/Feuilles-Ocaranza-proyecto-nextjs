@@ -21,7 +21,7 @@ const initialState = {
 
 export default function EditBoxForm({ box, items, categories }: { box: Box, items: Item[], categories: Category[] }) {
     const [boxItems, setBoxItems] = useState<{ itemId: number | null, probability: number }[]>(box.items.map((item) => ({ itemId: item.item.id, probability: item.probability })));
-    const [boxCategories, setBoxCategories] = useState<{ categoryId: number | null }[]>([]);
+    const [boxCategories, setBoxCategories] = useState<{ categoryId: number | null }[]>(box.categories.map((category) => ({ categoryId: category.id })));
     const EditBoxWithIdBoxItemsAndBoxCategories = editBox.bind(null, box.id, boxItems, boxCategories);
     const [state, formAction] = useFormState(EditBoxWithIdBoxItemsAndBoxCategories, initialState); 
 
