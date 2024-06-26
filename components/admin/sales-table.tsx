@@ -37,7 +37,7 @@ export default async function SalesTable({
                                 </div>
                                 <div className="flex w-full items-center justify-between pt-4">
                                     <p className="text-xl font-semibold">
-                                        Total: {formatCurrency(sale.boxesAmmount)}
+                                        Total: {formatCurrency(sale.boxesAmount)}
                                     </p>
                                     <p className={clsx("text-xl font-semibold", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
                                         {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
@@ -69,7 +69,7 @@ export default async function SalesTable({
                                     Quantity
                                 </th>
                                 <th scope="col" className="px-3 py-5 font-medium">
-                                    Ammount
+                                    Amount
                                 </th>
                                 <th scope="col" className="px-3 py-5 font-medium">
                                     Profit
@@ -95,7 +95,7 @@ export default async function SalesTable({
                                         {sale.quantity}
                                     </td>
                                     <td className="whitespace-nowrap px-3 py-3">
-                                        {formatCurrency(sale.boxesAmmount)}
+                                        {formatCurrency(sale.boxesAmount)}
                                     </td>
                                     <td className={clsx("whitespace-nowrap px-3 py-3", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
                                         {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}

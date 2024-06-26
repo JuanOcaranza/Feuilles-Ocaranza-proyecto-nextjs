@@ -22,7 +22,7 @@ export default async function RecentSalesCard() {
                                 Quantity: {sale.quantity}
                             </p>
                         </div>
-                        <div className="ml-auto font-medium">+{formatCurrency(sale.boxesAmmount)}</div>
+                        <div className="ml-auto font-medium">+{formatCurrency(sale.boxesAmount)}</div>
                     </div>
                 ))}
             </CardContent>
