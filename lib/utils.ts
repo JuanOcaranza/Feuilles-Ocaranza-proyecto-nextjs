@@ -51,3 +51,7 @@ export function formatDateToLocalInputString(date: Date | undefined): string | u
 export function convertToCents(price: number) {
     return Math.round(price * 100)
 }
+
+export function convertFromCents(cents: number) {
+    return (cents / 100)
+}

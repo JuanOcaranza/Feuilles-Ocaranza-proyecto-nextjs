@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic';
 import 'chart.js/auto';
 import { DataResume } from '@/lib/definitions';
+import { convertFromCents } from '@/lib/utils';
 
 const Bar = dynamic(() => import('react-chartjs-2').then((mod) => mod.Bar), {
   ssr: false,
@@ -9,7 +10,7 @@ const Bar = dynamic(() => import('react-chartjs-2').then((mod) => mod.Bar), {
 
 function formatData(data: DataResume[]) {
   const labels = data.map((item) => item.month).reverse();
-  const profit = data.map((item) => item.profit).reverse();
+  const profit = data.map((item) => convertFromCents(item.profit)).reverse();
 
   // Definir colores alternados para las barras
   const backgroundColors = data.map((_, index) => (index % 2 === 0 ? 'rgba(54, 162, 235, 0.2)' : 'rgba(153, 102, 255, 0.2)'));
