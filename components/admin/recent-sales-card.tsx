@@ -2,6 +2,7 @@ import { getRecentSales } from "@/lib/data/sales";
 import { CardContent, CardHeader, CardTitle } from "../ui/card";
 import { SaleWithResume } from "@/lib/definitions";
 import { formatCurrency } from "@/lib/utils";
+import clsx from "clsx";
 
 export default async function RecentSalesCard() {
     const sales: Array<SaleWithResume> = await getRecentSales();
@@ -22,7 +23,9 @@ export default async function RecentSalesCard() {
                                 Quantity: {sale.quantity}
                             </p>
                         </div>
-                        <div className="ml-auto font-medium">+{formatCurrency(sale.boxesAmount)}</div>
+                        <div className={clsx("whitespace-nowrap px-3 py-3", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
+                            {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
+                        </div>
                     </div>
                 ))}
             </CardContent>
