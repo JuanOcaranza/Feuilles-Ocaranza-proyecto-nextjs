@@ -75,7 +75,7 @@ export async function getSalesResume(): Promise<{
 }> {
     const responseBoxes = await db
         .select({ 
-            count: count(sales.id),
+            salesCount: sql<number>`count(DISTINCT ${sales.id})`,
             boxes: sum(saleBoxes.quantity),
             total: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
         })
@@ -90,7 +90,7 @@ export async function getSalesResume(): Promise<{
         .leftJoin(saleItems, eq(sales.id, saleItems.saleId));
 
     return {
-        pages: Math.ceil(responseBoxes[0].count / SALES_PER_PAGE),
+        pages: Math.ceil(responseBoxes[0].salesCount / SALES_PER_PAGE),
         boxes: parseInt(responseBoxes[0].boxes ?? "0"),
         total: responseBoxes[0].total ?? 0,
         profit: (responseBoxes[0].total - responseItems[0].total) ?? 0
