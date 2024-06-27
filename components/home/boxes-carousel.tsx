@@ -8,7 +8,7 @@ return (
         <div className="w-full my-6 relative flex flex-col items-center justify-center container">
             <div className="flex flex-col md:flex-row w-full justify-between items-center mb-4">
                 <h1 className="text-3xl">{name}</h1>
-                {endDate && <h2 className="text-lg text-orange-600">Until {formatDateToLocal(endDate.toString())}</h2>}
+                {endDate && <h2 className="text-xl text-red-600 font-medium">Until {formatDateToLocal(endDate.toString())}</h2>}
             </div>
             <div className="relative w-[98%]">
                 <Carousel className="w-full items-center">
