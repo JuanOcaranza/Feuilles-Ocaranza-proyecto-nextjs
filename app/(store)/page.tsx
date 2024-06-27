@@ -1,7 +1,9 @@
 import HomeCarousels from "@/components/home/home-carousels";
+import HomeCarouselsSkeleton from "@/components/skeletons/home-carousels-skeleton";
 import CldImage from "@/components/ui/CldImage";
 import { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
     title: 'Home',
@@ -23,7 +25,9 @@ export default function Home() {
                     </Link>
                 </div>
             </div>
-            <HomeCarousels />
+            <Suspense key="homeCarousels" fallback={<HomeCarouselsSkeleton />}>
+              <HomeCarousels />
+            </Suspense>
         </div>
     );
 }
