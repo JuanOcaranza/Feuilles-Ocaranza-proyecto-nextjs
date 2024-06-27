@@ -23,7 +23,7 @@ export default async function RecentSalesCard() {
                                 Quantity: {sale.quantity}
                             </p>
                         </div>
-                        <div className={clsx("whitespace-nowrap px-3 py-3", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
+                        <div className={clsx("whitespace-nowrap px-3 py-3", { "text-red-600": sale.profit < 0, "text-green-600": sale.profit > 0 })}>
                             {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
                         </div>
                     </div>

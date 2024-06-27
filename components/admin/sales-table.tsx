@@ -39,7 +39,7 @@ export default async function SalesTable({
                                     <p className="text-xl font-semibold">
                                         Total: {formatCurrency(sale.boxesAmount)}
                                     </p>
-                                    <p className={clsx("text-xl font-semibold", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
+                                    <p className={clsx("text-xl font-semibold", { "text-red-600": sale.profit < 0, "text-green-600": sale.profit > 0 })}>
                                         {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
                                     </p>
                                 </div>
@@ -97,7 +97,7 @@ export default async function SalesTable({
                                     <td className="whitespace-nowrap px-3 py-3">
                                         {formatCurrency(sale.boxesAmount)}
                                     </td>
-                                    <td className={clsx("whitespace-nowrap px-3 py-3", { "text-red-500": sale.profit < 0, "text-green-500": sale.profit > 0 })}>
+                                    <td className={clsx("whitespace-nowrap px-3 py-3", { "text-red-600": sale.profit < 0, "text-green-600": sale.profit > 0 })}>
                                         {sale.profit > 0 && <span>+</span>}{formatCurrency(sale.profit)}
                                     </td>
                                     <td className="whitespace-nowrap py-3 pl-6 pr-3">
