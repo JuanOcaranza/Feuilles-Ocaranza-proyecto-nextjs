@@ -7,6 +7,7 @@ export default function Update({ type, id }: { type: string, id: number }) {
     <Link
       href={`/admin/${getUrlName(type)}/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
+      aria-label="Edit"
     >
       <PencilIcon className="w-5" />
     </Link>

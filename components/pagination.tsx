@@ -24,6 +24,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
                 direction="left"
                 href={createPageURL(currentPage - 1)}
                 isDisabled={currentPage <= 1}
+                ariaLabel="Previous page"
             />
 
             <div className="flex -space-x-px">
@@ -51,6 +52,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
                 direction="right"
                 href={createPageURL(currentPage + 1)}
                 isDisabled={currentPage >= totalPages}
+                ariaLabel="Next page"
             />
         </div>
     );
@@ -124,10 +126,12 @@ function PaginationArrow({
     href,
     direction,
     isDisabled,
+    ariaLabel
 }: {
     href: string;
     direction: 'left' | 'right';
     isDisabled?: boolean;
+    ariaLabel?: string;
 }) {
     const className = clsx(
         'flex h-10 w-10 items-center justify-center rounded-md border',
@@ -149,7 +153,7 @@ function PaginationArrow({
     return isDisabled ? (
         <div className={className}>{icon}</div>
     ) : (
-        <Link className={className} href={href}>
+        <Link className={className} href={href} aria-label={ariaLabel}>
             {icon}
         </Link>
     );

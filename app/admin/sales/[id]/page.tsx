@@ -33,7 +33,7 @@ export default async function Page({ params }: { params: { id: number } }) {
             <main>
                 <div>
                     <Card
-                        className="overflow-hidden" x-chunk="dashboard-01-chunk-0"
+                        className="overflow-hidden max-w-[640px] mx-auto" x-chunk="dashboard-01-chunk-0"
                     >
                         <CardHeader className="flex flex-row items-start bg-muted/50">
                             <div className="grid gap-0.5">
