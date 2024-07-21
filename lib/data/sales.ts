@@ -43,18 +43,18 @@ const mapSale = (sale: SaleWithRelations): Sale => ({
     }))
 });
 
-const boxesAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + (box.price * box.quantity), 0);
-const itemsAmmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+const boxesAmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + (box.price * box.quantity), 0);
+const itemsAmount = (sale: SaleWithSaleBoxesAndItems): number => sale.saleItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 const quantitySale = (sale: SaleWithSaleBoxesAndItems): number => sale.saleBoxes.reduce((acc, box) => acc + box.quantity, 0);
 
 const mapSaleWithBoxes = (sale: SaleWithSaleBoxesAndItems): SaleWithResume => {
-    const boxesAmmountResult = boxesAmmount(sale);
+    const boxesAmountResult = boxesAmount(sale);
 
     return {
         ...sale,
-        boxesAmmount: boxesAmmountResult,
+        boxesAmount: boxesAmountResult,
         quantity: quantitySale(sale),
-        profit: boxesAmmountResult - itemsAmmount(sale)
+        profit: boxesAmountResult - itemsAmount(sale)
     }
 };
 
@@ -75,7 +75,7 @@ export async function getSalesResume(): Promise<{
 }> {
     const responseBoxes = await db
         .select({ 
-            count: count(sales.id),
+            salesCount: sql<number>`count(DISTINCT ${sales.id})`,
             boxes: sum(saleBoxes.quantity),
             total: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
         })
@@ -90,7 +90,7 @@ export async function getSalesResume(): Promise<{
         .leftJoin(saleItems, eq(sales.id, saleItems.saleId));
 
     return {
-        pages: Math.ceil(responseBoxes[0].count / SALES_PER_PAGE),
+        pages: Math.ceil(responseBoxes[0].salesCount / SALES_PER_PAGE),
         boxes: parseInt(responseBoxes[0].boxes ?? "0"),
         total: responseBoxes[0].total ?? 0,
         profit: (responseBoxes[0].total - responseItems[0].total) ?? 0
@@ -160,25 +160,40 @@ export async function getFilteredSales(currentPage: number, startDate: Date, end
 }
 
 export async function getResumePerMonth(): Promise<Array<DataResume>> {
-    const response = await db
+    const boxAmountResponse = await db
         .select({
             month: sql<string>`to_char(${sales.createdAt}, 'YYYY-MM')`,
-            boxProfit: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
-            itemCost: sql<number>`sum(${saleItems.price} * ${saleItems.quantity})`,
+            amount: sql<number>`sum(${saleBoxes.price} * ${saleBoxes.quantity})`,
             products: sql<number>`sum(${saleBoxes.quantity})`,
-            sales: sql<number>`count(${sales.id})`
+            sales: sql<number>`count(DISTINCT ${sales.id})`
         })
         .from(sales)
         .leftJoin(saleBoxes, eq(sales.id, saleBoxes.saleId))
+        .groupBy(sql`to_char(${sales.createdAt}, 'YYYY-MM')`);
+
+    const itemCostResponse = await db
+        .select({
+            month: sql<string>`to_char(${sales.createdAt}, 'YYYY-MM')`,
+            itemCost: sql<number>`sum(${saleItems.price} * ${saleItems.quantity})`
+        })
+        .from(sales)
         .leftJoin(saleItems, eq(sales.id, saleItems.saleId))
         .groupBy(sql`to_char(${sales.createdAt}, 'YYYY-MM')`);
 
-    const profitByMonth = response.map(row => ({
-        month: row.month,
-        profit: row.boxProfit - row.itemCost,
-        productsSold: row.products ?? 0,
-        sales: row.sales
-    }));
+    const costMap = new Map<string, number>();
+    itemCostResponse.forEach(row => {
+        costMap.set(row.month, row.itemCost);
+    });
+
+    const profitByMonth = boxAmountResponse.map(row => {
+        const itemCost = costMap.get(row.month) ?? 0;
+        return {
+            month: row.month,
+            profit: row.amount - itemCost,
+            productsSold: row.products ?? 0,
+            sales: row.sales
+        };
+    });
 
     return profitByMonth;
 }

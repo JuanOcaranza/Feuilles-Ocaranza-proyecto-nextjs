@@ -1,7 +1,7 @@
 import { db } from '@/drizzle/db';
 import { BoxWithRelations, Box, SaleBox, BoxOnly, NewBox, newBoxItem, NewBoxCategory, UpdatedBox } from '@/lib/definitions';
 import { boxCategories, boxItems, items, boxes, boxOffers, offers, saleBoxes } from '@/drizzle/schema';
-import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray, desc } from 'drizzle-orm';
+import { sql, eq, ilike, and, or, inArray, count, sum, gte, notInArray, desc, exists } from 'drizzle-orm';
 import { deleteImage } from '@/lib/cloudinary';
 
 export const BOXES_PER_PAGE = 12;
@@ -173,6 +173,29 @@ export async function getFeaturedBoxes(): Promise<Array<Box>> {
 
     const response = await db.query.boxes.findMany({
         where: (and(gte(boxes.createdAt, thirtyDaysAgo), boxes.active)),
+        with: {
+            boxItems: {
+                with: {
+                    item: true
+                }
+            },
+            boxCategories: {
+                with: {
+                    category: true
+                }
+            }
+        }
+    });
+
+    return response.map((box) => mapBox(box));
+}
+
+export async function getBoxesByOfferId(offerId: number): Promise<Array<Box>> {
+    const response = await db.query.boxes.findMany({
+        where: and(
+            exists(db.select().from(boxOffers).where(and(eq(boxOffers.offerId, offerId), eq(boxOffers.boxId, boxes.id)))),
+            boxes.active
+        ),
         with: {
             boxItems: {
                 with: {

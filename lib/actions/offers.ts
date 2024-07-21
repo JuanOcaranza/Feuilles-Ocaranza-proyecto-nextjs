@@ -21,23 +21,30 @@ export type State = {
     message?: string;
 };
 
-const basicFormSchema = z.object({
-    name: z.string().min(1, { message: "Name is required." }),
-    startsAt: z.coerce.date({ required_error: "Start date is required." }).min(new Date(Date.now() - (5 * 60 * 1000)), { message: "Start date must be in the future." }),
-    expiresAt: z.coerce.date({ required_error: "End date is required." }),
-    boxes: z.array(z.object({
-        boxId: z.coerce.number().int().min(1, { message: "Box must be selected." }),
-        discount: z.coerce.number().min(1, { message: "Discount must be between 0.01 and 1." }).max(99, { message: "Discount must be between 1 and 99." })
-    }))
-    .refine(boxes => boxes.length > 0, { message: "At least one box is required." })
-    .refine(boxes => new Set(boxes.map(box => box.boxId)).size === boxes.length, { message: "Boxes must be unique." })
-});
+const generateFormSchema = (requireFutureStartDate: boolean) => {
+    const startsAt = requireFutureStartDate
+        ? z.coerce.date({ required_error: "Start date is required." }).min(new Date(Date.now() - (5 * 60 * 1000)), { message: "Start date must be in the future." })
+        : z.coerce.date({ required_error: "Start date is required." });
 
-const formSchema = basicFormSchema.refine(({ startsAt: startDate, expiresAt: expirationDate }) => startDate < expirationDate, {
-    message: "Start date must be before End date.",
-})
+    return z.object({
+        name: z.string().min(1, { message: "Name is required." }),
+        startsAt,
+        expiresAt: z.coerce.date({ required_error: "End date is required." }),
+        boxes: z.array(z.object({
+            boxId: z.coerce.number().int().min(1, { message: "Box must be selected." }),
+            discount: z.coerce.number().min(1, { message: "Discount must be between 0.01 and 1." }).max(99, { message: "Discount must be between 1 and 99." })
+        }))
+        .refine(boxes => boxes.length > 0, { message: "At least one box is required." })
+        .refine(boxes => new Set(boxes.map(box => box.boxId)).size === boxes.length, { message: "Boxes must be unique." })
+    }).refine(({ startsAt, expiresAt }) => startsAt < expiresAt, {
+        message: "Start date must be before End date.",
+    });
+};
+
 
 export async function createOffer(rawBoxes: Array<{ boxId: number | null, discount: number }>, prevState: State, formData: FormData) {
+    const formSchema = generateFormSchema(true);
+    
     const validatedFields = formSchema.safeParse({
         name: formData.get("name"),
         startsAt: formData.get("startsAt"),
@@ -67,6 +74,8 @@ export async function createOffer(rawBoxes: Array<{ boxId: number | null, discou
 }
 
 export async function editOffer(id: number, rawBoxes: Array<{ boxId: number | null, discount: number }>, prevState: State, formData: FormData) {
+    const formSchema = generateFormSchema(false);
+
     const validatedFields = formSchema.safeParse({
         name: formData.get("name"),
         startsAt: formData.get("startsAt"),

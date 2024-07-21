@@ -119,3 +119,9 @@ export async function getActiveOffersPerMonth(): Promise<Array<DataOffer>> {
 
     return response.map((row) => ({ month: row.month, count: row.count }));
 }
+
+export async function getActiveOffers(): Promise<Array<Offer>> {
+    return await db.query.offers.findMany({
+        where: sql`NOW() BETWEEN ${offers.startsAt} AND ${offers.expiresAt}`
+    })
+}

@@ -19,14 +19,14 @@ export default async function CheckoutSuccess({
     }
 }) {
     if (!searchParams?.payment_id) {
-        redirect('/checkout/failed');
+        redirect('/checkout/failure');
     }
 
     const paymentId = parseInt(searchParams?.payment_id);
     const sale = await checkPayment(paymentId);
 
     if (sale === null) {
-        redirect('/checkout/failed');
+        redirect('/checkout/failure');
     }
 
     return (
