@@ -2,7 +2,7 @@ import Sidebar from "@/components/admin/sidenav"
 import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import Image from "next/image";
 import NavLinks from "@/components/admin/nav-links"
 import User from "@/components/admin/user"
@@ -23,14 +23,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         </SheetTrigger>
                         <SheetContent side="left" className="flex flex-col">
                             <nav className="grid gap-2 text-lg font-medium">
-                                <Link
-                                    href="#"
-                                    className="flex items-center gap-2 text-lg font-semibold"
-                                >
-                                    <Image src="/images/logo.svg" alt="Logo" className="w-8 pb-3 h-auto" width={24} height={24} />
-                                    <span className="sr-only">Surprise Boxes</span>
-                                </Link>
-                                <NavLinks className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-1.5 text-muted-foreground hover:text-foreground" />
+                                <SheetClose asChild>
+                                    <Link
+                                        href="#"
+                                        className="flex items-center gap-2 text-lg font-semibold"
+                                    >
+                                        <Image src="/images/logo.svg" alt="Logo" className="w-8 pb-3 h-auto" width={24} height={24} />
+                                        <span className="sr-only">Surprise Boxes</span>
+                                    </Link>
+                                </SheetClose>
+                                <NavLinks className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-1.5 text-muted-foreground hover:text-foreground" isSheet={true}/>
                             </nav>
                         </SheetContent>
                     </Sheet>

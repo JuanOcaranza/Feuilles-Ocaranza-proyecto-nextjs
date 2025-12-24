@@ -8,7 +8,7 @@ export default function BuyQuantity({ BoxId, basePrice, discount }: { BoxId: num
     const [quantity, setQuantity] = useState(1);
 
     return (
-        <div className="flex flex-col gap-y-6">
+        <div className="flex flex-col gap-y-4">
             <div className="flex justify-between items-center gap-x-3">
                 <label className=" text-xl mr-8" htmlFor="quantity">Quantity:</label>
                 <select

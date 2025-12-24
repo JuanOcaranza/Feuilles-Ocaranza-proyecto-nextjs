@@ -43,7 +43,7 @@ export default async function Sales({
                         <p className="text-xl font-semibold lg:pr-6">Total:</p>
                         <div className="flex flex-col items-end lg:flex-row gap-1 lg:gap-4">
                             <p className="text-xl font-semibold">{formatCurrency(total)}</p>
-                            <p className={clsx("text-xl font-semibold", { "text-red-500": profit < 0, "text-green-500": profit > 0 })}>{profit > 0 && <span>+</span>}{formatCurrency(profit)}</p>
+                            <p className={clsx("text-xl font-semibold", { "text-red-600": profit < 0, "text-green-600": profit > 0 })}>{profit > 0 && <span>+</span>}{formatCurrency(profit)}</p>
                             <p className="text-xl font-semibold">{boxes} Boxes</p>
                         </div>
                     </div>

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
         default: 'Surprise Box Store',
     },
     description: "Find unique and exciting mystery boxes filled with a variety of items.",
+    metadataBase: new URL("https://feuilles-ocaranza-proyecto-nextjs-update.vercel.app")
 };
 
 export default function RootLayout({

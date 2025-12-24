@@ -12,7 +12,7 @@ export default async function Cart(){
 
     return (
         <Sheet>
-            <SheetTrigger>
+            <SheetTrigger name="Cart">
                 <div className="relative">
                     <ShoppingCart className="mr-2 ml-2" size={28} />
                     {cart.boxes.length > 0 && (

@@ -93,7 +93,7 @@ export type SaleWithItems = SaleOnly & {
 
 
 export type SaleWithResume = SaleOnly & {
-    boxesAmmount: number,
+    boxesAmount: number,
     quantity: number,
     profit: number
 }
