@@ -15,9 +15,11 @@ export default async function HomeCarousels() {
             })
     ]);
 
+    if (featuredBoxes.length === 0 && offers.length === 0) return null;
+
     return (
         <div className="w-full my-6 relative flex flex-col items-center justify-center">
-            <BoxesCarousel name="Featured Boxes" boxes={featuredBoxes} />
+            {featuredBoxes.length > 0 && <BoxesCarousel name="Featured Boxes" boxes={featuredBoxes} />}
             {offers.map((offer) => <BoxesCarousel key={offer.id} name={offer.name} endDate={offer.endDate} boxes={offer.boxes} />)}
         </div>
     )
